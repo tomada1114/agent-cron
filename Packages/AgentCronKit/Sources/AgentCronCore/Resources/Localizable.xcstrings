@@ -1897,6 +1897,41 @@
         }
       }
     },
+    "notification.title.missed" : {
+      "comment" : "Notification title for several missed times of one job. Arguments: the count, the job's name.",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Missed %lld run of %@"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Missed %lld runs of %@"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "「%2$@」の実行を%1$lld回逃しました"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "notification.title.skipped" : {
       "comment" : "Notification title for a scheduled run that did not start. The argument is the job's name.",
       "localizations" : {

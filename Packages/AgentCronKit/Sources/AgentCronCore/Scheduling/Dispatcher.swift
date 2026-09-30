@@ -85,7 +85,7 @@ public final class Dispatcher {
     public private(set) var lastCheckedAt: Date?
 
     /// Why the most recent store call failed, or `nil` once one succeeds.
-    public private(set) var storageError: StorageError?
+    public internal(set) var storageError: StorageError?
 
     /// Called with the jobs that have a run going each time that set changes — what
     /// ``KeepAwakeController/runningJobCountChanged(to:)`` counts and the Jobs screen
@@ -97,13 +97,18 @@ public final class Dispatcher {
     /// decides about.
     @ObservationIgnored public var onRunFinished: (@MainActor (Run) -> Void)?
 
+    /// Called once per job per check with the times that check recorded missed, after each
+    /// has also gone to ``onRunFinished``: what ``RunNotificationController/runsMissed(_:)``
+    /// turns into one notification, so a week away is not dozens of them (issue #50).
+    @ObservationIgnored public var onRunsMissed: (@MainActor ([Run]) -> Void)?
+
     @ObservationIgnored private var tasks: [UUID: Task<Void, Never>] = [:]
 
     private let jobStore: any JobStoring
-    private let runStore: any RunStoring
+    let runStore: any RunStoring
     private let runner: any AgentRunning
     private let availabilityChecker: AgentAvailabilityChecker
-    private let environment: DispatchEnvironment
+    let environment: DispatchEnvironment
 
     /// The jobs that have a run going now.
     public var runningJobIDs: Set<UUID> {
@@ -149,46 +154,6 @@ public final class Dispatcher {
     /// only starts watching from `now`.
     public func didWake(now: Date) {
         check(now: now, cause: "wake")
-    }
-
-    /// The app launched: finishes every run a previous session left ``RunOutcome/running``
-    /// — a quit or crash between a run's first save and its last — as failed
-    /// (``Run/interrupted(at:)``), ending at `now`. Call it before the first
-    /// ``didWake(now:)``.
-    ///
-    /// It reads the runs that started in the ``HistoryModel/retentionDays`` before `now`,
-    /// the span History shows, which also outlasts the longest timeout
-    /// (``Job/timeoutMinutesRange``). A run in ``runningRuns`` is this session's and is left
-    /// alone. Recovered runs are not passed to ``onRunFinished``: they ended in an earlier
-    /// session, and a notification at launch about a run long gone would be noise; History
-    /// shows them. A store that cannot be read or written is logged and kept in
-    /// ``storageError``.
-    ///
-    /// - Returns: The runs recorded as interrupted.
-    @discardableResult
-    public func recoverInterruptedRuns(now: Date) -> [Run] {
-        let start = environment.calendar.date(
-            byAdding: .day,
-            value: -HistoryModel.retentionDays,
-            to: now,
-        ) ?? now
-        let recent: [Run]
-        do {
-            recent = try runStore.runs(in: DateInterval(start: min(start, now), end: now))
-            storageError = nil
-        } catch {
-            report(error, while: "reading recent runs")
-            return []
-        }
-        let ownIDs = Set(runningRuns.map(\.id))
-        let interrupted = recent
-            .filter { $0.outcome == .running && !ownIDs.contains($0.id) }
-            .map { $0.interrupted(at: now) }
-        for run in interrupted {
-            save(run)
-        }
-        AppLog.scheduler.info("recovered \(interrupted.count, privacy: .public) interrupted runs")
-        return interrupted
     }
 
     /// The user chose Run Now: starts the saved job as it is now, enabled or not, with no
@@ -254,9 +219,12 @@ public final class Dispatcher {
     private func dispatchDue(_ job: Job, since previous: Date, now: Date) {
         let schedule = ScheduleCalendar(schedule: job.schedule, calendar: environment.calendar)
         let plan = schedule.catchUpPlan(lastChecked: max(previous, job.updatedAt), now: now)
-        for missed in plan.skipped {
+        let missedRuns = plan.skipped.map { missed in
             let run = newRun(of: job, trigger: .catchUp, scheduledAt: missed, at: now)
-            recordSkipped(run.skipped(.missed, at: now))
+            return recordSkipped(run.skipped(.missed, at: now))
+        }
+        if !missedRuns.isEmpty {
+            onRunsMissed?(missedRuns)
         }
         guard let due = plan.runOnce else {
             return
@@ -369,7 +337,7 @@ public final class Dispatcher {
         return run
     }
 
-    private func save(_ run: Run) {
+    func save(_ run: Run) {
         do {
             try runStore.save(run)
             storageError = nil
@@ -389,7 +357,7 @@ public final class Dispatcher {
         }
     }
 
-    private func report(_ error: StorageError, while action: StaticString) {
+    func report(_ error: StorageError, while action: StaticString) {
         storageError = error
         let described = String(describing: error)
         let doing = String(describing: action)

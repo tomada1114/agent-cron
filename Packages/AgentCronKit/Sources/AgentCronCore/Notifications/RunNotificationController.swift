@@ -60,13 +60,41 @@ public final class RunNotificationController {
     }
 
     /// A run finished: posts its notification when its setting and outcome call for one
-    /// and the user allows it.
+    /// and the user allows it. A time skipped as ``SkipReason/missed`` posts nothing here:
+    /// it arrives again through ``runsMissed(_:)``, which coalesces it with the others.
     public func runFinished(_ run: Run) async {
-        guard NotificationPolicy.shouldNotify(for: run),
+        guard run.skipReason != .missed,
+              NotificationPolicy.shouldNotify(for: run),
               let content = NotificationPolicy.content(for: run, locale: locale, calendar: calendar)
         else {
             return
         }
+        await post(content)
+    }
+
+    /// One check recorded these times missed: posts at most one notification per job for
+    /// them, however many there are (issue #50), when their setting calls for one and the
+    /// user allows it.
+    public func runsMissed(_ runs: [Run]) async {
+        let notifying = runs
+            .filter { $0.skipReason == .missed && NotificationPolicy.shouldNotify(for: $0) }
+        var jobIDs: [UUID] = []
+        for run in notifying where !jobIDs.contains(run.jobID) {
+            jobIDs.append(run.jobID)
+        }
+        for jobID in jobIDs {
+            let ofJob = notifying.filter { $0.jobID == jobID }
+            if let content = NotificationPolicy.missedContent(
+                for: ofJob,
+                locale: locale,
+                calendar: calendar,
+            ) {
+                await post(content)
+            }
+        }
+    }
+
+    private func post(_ content: NotificationContent) async {
         let state = await notifier.authorizationState()
         authorizationState = state
         guard state == .authorized else {
