@@ -176,6 +176,222 @@
         }
       }
     },
+    "generalScreen.agent.checkAgain" : {
+      "comment" : "Button that checks again whether claude resolves.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check Again"
+          }
+        }
+      }
+    },
+    "generalScreen.agent.checking" : {
+      "comment" : "Accessibility label of the spinner on the Claude Code row.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Checking…"
+          }
+        }
+      }
+    },
+    "generalScreen.agent.error" : {
+      "comment" : "Shown on the Claude Code row when the check itself failed; the argument is a short reason such as \"timed out\".",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check failed: %@"
+          }
+        }
+      }
+    },
+    "generalScreen.agent.notFound" : {
+      "comment" : "Shown on the Claude Code row when the login shell does not find claude.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "claude was not found in your login shell (zsh -l)"
+          }
+        }
+      }
+    },
+    "generalScreen.agent.notFoundHint" : {
+      "comment" : "Hint under the not-found message on the Claude Code row.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Install Claude Code, or add its folder to PATH in your shell profile, then check again."
+          }
+        }
+      }
+    },
+    "generalScreen.agent.resolvedViaLoginShell" : {
+      "comment" : "Line under the resolved claude path, saying where it was looked up.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "resolved via login shell"
+          }
+        }
+      }
+    },
+    "generalScreen.agents.claudeCode" : {
+      "comment" : "Name of the Claude Code agent row on the General screen.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Claude Code"
+          }
+        }
+      }
+    },
+    "generalScreen.agents.heading" : {
+      "comment" : "The General screen's heading over the agent checks.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agents"
+          }
+        }
+      }
+    },
+    "generalScreen.history.heading" : {
+      "comment" : "The General screen's heading over run retention.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "History"
+          }
+        }
+      }
+    },
+    "generalScreen.history.retention" : {
+      "comment" : "How long run history is kept, on the General screen.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Runs are kept for 90 days."
+          }
+        }
+      }
+    },
+    "generalScreen.keepAwake.alwaysOn" : {
+      "comment" : "Value of the keep-awake row: the Mac never idle-sleeps while a job runs.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Always on"
+          }
+        }
+      }
+    },
+    "generalScreen.keepAwake.heading" : {
+      "comment" : "The General screen's heading over keep-awake behavior.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep awake"
+          }
+        }
+      }
+    },
+    "generalScreen.keepAwake.whileJobsRun" : {
+      "comment" : "Label of the keep-awake row on the General screen.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep awake while jobs run"
+          }
+        }
+      }
+    },
+    "generalScreen.startup.heading" : {
+      "comment" : "The General screen's heading over launch at login.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Startup"
+          }
+        }
+      }
+    },
+    "generalScreen.startup.launchAtLogin" : {
+      "comment" : "Label of the toggle that opens the app at login.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Launch at login"
+          }
+        }
+      }
+    },
+    "generalScreen.startup.notFound" : {
+      "comment" : "Note under the launch-at-login toggle when macOS cannot find the app.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS cannot find this copy of AgentCron. Move it to Applications and try again."
+          }
+        }
+      }
+    },
+    "generalScreen.startup.openLoginItems" : {
+      "comment" : "Button that opens System Settings › Login Items.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Login Items"
+          }
+        }
+      }
+    },
+    "generalScreen.startup.requiresApproval" : {
+      "comment" : "Note under the launch-at-login toggle while macOS waits for the user's approval.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow AgentCron in System Settings › Login Items to open it at login."
+          }
+        }
+      }
+    },
     "history.clearFilters" : {
       "comment" : "Button in the History list when the filters hide every run.",
       "localizations" : {
@@ -2648,6 +2864,66 @@
         }
       }
     },
+    "popover.banner.failures" : {
+      "comment" : "Menu-bar popover banner for failed runs the user has not seen. The argument is the count.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld failed run since you last looked."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld failed runs since you last looked."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "popover.banner.openGeneral" : {
+      "comment" : "Button in the menu-bar popover's agent-not-found banner that opens General.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open General"
+          }
+        }
+      }
+    },
+    "popover.banner.view" : {
+      "comment" : "Button in the menu-bar popover's failure banner that opens History.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View"
+          }
+        }
+      }
+    },
+    "popover.day.today" : {
+      "comment" : "Heading above today's rows in the menu-bar popover's timeline.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today"
+          }
+        }
+      }
+    },
     "popover.day.tomorrow" : {
       "comment" : "Day label of the menu-bar popover's next run when it is tomorrow.",
       "extractionState" : "manual",
@@ -2684,6 +2960,18 @@
         }
       }
     },
+    "popover.empty.createFirstJob" : {
+      "comment" : "Button in the menu-bar popover when no job is saved; opens a new job.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create your first job"
+          }
+        }
+      }
+    },
     "popover.empty.noJobs" : {
       "comment" : "Menu-bar popover empty state when no job is saved.",
       "extractionState" : "manual",
@@ -2716,6 +3004,78 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "今日の予定はありません。次回：%1$@ %2$@ %3$@"
+          }
+        }
+      }
+    },
+    "popover.empty.openJobs" : {
+      "comment" : "Button in the menu-bar popover when every job is paused; opens Jobs.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Jobs"
+          }
+        }
+      }
+    },
+    "popover.footer.newJob" : {
+      "comment" : "Button in the menu-bar popover's footer that opens a new job.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Job"
+          }
+        }
+      }
+    },
+    "popover.footer.quit" : {
+      "comment" : "Button in the menu-bar popover's footer that quits the app.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quit"
+          }
+        }
+      }
+    },
+    "popover.keepAwake.remaining" : {
+      "comment" : "Time left on a timed keep-awake choice in the menu-bar popover. The argument is hours:minutes.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(%@ left)"
+          }
+        }
+      }
+    },
+    "popover.keepAwake.title" : {
+      "comment" : "Label of the keep-awake menu in the menu-bar popover.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep awake"
+          }
+        }
+      }
+    },
+    "popover.row.stop" : {
+      "comment" : "Accessibility label of the Stop button on a running row. The argument is the job's name.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop %@"
           }
         }
       }
