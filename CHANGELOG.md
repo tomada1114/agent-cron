@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - AgentCron now lives in the menu bar: a clock status item opens a placeholder popover,
   and its Open AgentCron… command (⌘,) opens a placeholder main window. The app no
   longer shows a Dock icon or opens a window at launch.
+- The app's accent color is now deep teal (the design lock, ADR-0009), in light and dark.
 
 ### Removed
 

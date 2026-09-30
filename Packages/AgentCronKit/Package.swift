@@ -31,6 +31,10 @@ let package = Package(
         .target(
             name: "AgentCronUI",
             dependencies: ["AgentCronCore"],
+            // `RunningTint` lives here, not in App/Assets.xcassets: a package view looks a
+            // named color up in its own bundle (`bundle: .module`), which previews and
+            // tests can see and the app's catalog is not.
+            resources: [.process("Resources/Colors.xcassets")],
             swiftSettings: strictSettings,
         ),
         // OS-integration adapters behind Core-declared ports. Depends on AgentCronCore

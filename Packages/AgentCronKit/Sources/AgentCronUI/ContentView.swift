@@ -1,14 +1,6 @@
 import AgentCronCore
 import SwiftUI
 
-/// Layout metrics for ``ContentView``, from the design lock (ADR-0009): the popover is
-/// 340 pt wide with 12 pt inner padding, and related lines sit 8 pt apart.
-private enum Layout {
-    static let stackSpacing: CGFloat = 8
-    static let popoverPadding: CGFloat = 12
-    static let popoverWidth: CGFloat = 340
-}
-
 /// The status item's popover — a placeholder until the run timeline, keep-awake control,
 /// and the rest of its commands replace it (`docs/product/ux-flows.md` S1). It already
 /// carries the one command the app shape needs to be usable: opening the main window.
@@ -27,7 +19,7 @@ public struct ContentView: View {
     private var openWindow
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: Layout.stackSpacing) {
+        VStack(alignment: .leading, spacing: DesignLock.spacingS) {
             Text(verbatim: "AgentCron")
                 .font(.headline)
             Text(MenuBarPopover.placeholder)
@@ -44,8 +36,8 @@ public struct ContentView: View {
                     .accessibilityIdentifier("frontmostAppLabel")
             }
         }
-        .padding(Layout.popoverPadding)
-        .frame(width: Layout.popoverWidth, alignment: .leading)
+        .padding(DesignLock.popoverPadding)
+        .frame(width: DesignLock.popoverWidth, alignment: .leading)
         // The port answers with a snapshot, so the snapshot is retaken every time this
         // scene becomes active — reading it once at launch would pin the label to
         // whoever launched the app. `initial: true` covers the case where the scene is
