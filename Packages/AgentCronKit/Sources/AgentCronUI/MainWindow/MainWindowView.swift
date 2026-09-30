@@ -13,6 +13,7 @@ public struct MainWindowView: View {
     private let navigation: MainNavigationModel
     private let jobList: JobListModel?
     private let notifications: RunNotificationController?
+    private let general: GeneralModel?
 
     public var body: some View {
         NavigationSplitView {
@@ -27,7 +28,7 @@ public struct MainWindowView: View {
                 HistorySectionView()
 
             case .general:
-                GeneralSectionView()
+                GeneralSectionView(model: general)
             }
         }
         .frame(
@@ -44,14 +45,18 @@ public struct MainWindowView: View {
     ///     shows the Jobs section's placeholder.
     ///   - notifications: What the Jobs screen reads the "Notifications are off" note
     ///     from; `nil` shows no note.
+    ///   - general: The General screen's model; `nil` shows the General section's
+    ///     placeholder.
     public init(
         navigation: MainNavigationModel,
         jobList: JobListModel? = nil,
         notifications: RunNotificationController? = nil,
+        general: GeneralModel? = nil,
     ) {
         self.navigation = navigation
         self.jobList = jobList
         self.notifications = notifications
+        self.general = general
     }
 }
 
