@@ -1,0 +1,67 @@
+{
+  "jobs" : [
+    {
+      "agent" : "claude_code",
+      "createdAt" : "2026-09-28T08:00:00.000Z",
+      "directory" : "file:///Users/example/news-digest/",
+      "effort" : "default",
+      "enabled" : true,
+      "id" : "11111111-2222-3333-4444-555555555555",
+      "model" : "default",
+      "name" : "RSS digest",
+      "notify" : "failures_only",
+      "permissionMode" : "auto",
+      "prompt" : "Summarize today's feeds into news.html.",
+      "schedule" : {
+        "times" : [
+          {
+            "hour" : 9,
+            "minute" : 0
+          }
+        ],
+        "weekdays" : [
+          "monday",
+          "tuesday",
+          "wednesday",
+          "thursday",
+          "friday"
+        ]
+      },
+      "timeoutMinutes" : 30,
+      "updatedAt" : "2026-09-28T08:00:00.000Z"
+    },
+    {
+      "agent" : "claude_code",
+      "createdAt" : "2026-09-28T08:00:00.000Z",
+      "directory" : "file:///Users/example/My%20Projects/app/",
+      "effort" : "high",
+      "enabled" : false,
+      "id" : "22222222-3333-4444-5555-666666666666",
+      "model" : "opus",
+      "name" : "Dependabot merges",
+      "notify" : "every_run",
+      "permissionMode" : "accept_edits",
+      "prompt" : "Review open Dependabot PRs and merge the safe ones.",
+      "schedule" : {
+        "times" : [
+          {
+            "hour" : 8,
+            "minute" : 30
+          },
+          {
+            "hour" : 18,
+            "minute" : 15
+          }
+        ],
+        "weekdays" : [
+          "monday",
+          "thursday"
+        ]
+      },
+      "timeoutMinutes" : 90,
+      "updatedAt" : "2026-09-29T12:34:56.250Z"
+    }
+  ],
+  "lastCheckedAt" : "2026-09-30T06:00:00.500Z",
+  "schemaVersion" : 1
+}

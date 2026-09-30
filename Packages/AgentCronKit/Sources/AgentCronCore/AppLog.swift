@@ -37,4 +37,8 @@ public enum AppLog {
     /// The keep-awake concern: ``KeepAwakeController`` and the ``SleepPreventing``
     /// adapter behind it.
     public static let keepAwake = Logger(subsystem: subsystem, category: "keep-awake")
+
+    /// The storage concern: ``FileJobStore`` and ``FileRunStore`` reading and writing
+    /// the files in Application Support.
+    public static let storage = Logger(subsystem: subsystem, category: "storage")
 }
