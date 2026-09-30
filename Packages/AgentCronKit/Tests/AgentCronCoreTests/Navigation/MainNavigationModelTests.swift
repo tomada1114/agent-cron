@@ -193,17 +193,18 @@ struct MainNavigationModelTests {
     // MARK: - Job commands (REQ-005)
 
     @Test
-    func `choosing New Job shows Jobs with no saved job selected`() throws {
+    func `choosing New Job shows Jobs and keeps the selection until the draft opens`() throws {
         try withScratchDefaults { defaults in
             let model = MainNavigationModel(defaults: defaults)
             model.select(jobID: Self.jobID)
             model.select(section: .general)
             model.newJob()
             #expect(model.section == .jobs)
-            #expect(model.selectedJobID == nil)
+            #expect(model.selectedJobID == Self.jobID)
+            #expect(model.canActOnSelectedJob)
             let relaunched = MainNavigationModel(defaults: defaults)
             #expect(relaunched.section == .jobs)
-            #expect(relaunched.selectedJobID == nil)
+            #expect(relaunched.selectedJobID == Self.jobID)
         }
     }
 

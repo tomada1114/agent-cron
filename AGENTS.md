@@ -138,6 +138,11 @@ focus. While one runs, the user loses their screen, keyboard, or focus. So:
   run owes and do them together, once, rather than one per change. A sub-agent never
   runs them: it reports the check as owed, and the session that talks to the user
   batches and asks.
+- **Announce every batch, even with standing permission.** A user's earlier "go ahead
+  and automate the Mac" does not remove the notice: right before each batch, tell the
+  user what will take over the screen and for roughly how long, and wait for their yes
+  that time. A sub-agent's brief never grants these checks, whatever the user said
+  earlier in the session.
 - `just test-local` stays on the local loop only for adapters that show no UI and
   raise no prompt; an adapter test that does either falls under the rule above.
 

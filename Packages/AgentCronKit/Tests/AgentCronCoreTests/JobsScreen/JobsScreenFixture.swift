@@ -36,6 +36,8 @@ enum JobsScreenFixture {
 
     /// Reads ``now``.
     static let clock: @Sendable () -> Date = { now }
+    /// A folder check that finds no folder.
+    static let folderGone: @Sendable (URL) -> Bool = { _ in false }
 
     /// Weekdays at 09:00, 12:00, 18:00: next fires Tuesday noon.
     static let digest = job(

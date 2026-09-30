@@ -49,6 +49,8 @@ public final class JobEditorModel {
     private let store: any JobStoring
     private let now: @Sendable () -> Date
     private let saved: (@MainActor (JobsDocument) -> Void)?
+    /// Answers whether a folder is there, for ``isDirectoryMissing``.
+    let directoryExists: @Sendable (URL) -> Bool
 
     /// Whether the draft differs from the saved job: the editor shows "Edited", and
     /// Revert and Save are enabled.
@@ -105,11 +107,14 @@ public final class JobEditorModel {
     ///     closure is always `saved`.
     ///   - saved: Told the document as written after every successful save, so the
     ///     job list can show it; `nil` tells no one.
+    ///   - directoryExists: Whether a folder is there, which ``isDirectoryMissing``
+    ///     asks; the file system's answer unless a test or preview pins one.
     public init(
         editing job: Job,
         store: any JobStoring,
         now: @escaping @Sendable () -> Date,
         saved: (@MainActor (JobsDocument) -> Void)? = nil,
+        directoryExists: @escaping @Sendable (URL) -> Bool = JobEditorModel.folderExists,
     ) {
         draft = job
         baseline = job
@@ -117,6 +122,7 @@ public final class JobEditorModel {
         self.store = store
         self.now = now
         self.saved = saved
+        self.directoryExists = directoryExists
     }
 
     /// Makes an editor over a new, empty job: no name, folder, prompt, day, or time, and
@@ -126,11 +132,14 @@ public final class JobEditorModel {
     ///   - store: Where ``save()`` writes; it reads the document afresh first.
     ///   - now: The time the draft is created at, and the time ``save()`` stamps.
     ///   - saved: Told the document as written after every successful save.
+    ///   - directoryExists: Whether a folder is there, which ``isDirectoryMissing``
+    ///     asks.
     public convenience init(
         newJobWithID id: UUID,
         store: any JobStoring,
         now: @escaping @Sendable () -> Date,
         saved: (@MainActor (JobsDocument) -> Void)? = nil,
+        directoryExists: @escaping @Sendable (URL) -> Bool = JobEditorModel.folderExists,
     ) {
         let job = Job(
             name: "",
@@ -140,7 +149,13 @@ public final class JobEditorModel {
             createdAt: now(),
             id: id,
         )
-        self.init(editing: job, store: store, now: now, saved: saved)
+        self.init(
+            editing: job,
+            store: store,
+            now: now,
+            saved: saved,
+            directoryExists: directoryExists,
+        )
         isNew = true
     }
 

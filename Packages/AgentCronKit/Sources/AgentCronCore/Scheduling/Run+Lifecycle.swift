@@ -6,6 +6,10 @@ import Foundation
 /// and leaves that state through exactly one of these. They are pure, so the
 /// ``Dispatcher`` decides *when* a run ends and these decide *what* its record says.
 extension Run {
+    /// The failure reason of an ``interrupted(at:)`` run. Stored as data, like the reason
+    /// an agent reports, rather than localized.
+    package static let interruptedReason = "AgentCron quit before the run finished."
+
     /// The record of a run that never launched, for `reason`, recorded at `date`.
     package func skipped(_ reason: SkipReason, at date: Date) -> Self {
         var run = ended(at: date)
@@ -19,6 +23,16 @@ extension Run {
     package func stopped(at date: Date) -> Self {
         var run = ended(at: date)
         run.outcome = .stopped
+        return run
+    }
+
+    /// The record of a run a quit or crash cut off: the session that launched it ended
+    /// before its final save, so nothing is known of its process — it is failed, with
+    /// ``interruptedReason`` saying why, and ends when a later session finds it.
+    package func interrupted(at date: Date) -> Self {
+        var run = ended(at: date)
+        run.outcome = .failed
+        run.failureReason = Self.interruptedReason
         return run
     }
 

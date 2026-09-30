@@ -1,3 +1,5 @@
+import Foundation
+
 /// Which finished runs of a job post a notification.
 ///
 /// A failure, for ``failuresOnly``, is a run that failed, timed out, or was skipped
@@ -16,4 +18,33 @@ public enum NotifyPolicy: String, Sendable, Codable, CaseIterable {
 
     /// Every policy, in the order the editor lists them: least to most.
     public static let allCases: [Self] = [.never, .failuresOnly, .everyRun]
+
+    /// The policy's title in the job editor's Notify menu.
+    public var title: LocalizedStringResource {
+        switch self {
+        case .never:
+            LocalizedStringResource(
+                "notifyPolicy.never",
+                defaultValue: "None",
+                bundle: .module,
+                comment: "Notify menu item in the job editor: no finished run posts a notification.",
+            )
+
+        case .failuresOnly:
+            LocalizedStringResource(
+                "notifyPolicy.failuresOnly",
+                defaultValue: "Failures Only",
+                bundle: .module,
+                comment: "Notify menu item in the job editor: only a run that did not succeed posts a notification.",
+            )
+
+        case .everyRun:
+            LocalizedStringResource(
+                "notifyPolicy.everyRun",
+                defaultValue: "Every Run",
+                bundle: .module,
+                comment: "Notify menu item in the job editor: every finished run posts a notification.",
+            )
+        }
+    }
 }
