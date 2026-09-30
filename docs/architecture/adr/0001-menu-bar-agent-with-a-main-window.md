@@ -1,6 +1,7 @@
 # ADR-0001: A menu-bar agent with one main window
 
 - **Status:** Accepted 2026-09-29
+- **Amended:** 2026-09-30 — the activation-policy and launch-at-login adapters landed behind their Core ports (#17); Sources record what their local-machine tests checked. Wiring them in `App/` is #28.
 - **Date:** 2026-09-29
 - **Deciders:** the owner
 
@@ -82,6 +83,7 @@ readable size.
 - <https://developer.apple.com/documentation/swiftui/menubarextra> — macOS 13+; `.window` style renders contents in a popover-like window — checked 2026-09-29
 - <https://developer.apple.com/documentation/bundleresources/information-property-list/lsuielement> — an agent app that runs in the background and does not appear in the Dock; says nothing about the main menu — checked 2026-09-29
 - <https://developer.apple.com/documentation/servicemanagement/smappservice> — macOS 13+; `mainApp` as a login item, `register()`, `status` (not registered / enabled / requires approval / not found), `openSystemSettingsLoginItems()` — checked 2026-09-29
+- Checked 2026-09-30 by `ActivationPolicyControllerTests` and `LoginItemControllerTests` (`just test-local`): `NSApplication.setActivationPolicy(_:)` switched the `swift test` host between `.regular` and `.accessory` and back, as AppKit then reported; `SMAppService.mainApp.status` read as not found in that host, which is not an app bundle. Registering was not run (it changes the user's login items), so the main menu appearing and `register()` from the real app remain for the `just run` check the wiring issue owes.
 - `.agents/skills/starting-an-app/references/app-shapes.md` (in-repo) — the proven menu-bar agent files
 
 ## Related
