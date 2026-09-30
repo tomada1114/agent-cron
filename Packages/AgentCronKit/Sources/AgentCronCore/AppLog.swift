@@ -13,8 +13,13 @@ import os
 /// Never `print`, `debugPrint`, or `NSLog` under `Sources/` or `App/`: a `.app` launched
 /// the way users launch it has nowhere to send stdout, so those lines vanish exactly
 /// when they would matter. `.swiftlint.yml`'s `no_print_in_sources` rejects them.
-/// Anything user-derived that reaches a log message carries a privacy annotation —
-/// see ``FrontmostAppViewModel/refresh()`` for the worked example.
+/// Anything user-derived that reaches a log message is annotated `privacy: .private`;
+/// an app-chosen value or an OS status code is `.public`, as ``KeepAwakeController``
+/// logs the `IOReturn` of a refused hold.
+///
+/// One category per concern, named for the concern rather than for a type, so
+/// `log stream --predicate 'category == "keep-awake"'` narrows the stream to one
+/// story. A new concern adds a `Logger` here instead of building one inline.
 public enum AppLog {
     /// The subsystem every logger below is created with: this app's bundle identifier,
     /// and the value `just logs` filters the stream on.
@@ -26,13 +31,6 @@ public enum AppLog {
     /// placeholder replacement that rewrites `project.yml`, and `AppLogTests` fails if
     /// the two ever disagree.
     public static let subsystem = "io.github.tomada1114.AgentCron"
-
-    /// The frontmost-application concern: ``FrontmostAppProviding`` and its view model.
-    ///
-    /// One category per concern, named for the concern rather than for a type, so
-    /// `log stream --predicate 'category == "frontmost-app"'` narrows the stream to one
-    /// story. A new concern adds a `Logger` here instead of building one inline.
-    public static let frontmostApp = Logger(subsystem: subsystem, category: "frontmost-app")
 
     /// The Jobs screen concern: ``JobListModel``, ``JobEditorModel``, and the views over
     /// them.
