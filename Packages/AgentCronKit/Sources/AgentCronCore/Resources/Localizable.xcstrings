@@ -55,6 +55,142 @@
           }
         }
       }
+    },
+    "jobValidation.directoryNotLocal" : {
+      "comment" : "Error under the job editor's Directory field when the directory is not a folder on this Mac.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a folder on this Mac."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このMac上のフォルダを選択してください。"
+          }
+        }
+      }
+    },
+    "jobValidation.duplicateTimes" : {
+      "comment" : "Error under the job editor's Times row when the same time is listed more than once.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove the duplicate time."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重複している時刻を削除してください。"
+          }
+        }
+      }
+    },
+    "jobValidation.nameEmpty" : {
+      "comment" : "Error under the job editor's Name field when it is empty.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter a name."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名前を入力してください。"
+          }
+        }
+      }
+    },
+    "jobValidation.nameTooLong" : {
+      "comment" : "Error under the job editor's Name field when it is longer than 60 characters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shorten the name to 60 characters or fewer."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名前は60文字以内にしてください。"
+          }
+        }
+      }
+    },
+    "jobValidation.noTimes" : {
+      "comment" : "Error under the job editor's Times row when the schedule has no time.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add at least one time."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "時刻を1つ以上追加してください。"
+          }
+        }
+      }
+    },
+    "jobValidation.noWeekdays" : {
+      "comment" : "Error under the job editor's Days chips when no day of the week is selected.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose at least one day."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "曜日を1つ以上選択してください。"
+          }
+        }
+      }
+    },
+    "jobValidation.promptEmpty" : {
+      "comment" : "Error under the job editor's Prompt field when it is empty or only whitespace.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter a prompt."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プロンプトを入力してください。"
+          }
+        }
+      }
+    },
+    "jobValidation.timeoutOutOfRange" : {
+      "comment" : "Error under the job editor's Timeout field when it is outside 1 to 1,440 minutes.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter a timeout from 1 to 1,440 minutes."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タイムアウトは1〜1,440分の範囲で入力してください。"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
