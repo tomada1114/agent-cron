@@ -3,6 +3,10 @@ import SwiftUI
 
 /// The Job menu's items (`docs/product/ux-flows.md` §4), disabled while no saved job is
 /// selected in the Jobs section: a menu item that cannot act is disabled, not hidden.
+///
+/// Delete… is also disabled while the job editor has focus: its ⌘⌫ key equivalent would
+/// otherwise reach the menu before the focused field and open the delete alert instead
+/// of deleting to the start of the line (S5 scopes the shortcut to the list).
 struct JobMenuItems: View {
     let navigation: MainNavigationModel
 
@@ -20,12 +24,13 @@ struct JobMenuItems: View {
                 navigation.toggleSelectedJobEnabled()
             }
             .keyboardShortcut("e", modifiers: .command)
-            Divider()
-            Button(MainMenuCommand.delete.title) {
-                navigation.deleteSelectedJob()
-            }
-            .keyboardShortcut(.delete, modifiers: .command)
         }
         .disabled(!navigation.canActOnSelectedJob)
+        Divider()
+        Button(MainMenuCommand.delete.title) {
+            navigation.deleteSelectedJob()
+        }
+        .keyboardShortcut(.delete, modifiers: .command)
+        .disabled(!navigation.canDeleteSelectedJob)
     }
 }

@@ -1,3 +1,5 @@
+import Foundation
+
 /// How much reasoning effort a run asks the agent for.
 ///
 /// Cases are declared alphabetically (SwiftLint's `sorted_enum_cases`); ``allCases`` is
@@ -20,4 +22,57 @@ public enum EffortChoice: String, Sendable, Codable, CaseIterable {
 
     /// Every choice, in the order the editor lists them: Default, then lowest to highest.
     public static let allCases: [Self] = [.default, .low, .medium, .high, .xhigh, .max]
+
+    /// The choice's title in the job editor's Effort menu.
+    public var title: LocalizedStringResource {
+        switch self {
+        case .default:
+            LocalizedStringResource(
+                "effortChoice.default",
+                defaultValue: "Default",
+                bundle: .module,
+                comment: "Effort menu item in the job editor: pass no effort, so the agent's own default applies.",
+            )
+
+        case .low:
+            LocalizedStringResource(
+                "effortChoice.low",
+                defaultValue: "Low",
+                bundle: .module,
+                comment: "Effort menu item in the job editor: the lowest reasoning effort.",
+            )
+
+        case .medium:
+            LocalizedStringResource(
+                "effortChoice.medium",
+                defaultValue: "Medium",
+                bundle: .module,
+                comment: "Effort menu item in the job editor: a middle reasoning effort.",
+            )
+
+        case .high:
+            LocalizedStringResource(
+                "effortChoice.high",
+                defaultValue: "High",
+                bundle: .module,
+                comment: "Effort menu item in the job editor: a high reasoning effort.",
+            )
+
+        case .xhigh:
+            LocalizedStringResource(
+                "effortChoice.xhigh",
+                defaultValue: "Extra High",
+                bundle: .module,
+                comment: "Effort menu item in the job editor: above high reasoning effort.",
+            )
+
+        case .max:
+            LocalizedStringResource(
+                "effortChoice.max",
+                defaultValue: "Max",
+                bundle: .module,
+                comment: "Effort menu item in the job editor: the highest reasoning effort.",
+            )
+        }
+    }
 }
