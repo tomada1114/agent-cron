@@ -97,7 +97,7 @@ struct LocalizationTests {
         let unanswered = FrontmostAppViewModel(provider: FakeFrontmostAppProvider(answering: [nil]))
         return jobsScreenCases() + jobsScreenViewCases() + historyScreenCases() +
             navigationCases() +
-            notificationCases() + popoverCases() + generalScreenCases() + [
+            notificationCases() + popoverCases() + generalScreenCases() + appEnvironmentCases() + [
                 Case(resource: JobValidationError.nameEmpty.message, arguments: []),
                 Case(
                     resource: JobValidationError.nameTooLong(characterCount: 61).message,

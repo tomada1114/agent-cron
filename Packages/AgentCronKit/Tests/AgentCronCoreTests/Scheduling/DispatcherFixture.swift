@@ -189,7 +189,7 @@ struct DispatcherFixture {
         job.agent.commandBuilder.arguments(for: RunRequest(JobSnapshot(of: job)))
     }
 
-    private static func makeDirectory() -> URL {
+    static func makeDirectory() -> URL {
         let made = FileManager.default.temporaryDirectory
             .appending(path: "AgentCronTests-\(UUID().uuidString)", directoryHint: .isDirectory)
         do {

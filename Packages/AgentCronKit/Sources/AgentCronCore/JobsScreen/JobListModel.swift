@@ -60,6 +60,11 @@ public final class JobListModel {
     /// or `nil` when none shows.
     public private(set) var pendingDeletion: JobDeleteConfirmation?
 
+    /// Called with the jobs as written after every save or delete the user made here —
+    /// what re-arms the scheduler's timer (`docs/architecture.md` › Core flows, Edit a
+    /// job). A read is not a change, so ``load()`` does not call it.
+    @ObservationIgnored public var onJobsSaved: (@MainActor ([Job]) -> Void)?
+
     private let store: any JobStoring
     /// The calendar schedules are read in, which the rows' status lines use too.
     let calendar: Calendar
@@ -215,6 +220,7 @@ public final class JobListModel {
             jobs = try store.updateJobs { $0.removeAll { $0.id == jobID } }.jobs
             storageError = nil
             areJobsKnown = true
+            onJobsSaved?(jobs)
         } catch {
             storageError = error
             AppLog.storage
@@ -377,5 +383,6 @@ public final class JobListModel {
         storageError = nil
         areJobsKnown = true
         selectedJobID = jobID
+        onJobsSaved?(document.jobs)
     }
 }
