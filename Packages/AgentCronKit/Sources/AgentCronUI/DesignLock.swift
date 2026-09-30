@@ -25,6 +25,8 @@ public enum DesignLock {
     public static let mainWindowDefaultWidth: CGFloat = 1_040
     /// The main window's default height.
     public static let mainWindowDefaultHeight: CGFloat = 680
+    /// The main window's sidebar width (`docs/product/ux-flows.md` S2).
+    public static let mainWindowSidebarWidth: CGFloat = 180
     /// The popover's width.
     public static let popoverWidth: CGFloat = 340
     /// The popover's maximum height; below it, the popover sizes to its content.

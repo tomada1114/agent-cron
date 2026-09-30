@@ -18,9 +18,5 @@ struct AppWindowTests {
     func `the main window's words read in English`() {
         #expect(AppWindow.main.title.resolved(in: .english) == "AgentCron")
         #expect(AppWindow.main.openCommandTitle.resolved(in: .english) == "Open AgentCron…")
-        #expect(
-            AppWindow.main.placeholder.resolved(in: .english)
-                == "Jobs, history, and settings will appear here.",
-        )
     }
 }

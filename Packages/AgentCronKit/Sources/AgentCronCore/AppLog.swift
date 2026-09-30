@@ -38,6 +38,10 @@ public enum AppLog {
     /// adapter behind it.
     public static let keepAwake = Logger(subsystem: subsystem, category: "keep-awake")
 
+    /// The main window's navigation concern: ``MainNavigationModel`` and the menu
+    /// commands that act on it.
+    public static let navigation = Logger(subsystem: subsystem, category: "navigation")
+
     /// The notifications concern: ``RunNotificationController`` and the ``RunNotifying``
     /// adapter behind it.
     public static let notifications = Logger(subsystem: subsystem, category: "notifications")

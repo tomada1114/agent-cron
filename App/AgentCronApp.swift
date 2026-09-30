@@ -16,6 +16,10 @@ import SwiftUI
 /// implementation answers (`docs/architecture.md` › Layers).
 @main
 struct AgentCronApp: App {
+    /// Lives as long as the app: the main menu's commands act on it while the main
+    /// window is closed too.
+    @State private var navigation = MainNavigationModel()
+
     var body: some Scene {
         MenuBarExtra("AgentCron", systemImage: "clock") {
             ContentView(
@@ -25,12 +29,15 @@ struct AgentCronApp: App {
         .menuBarExtraStyle(.window)
 
         Window(Text(AppWindow.main.title), id: AppWindow.main.id) {
-            MainWindowView()
+            MainWindowView(navigation: navigation)
         }
         .defaultSize(
             width: DesignLock.mainWindowDefaultWidth,
             height: DesignLock.mainWindowDefaultHeight,
         )
         .windowResizability(.contentMinSize)
+        .commands {
+            MainWindowCommands(navigation: navigation)
+        }
     }
 }

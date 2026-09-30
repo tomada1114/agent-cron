@@ -18,23 +18,6 @@
         }
       }
     },
-    "appWindow.main.placeholder" : {
-      "comment" : "Placeholder text in the main window before its screens exist.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jobs, history, and settings will appear here."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ジョブ、履歴、設定がここに表示されます。"
-          }
-        }
-      }
-    },
     "appWindow.main.title" : {
       "comment" : "Title of the main window. The app's name.",
       "localizations" : {
@@ -274,6 +257,227 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "タイムアウトは1〜1,440分の範囲で入力してください。"
+          }
+        }
+      }
+    },
+    "mainMenu.delete" : {
+      "comment" : "Job menu item that asks to delete the selected job.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete…"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "削除…"
+          }
+        }
+      }
+    },
+    "mainMenu.job" : {
+      "comment" : "Title of the main menu that holds the commands acting on the selected job.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Job"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ジョブ"
+          }
+        }
+      }
+    },
+    "mainMenu.newJob" : {
+      "comment" : "File menu item that starts a new job.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Job"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新規ジョブ"
+          }
+        }
+      }
+    },
+    "mainMenu.runNow" : {
+      "comment" : "Job menu item that runs the selected job immediately.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Run Now"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今すぐ実行"
+          }
+        }
+      }
+    },
+    "mainMenu.settings" : {
+      "comment" : "App menu item that opens the main window on its General section.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings…"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定…"
+          }
+        }
+      }
+    },
+    "mainMenu.stop" : {
+      "comment" : "Job menu item that stops the selected job's running run.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止"
+          }
+        }
+      }
+    },
+    "mainMenu.toggleEnabled" : {
+      "comment" : "Job menu item that pauses the selected job, or resumes it when paused.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable / Disable"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有効 / 無効"
+          }
+        }
+      }
+    },
+    "mainSection.general.placeholder" : {
+      "comment" : "Placeholder in the main window's General section before its settings exist.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings will appear here."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定がここに表示されます。"
+          }
+        }
+      }
+    },
+    "mainSection.general.title" : {
+      "comment" : "Sidebar section and View menu item that shows the app's settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "General"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一般"
+          }
+        }
+      }
+    },
+    "mainSection.history.placeholder" : {
+      "comment" : "Placeholder in the main window's History section before the run list exists.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Runs will appear here after a job runs."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ジョブが実行されると、ここに実行履歴が表示されます。"
+          }
+        }
+      }
+    },
+    "mainSection.history.title" : {
+      "comment" : "Sidebar section and View menu item that shows past runs.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "History"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "履歴"
+          }
+        }
+      }
+    },
+    "mainSection.jobs.placeholder" : {
+      "comment" : "Placeholder in the main window's Jobs section before the job list exists.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your jobs will appear here."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ジョブがここに表示されます。"
+          }
+        }
+      }
+    },
+    "mainSection.jobs.title" : {
+      "comment" : "Sidebar section and View menu item that shows the saved jobs.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jobs"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ジョブ"
           }
         }
       }
