@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 A strict, supply-chain-hardened GitHub template for open-source macOS apps.
-It ships as a working counter app: XcodeGen project, thin app shell over a
+It ships as a working app: XcodeGen project, thin app shell over a
 local Swift package, Swift Testing suite with an enforced coverage floor, an
 XCUITest launch guarantee, and hardened CI — all from the first commit.
 
@@ -163,7 +163,7 @@ secrets — no workflow edits. See docs/distribution.md.
    `CODE_OF_CONDUCT.md` for your app (the conduct-reporting contact stays
    `tmasuyama1114@gmail.com` if `--email` was omitted, so check it), and review
    `LICENSE`'s copyright line (`CHANGELOG.md` is reset automatically)
-7. Replace or remove the example code — the counter and the `FrontmostApp`
+7. Replace or remove the example code — the `FrontmostApp`
    port/adapter — following the checklist in
    [docs/getting-started.md › Removing the example code](docs/getting-started.md#removing-the-example-code);
    keep the Core/UI split and the tests

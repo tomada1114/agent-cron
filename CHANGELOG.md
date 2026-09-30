@@ -11,4 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial project scaffold from [macos-app-template](https://github.com/tomada1114/macos-app-template)
 
+### Changed
+
+- AgentCron now lives in the menu bar: a clock status item opens a placeholder popover,
+  and its Open AgentCron… command (⌘,) opens a placeholder main window. The app no
+  longer shows a Dock icon or opens a window at launch.
+
+### Removed
+
+- The template's counter example screen
+
 [Unreleased]: https://github.com/tomada1114/agent-cron/commits/main

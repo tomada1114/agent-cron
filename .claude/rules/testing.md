@@ -23,8 +23,8 @@ Three kinds of test, split by what is under test:
   changes an adapter pastes its `just test-local` output as the evidence no gate can
   produce.
 - **What only the assembled `.app` shows → `LaunchUITests`.** The one XCTest target holds
-  the launch guarantee: the app starts, shows its window (a status item, for a menu-bar
-  agent), and one interaction round-trips through `App/`'s real wiring
+  the launch guarantee: the app starts and shows its status item — AgentCron is a
+  menu-bar agent (ADR-0001), whose `.window`-style popover XCUITest cannot see into
   (`LaunchTests.swift`). A new test belongs there only when what it proves is that
   wiring — scene lifecycle, the composition root handing over the real adapter — and
   nothing smaller can fail for it. A decision is a Core test, a view is covered through
@@ -65,9 +65,10 @@ The expected value comes from somewhere other than the code under test: a litera
 out by hand, a case table in `@Test(arguments:)` pairing each input with its answer, or
 an invariant that must hold whatever the input (the value stays inside `range`, a
 round-trip returns what went in). Never compute it by calling the implementation, and
-never re-derive it with the implementation's own formula: after `increment()` from 99,
-`#expect(counter.value == min(99 + 1, counter.range.upperBound))` passes with any bug
-the formula shares, where `#expect(counter.value == 100)` does not.
+never re-derive it with the implementation's own formula: for a value clamped to
+`0 ... 100`, after `increase()` from 99,
+`#expect(model.value == min(99 + 1, model.range.upperBound))` passes with any bug the
+formula shares, where `#expect(model.value == 100)` does not.
 
 ## Fakes, not mocks
 

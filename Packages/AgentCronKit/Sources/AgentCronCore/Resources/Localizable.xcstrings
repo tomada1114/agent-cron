@@ -1,35 +1,53 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "counter.decrement" : {
-      "comment" : "Accessibility label for the button shown as a minus sign, which lowers the counter by one.",
+    "appWindow.main.open" : {
+      "comment" : "Button in the menu-bar popover that opens the main window.",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Decrement"
+            "value" : "Open AgentCron…"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AgentCron を開く…"
           }
         }
       }
     },
-    "counter.increment" : {
-      "comment" : "Accessibility label for the button shown as a plus sign, which raises the counter by one.",
+    "appWindow.main.placeholder" : {
+      "comment" : "Placeholder text in the main window before its screens exist.",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Increment"
+            "value" : "Jobs, history, and settings will appear here."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ジョブ、履歴、設定がここに表示されます。"
           }
         }
       }
     },
-    "counter.reset" : {
-      "comment" : "Button that sets the counter back to zero.",
+    "appWindow.main.title" : {
+      "comment" : "Title of the main window. The app's name.",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reset"
+            "value" : "AgentCron"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AgentCron"
           }
         }
       }
@@ -188,6 +206,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "タイムアウトは1〜1,440分の範囲で入力してください。"
+          }
+        }
+      }
+    },
+    "menuBarPopover.placeholder" : {
+      "comment" : "Placeholder text in the menu-bar popover before the run timeline exists.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scheduled runs will appear here."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "予定された実行がここに表示されます。"
           }
         }
       }

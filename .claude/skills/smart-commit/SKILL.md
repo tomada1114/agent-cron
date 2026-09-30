@@ -150,8 +150,8 @@ EOF
 **Examples:**
 
 ```
-feat(core): add persistence for counter state
-fix: clamp counter at range bounds instead of overflowing
+feat(core): persist jobs to Application Support
+fix: skip a missed run older than 60 minutes instead of firing it
 test: add parameterized tests for boundary values
 docs: update architecture guide for new module
 chore: bump pinned tool versions in mise.toml

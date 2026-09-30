@@ -193,8 +193,7 @@ list and which of it `actionlint`, `zizmor`, and `just check-harness` check.
 Nothing boots the app and asserts behavior beyond two checks: `scripts/smoke_launch.sh`
 (`just smoke`) builds Release, verifies the code signature, launches the binary, and
 asserts only that the process stays alive; `LaunchUITests/LaunchTests.swift`
-(`just uitest`) asserts that a window appears and one increment click updates the
-counter. Any other UI behavior, `AgentCronUI` and `AgentCronPlatform` code paths (both outside
+(`just uitest`) asserts only that the menu-bar status item appears within 10 seconds. Any other UI behavior, `AgentCronUI` and `AgentCronPlatform` code paths (both outside
 the coverage floor — an adapter's real OS call is exercised by no *gate*: it has a test,
 in `Tests/AgentCronPlatformTests`, that only a human runs with `just test-local`, because a
 runner has no GUI session and no TCC grants), the signed and notarized release (built only on a tag push by `release.yml`), and

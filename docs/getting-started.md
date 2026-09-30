@@ -90,28 +90,11 @@ That drops your own grants for it, so the next launch prompts from scratch.
 
 ## Removing the example code
 
-The template ships two examples, and both are illustrations for a new app to
+The template shipped two examples, and both are illustrations for a new app to
 replace or delete — example code in a skill or a doc is likewise a sketch of
-the pattern, never something the app must keep. Work through this list after
-`scripts/bootstrap.sh` (the paths below carry your app's name once it has run),
-then run `just check`.
-
-**The counter** (the app's single screen):
-
-- [ ] `Packages/AgentCronKit/Sources/AgentCronCore/Counter.swift` and
-      `CounterViewModel.swift` — replace with your domain model and view model
-- [ ] `Packages/AgentCronKit/Tests/AgentCronCoreTests/CounterTests.swift` and
-      `CounterViewModelTests.swift` — replace with tests for your Core code, so
-      the 80% coverage floor still has something to measure
-- [ ] `Packages/AgentCronKit/Sources/AgentCronUI/ContentView.swift` — the counter text,
-      the three buttons, their accessibility identifiers, and both previews
-- [ ] `LaunchUITests/LaunchTests.swift` — `testAppLaunchesAndShowsCounter`
-      clicks `incrementButton` and reads `counterValue`; point it at an element
-      your first screen shows
-- [ ] `AGENTS.md` and `CONTRIBUTING.md` — the `just test-fast CounterTests`
-      examples; `.agents/skills/running-the-app/references/observing-behavior.md`
-      — the identifier list and the `-counterStart` snippets (edit the skill under
-      `.agents/skills/`, then `just agents-sync`)
+the pattern, never something the app must keep. AgentCron already removed the other
+one, the template's single example screen, when it became a menu-bar agent (ADR-0001). Work through
+this list for the one that is left, then run `just check`.
 
 **The `FrontmostApp` example** (the worked ports-and-adapters example — keep it
 until your first real port exists if you want a pattern to copy):
@@ -148,7 +131,7 @@ until your first real port exists if you want a pattern to copy):
       them at your own port, or reword them (skills are edited under
       `.agents/skills/`, then `just agents-sync`)
 
-`rg -i 'counter|frontmost'` then lists anything left.
+`rg -i frontmost` then lists anything left.
 
 ## Open in Xcode
 

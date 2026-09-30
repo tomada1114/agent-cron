@@ -18,13 +18,15 @@ therefore what `just uitest` is able to assert at all.
 Everything else is identical: the three targets and the one-way dependency direction,
 ports and adapters, the coverage floor, signing, and every gate.
 
-## Windowed: read the shipped files, not a copy
+## Windowed: the template's shipped files
 
-The template **is** the windowed reference, so it is not duplicated here — a copy would
-be the first thing to go stale. Read `App/AgentCronApp.swift` (a `WindowGroup` holding
-`ContentView`) and `LaunchUITests/LaunchTests.swift` (wait for `app.windows.firstMatch`,
-then click through the counter). The app target needs no shape-specific `project.yml`
-key: `GENERATE_INFOPLIST_FILE: YES` with no `LSUIElement` entry *is* the regular shape.
+The template ships the windowed shape: `App/AgentCronApp.swift` holds a `WindowGroup`
+around `ContentView`, and `LaunchUITests/LaunchTests.swift` waits for
+`app.windows.firstMatch`, then clicks through the template's example screen. The app
+target needs no shape-specific `project.yml` key: `GENERATE_INFOPLIST_FILE: YES` with no
+`LSUIElement` entry *is* the regular shape. AgentCron has since converted to the
+menu-bar agent below (ADR-0001), so its own files are the menu-bar reference now — with
+a `Window(id: "main")` scene beside the `MenuBarExtra`.
 
 ## Menu-bar agent
 

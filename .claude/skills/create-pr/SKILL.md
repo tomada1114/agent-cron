@@ -94,8 +94,8 @@ Generate a title in Conventional Commits format:
 - Scope is optional (e.g., `core`, `ui`, `app`)
 
 **Examples:**
-- `feat(core): add counter persistence`
-- `fix(ui): disable increment button at upper bound`
+- `feat(core): add job persistence`
+- `fix(ui): disable Run Now while the job is running`
 - `chore: bump pinned tool versions in mise.toml`
 
 ## Step 5: Generate PR Body
