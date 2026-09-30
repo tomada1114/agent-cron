@@ -301,7 +301,7 @@ The reasoning behind each choice is in the ADR it links.
 | Domain | Layer | Module path (planned) | Port |
 |---|---|---|---|
 | Jobs, schedules, next-fire math | Core | `AgentCronCore/Jobs/`, `Scheduling/` | — |
-| Dispatcher, catch-up, overlap | Core | `AgentCronCore/Scheduling/` | `SystemEventsProviding` (timer ticks, sleep/wake, clock and time-zone change) |
+| Dispatcher, catch-up, overlap | Core decides; Platform delivers timer, sleep/wake, clock and time-zone events | `AgentCronCore/Scheduling/`; `AgentCronPlatform/WorkspaceSystemEvents.swift` | `SystemEventsProviding` |
 | Run execution | Core builds argv and parses the result; Platform launches | `AgentCronCore/Agents/`; `AgentCronPlatform/ProcessAgentRunner.swift` | `AgentRunning` |
 | Persistence | Core (Foundation file I/O) | `AgentCronCore/Storage/` | `JobStoring`, `RunStoring` |
 | Keep-awake | Core policy; Platform IOKit | `AgentCronCore/KeepAwake/`; `AgentCronPlatform/PowerAssertionSleepPreventer.swift` | `SleepPreventing` |

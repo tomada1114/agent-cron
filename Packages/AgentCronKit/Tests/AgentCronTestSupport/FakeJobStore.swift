@@ -15,7 +15,7 @@ package final class FakeJobStore: JobStoring {
         var document: JobsDocument
         var savedDocuments: [JobsDocument] = []
         var loadCount = 0
-        let loadError: StorageError?
+        var loadError: StorageError?
         let saveError: StorageError?
     }
 
@@ -59,6 +59,12 @@ package final class FakeJobStore: JobStoring {
             loadError: loadError,
             saveError: saveError,
         ))
+    }
+
+    /// Makes every later ``load()`` throw `error`, or succeed again with `nil` — a store
+    /// that becomes unreadable after the app first read it.
+    package func loadsFail(with error: StorageError?) {
+        state.withLock { $0.loadError = error }
     }
 
     package func load() throws(StorageError) -> JobsDocument {

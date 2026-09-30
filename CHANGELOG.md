@@ -14,6 +14,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   placeholder for now, and reopens on the section you last left it on. The main menu
   gains Settings… (⌘,, opens General), New Job (⌘N), a Job menu (Run Now ⌘R, Stop ⌘.,
   Enable / Disable ⌘E, Delete… ⌘⌫), and Toggle Sidebar (⌃⌘S).
+- The Jobs screen: a list of jobs with their schedule and next run beside an editor
+  for the name, folder, prompt, weekday chips and presets, times, model, effort,
+  permission, timeout, and notifications. Edits apply only on Save (⌘S), with Revert,
+  and leaving a job with unsaved edits asks first. Choosing Bypass Permissions asks
+  first and then shows a red warning; Delete Job… and Job › Delete… (⌘⌫ from the list)
+  ask before deleting. ⌘⌫ in a text field still deletes to the start of the line. It
+  shows jobs once the app is wired to its job store; until then the section keeps its
+  placeholder.
 
 ### Changed
 
