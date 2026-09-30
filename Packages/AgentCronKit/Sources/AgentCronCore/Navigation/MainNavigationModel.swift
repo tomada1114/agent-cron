@@ -88,6 +88,13 @@ public final class MainNavigationModel {
         store(runID, forKey: Key.selectedRunID)
     }
 
+    /// The user chose Open Job on a run in History: the Jobs section shows with that job
+    /// selected, which the Jobs screen opens in its editor.
+    public func showJob(_ jobID: UUID) {
+        select(jobID: jobID)
+        select(section: .jobs)
+    }
+
     /// The user chose Settings… (⌘,): the window shows General. Opening the window is the
     /// command's, since only SwiftUI can.
     public func openSettings() {

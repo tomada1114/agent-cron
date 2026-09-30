@@ -3,6 +3,39 @@ import Foundation
 /// The History screen's text for durations, costs, triggers, and day titles.
 public enum HistoryFormatting {
     private static let secondsPerMinute = 60
+    private static let secondsPerHour = 3_600
+
+    /// A running run's elapsed time as a clock: "4:12", or "1:04:12" from an hour on.
+    /// Fractions of a second are dropped, and a start in the future reads "0:00".
+    public static func elapsed(from start: Date, to now: Date) -> String {
+        let total = max(0, Int(now.timeIntervalSince(start)))
+        let hours = total / secondsPerHour
+        let minutes = total % secondsPerHour / secondsPerMinute
+        let seconds = total % secondsPerMinute
+        if hours > 0 {
+            return String(format: "%d:%02d:%02d", hours, minutes, seconds)
+        }
+        return String(format: "%d:%02d", minutes, seconds)
+    }
+
+    /// `date`'s time of day, "09:00", in `locale` and `calendar`'s time zone.
+    public static func time(_ date: Date, calendar: Calendar, locale: Locale) -> String {
+        var style = Date.FormatStyle(date: .omitted, time: .shortened)
+        style.calendar = calendar
+        style.timeZone = calendar.timeZone
+        style.locale = locale
+        return date.formatted(style)
+    }
+
+    /// `date` with its time to the second, "Sep 30, 2026 at 9:00:02 AM" in English, in
+    /// `locale` and `calendar`'s time zone.
+    public static func dateTime(_ date: Date, calendar: Calendar, locale: Locale) -> String {
+        var style = Date.FormatStyle(date: .abbreviated, time: .standard)
+        style.calendar = calendar
+        style.timeZone = calendar.timeZone
+        style.locale = locale
+        return date.formatted(style)
+    }
 
     /// "2m 14s" for 134 seconds, "42s" under a minute; fractions of a second are dropped.
     public static func duration(from start: Date, to end: Date) -> LocalizedStringResource {

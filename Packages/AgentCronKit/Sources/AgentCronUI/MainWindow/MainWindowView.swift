@@ -13,6 +13,8 @@ public struct MainWindowView: View {
     private let navigation: MainNavigationModel
     private let jobList: JobListModel?
     private let notifications: RunNotificationController?
+    private let history: HistoryModel?
+    private let stopRun: ((UUID) -> Void)?
     private let general: GeneralModel?
 
     public var body: some View {
@@ -25,7 +27,7 @@ public struct MainWindowView: View {
                 JobsSectionView(navigation: navigation, list: jobList, notifications: notifications)
 
             case .history:
-                HistorySectionView()
+                HistorySectionView(navigation: navigation, history: history, stopRun: stopRun)
 
             case .general:
                 GeneralSectionView(model: general)
@@ -45,17 +47,25 @@ public struct MainWindowView: View {
     ///     shows the Jobs section's placeholder.
     ///   - notifications: What the Jobs screen reads the "Notifications are off" note
     ///     from; `nil` shows no note.
+    ///   - history: The History screen's runs, filters, and selected run; `nil` shows the
+    ///     History section's placeholder.
+    ///   - stopRun: Stops the running run with this identifier, from the History detail's
+    ///     Stop; `nil` leaves Stop disabled.
     ///   - general: The General screen's model; `nil` shows the General section's
     ///     placeholder.
     public init(
         navigation: MainNavigationModel,
         jobList: JobListModel? = nil,
         notifications: RunNotificationController? = nil,
+        history: HistoryModel? = nil,
+        stopRun: ((UUID) -> Void)? = nil,
         general: GeneralModel? = nil,
     ) {
         self.navigation = navigation
         self.jobList = jobList
         self.notifications = notifications
+        self.history = history
+        self.stopRun = stopRun
         self.general = general
     }
 }

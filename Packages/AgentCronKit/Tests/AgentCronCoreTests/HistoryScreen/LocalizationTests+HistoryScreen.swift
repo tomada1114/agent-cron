@@ -15,6 +15,8 @@ extension LocalizationTests {
         cases += RunTrigger.allCases.map { trigger in
             Case(resource: HistoryFormatting.trigger(trigger), arguments: [])
         }
+        cases += SkipReason.allCases.map { Case(resource: $0.title, arguments: []) }
+        cases += screenTextCases()
         return cases + [
             Case(
                 resource: HistoryJobFilterOption(id: UUID(), name: "Digest", isDeleted: true).title,
@@ -36,6 +38,22 @@ extension LocalizationTests {
                 arguments: [HistoryFixture.longMinutes, HistoryFixture.longRemainder],
             ),
         ] + dayTitleCases()
+    }
+
+    /// The screen's fixed wording.
+    private static func screenTextCases() -> [Case] {
+        [
+            HistoryScreenText.openJobs, HistoryScreenText.clearFilters, HistoryScreenText.allJobs,
+            HistoryScreenText.jobFilterLabel, HistoryScreenText.outcomeFilterLabel,
+            HistoryScreenText.noSelection, HistoryScreenText.result, HistoryScreenText.raw,
+            HistoryScreenText.copy, HistoryScreenText.prompt, HistoryScreenText.stop,
+            HistoryScreenText.openJob, HistoryScreenText.resultPending,
+            HistoryScreenText.noResult, HistoryScreenText.reason, HistoryScreenText.trigger,
+            HistoryScreenText.scheduled, HistoryScreenText.started, HistoryScreenText.duration,
+            HistoryScreenText.elapsed, HistoryScreenText.cost, HistoryScreenText.exitCode,
+            HistoryScreenText.directory, HistoryScreenText.model, HistoryScreenText.effort,
+            HistoryScreenText.permission, HistoryScreenText.session,
+        ].map { Case(resource: $0, arguments: []) }
     }
 
     /// A day group title for today, yesterday, and an older day.
