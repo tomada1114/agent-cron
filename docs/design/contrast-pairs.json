@@ -1,0 +1,10 @@
+[
+ {"name":"Light: white label on AccentColor (prominent button)","fg":"#FFFFFF","bg":"#0E7C7B","kind":"text"},
+ {"name":"Light: AccentColor fill vs window bg","fg":"#0E7C7B","bg":"#ECECEC","kind":"ui"},
+ {"name":"Light: RunningTint text on window bg","fg":"#0B6E6D","bg":"#ECECEC","kind":"text"},
+ {"name":"Light: RunningTint text on white list bg","fg":"#0B6E6D","bg":"#FFFFFF","kind":"text"},
+ {"name":"Dark: white label on AccentColor dark (prominent button)","fg":"#FFFFFF","bg":"#0F7F7D","kind":"text"},
+ {"name":"Dark: AccentColor dark fill vs window bg","fg":"#0F7F7D","bg":"#1E1E1E","kind":"ui"},
+ {"name":"Dark: RunningTint text on window bg","fg":"#4FC7BE","bg":"#1E1E1E","kind":"text"},
+ {"name":"Dark: RunningTint text on popover/list bg","fg":"#4FC7BE","bg":"#2B2B2B","kind":"text"}
+]
