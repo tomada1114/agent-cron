@@ -108,7 +108,6 @@ struct LocalizationTests {
                 ),
                 Case(resource: AppWindow.main.title, arguments: []),
                 Case(resource: AppWindow.main.openCommandTitle, arguments: []),
-                Case(resource: MenuBarPopover.placeholder, arguments: []),
             ] + OutcomeBadgeKind.allCases.map { Case(resource: $0.label, arguments: []) }
     }
 

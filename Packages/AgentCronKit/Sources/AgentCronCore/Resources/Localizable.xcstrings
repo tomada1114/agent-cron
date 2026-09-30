@@ -2296,23 +2296,6 @@
         }
       }
     },
-    "menuBarPopover.placeholder" : {
-      "comment" : "Placeholder text in the menu-bar popover before the run timeline exists.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scheduled runs will appear here."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "予定された実行がここに表示されます。"
-          }
-        }
-      }
-    },
     "modelChoice.default" : {
       "comment" : "Model menu item in the job editor: pass no model, so the agent's own default applies.",
       "localizations" : {
