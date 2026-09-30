@@ -22,6 +22,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   ask before deleting. ⌘⌫ in a text field still deletes to the start of the line. It
   shows jobs once the app is wired to its job store; until then the section keeps its
   placeholder.
+- The General screen: a Launch at login switch (with Open Login Items while macOS waits
+  for your approval), where `claude` resolves in your login shell and its version with
+  Check Again, and notes that the Mac stays awake while jobs run and that runs are kept
+  for 90 days. It shows once the app is wired to its login item and agent check; until
+  then the section keeps its placeholder.
 
 ### Changed
 
