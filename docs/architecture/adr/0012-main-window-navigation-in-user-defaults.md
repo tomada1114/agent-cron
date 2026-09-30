@@ -58,6 +58,16 @@ and read the same way, through an injected `UserDefaults`:
 Once it is set the app never registers on its own again, so a user who turned launch
 at login off stays off (requirements §3.7).
 
+`PopoverModel` (issue #26) keeps the menu-bar popover's "seen up to" marker in the same
+domain, through an injected `UserDefaults`:
+
+| Key | Value | Absent means |
+|---|---|---|
+| `lastPopoverOpenedAt` | `Date`, when the popover was last opened | the popover has never been opened: no run counts as an unseen failure |
+
+A failed, timed-out, or skipped run whose end is strictly after it counts as unseen and
+lights the status item's failure dot; opening the popover sets it to now.
+
 Option 2 keeps the state in the view, where no Core test reaches it, and the menu
 commands would need it from outside the window's scene. Option 3 couples a UI preference
 to the scheduler's document, whose writes and schema version exist for jobs.
@@ -76,6 +86,8 @@ to the scheduler's document, whose writes and schema version exist for jobs.
   migrates the old value.
 - Renaming or removing `didRegisterLoginItemOnFirstLaunch` makes the next launch
   register launch at login again, overriding a user who had turned it off.
+- Renaming or removing `lastPopoverOpenedAt` hides every unseen failure until the
+  popover is next opened.
 
 ### Follow-ups
 
