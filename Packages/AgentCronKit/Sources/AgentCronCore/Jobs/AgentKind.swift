@@ -16,4 +16,13 @@ public enum AgentKind: String, Sendable, Codable, CaseIterable {
             ClaudeCodeCommand()
         }
     }
+
+    /// The program name this agent's command line starts with, which the login shell
+    /// looks up on its PATH (``AgentAvailabilityChecker``).
+    public var executableName: String {
+        switch self {
+        case .claudeCode:
+            "claude"
+        }
+    }
 }

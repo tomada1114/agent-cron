@@ -20,7 +20,7 @@ public struct ClaudeCodeCommand: AgentCommandBuilding {
     /// many lines, quotes, or `$` it holds; the runner never lets a shell re-parse it.
     public func arguments(for request: RunRequest) -> [String] {
         var argv = [
-            "claude",
+            agent.executableName,
             "-p",
             request.prompt,
             "--output-format",
