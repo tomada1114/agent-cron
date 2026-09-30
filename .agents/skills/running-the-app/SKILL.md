@@ -30,6 +30,11 @@ answer because macOS withheld a grant, the log line that never fires. That is wh
 launching is for, and its result is evidence in the pull request, never a substitute for
 a test.
 
+Everything below takes over the user's screen, keyboard, or focus, so it runs only
+under `AGENTS.md` › Checks that take over the Mac: never from a sub-agent (it reports the
+check as owed), and from the session that talks to the user only after announcing the
+batch and getting a yes that time.
+
 ## Launch the build you just made
 
 ```bash
