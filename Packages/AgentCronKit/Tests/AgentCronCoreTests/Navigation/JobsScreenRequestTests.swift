@@ -1,4 +1,5 @@
 import AgentCronCore
+import AgentCronTestSupport
 import Foundation
 import Testing
 
@@ -17,6 +18,28 @@ struct JobsScreenRequestTests {
             model.newJob()
             #expect(model.pendingJobsScreenRequest?.command == .newJob)
             #expect(model.pendingJobsScreenRequest?.sequence == 1)
+        }
+    }
+
+    @Test
+    func `cancelling New Job over unsaved edits keeps the job selected for the Job menu`() throws {
+        try withScratchDefaults { defaults in
+            let navigation = MainNavigationModel(defaults: defaults)
+            let digest = JobsScreenFixture.digest
+            let (list, _) = JobsScreenFixture.loadedList([digest])
+            list.selectionRequested(jobID: digest.id)
+            navigation.select(jobID: list.selectedJobID)
+            list.editor?.nameChanged(to: "Renamed")
+            navigation.newJob()
+            let request = try #require(navigation.pendingJobsScreenRequest)
+            list.menuCommandRequested(request.command)
+            navigation.jobsScreenRequestHandled(request)
+            #expect(list.pendingSelection == .newJob)
+            list.unsavedChangesCancelled()
+            #expect(list.selectedJobID == digest.id)
+            #expect(navigation.selectedJobID == digest.id)
+            #expect(navigation.canActOnSelectedJob)
+            #expect(MainNavigationModel(defaults: defaults).selectedJobID == digest.id)
         }
     }
 

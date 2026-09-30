@@ -64,7 +64,6 @@ struct JobEditorView: View {
             }
             Button(role: .cancel) {
                 list.unsavedChangesCancelled()
-                navigation.select(jobID: list.selectedJobID)
             } label: {
                 Text(JobsScreenText.cancel)
             }
@@ -99,7 +98,6 @@ struct JobEditorView: View {
         guard case let .invalid(firstField) = list.unsavedChangesSaved() else {
             return
         }
-        navigation.select(jobID: list.selectedJobID)
         focusedField = firstField
     }
 }

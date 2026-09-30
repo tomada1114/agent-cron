@@ -112,13 +112,13 @@ public final class MainNavigationModel {
 
     // MARK: - Job commands
 
-    /// The user chose New Job (⌘N): the Jobs section shows, with no saved job selected
-    /// (`docs/product/ux-flows.md` F1), and the Jobs screen is asked to open an empty
-    /// draft (``JobListModel/menuCommandRequested(_:)``), which asks first about any
-    /// unsaved edits.
+    /// The user chose New Job (⌘N): the Jobs section shows, and the Jobs screen is asked
+    /// to open an empty draft (``JobListModel/menuCommandRequested(_:)``,
+    /// `docs/product/ux-flows.md` F1). The selection stays until the draft opens, because
+    /// unsaved edits are asked about first and Cancel keeps the job that was shown; the
+    /// screen then clears it through ``select(jobID:)``.
     public func newJob() {
         select(section: .jobs)
-        select(jobID: nil)
         request(.newJob)
     }
 
