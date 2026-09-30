@@ -11,6 +11,8 @@ import SwiftUI
 /// window's minimum width it is what gives way (⌃⌘S brings it back), never the section.
 public struct MainWindowView: View {
     private let navigation: MainNavigationModel
+    private let jobList: JobListModel?
+    private let notifications: RunNotificationController?
 
     public var body: some View {
         NavigationSplitView {
@@ -19,7 +21,7 @@ public struct MainWindowView: View {
         } detail: {
             switch navigation.section {
             case .jobs:
-                JobsSectionView()
+                JobsSectionView(navigation: navigation, list: jobList, notifications: notifications)
 
             case .history:
                 HistorySectionView()
@@ -36,8 +38,20 @@ public struct MainWindowView: View {
 
     /// Creates the shell over `navigation`, which `App/` owns for the app's lifetime
     /// because the main menu's commands act on it while the window is closed too.
-    public init(navigation: MainNavigationModel) {
+    /// - Parameters:
+    ///   - jobList: The Jobs screen's list and editor over the job store. `App/` owns it
+    ///     for the app's lifetime too, so an unsaved draft outlives the window; `nil`
+    ///     shows the Jobs section's placeholder.
+    ///   - notifications: What the Jobs screen reads the "Notifications are off" note
+    ///     from; `nil` shows no note.
+    public init(
+        navigation: MainNavigationModel,
+        jobList: JobListModel? = nil,
+        notifications: RunNotificationController? = nil,
+    ) {
         self.navigation = navigation
+        self.jobList = jobList
+        self.notifications = notifications
     }
 }
 

@@ -1,3 +1,5 @@
+import Foundation
+
 /// Which coding-agent CLI a job runs.
 ///
 /// Stored on every job from the first release so a later agent (Codex CLI) is an added
@@ -23,6 +25,19 @@ public enum AgentKind: String, Sendable, Codable, CaseIterable {
         switch self {
         case .claudeCode:
             "claude"
+        }
+    }
+
+    /// The agent's name in the job editor's read-only Agent row.
+    public var title: LocalizedStringResource {
+        switch self {
+        case .claudeCode:
+            LocalizedStringResource(
+                "agentKind.claudeCode",
+                defaultValue: "Claude Code",
+                bundle: .module,
+                comment: "The Claude Code agent's name in the job editor's Agent row. A product name.",
+            )
         }
     }
 }

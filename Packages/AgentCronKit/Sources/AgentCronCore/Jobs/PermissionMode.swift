@@ -1,3 +1,5 @@
+import Foundation
+
 /// Which tool calls the agent may make without asking, in a run nobody is watching.
 ///
 /// Cases are declared alphabetically (SwiftLint's `sorted_enum_cases`); ``allCases`` is
@@ -27,4 +29,57 @@ public enum PermissionMode: String, Sendable, Codable, CaseIterable {
         .default,
         .bypassPermissions,
     ]
+
+    /// The mode's title in the job editor's Permission menu.
+    public var title: LocalizedStringResource {
+        switch self {
+        case .auto:
+            LocalizedStringResource(
+                "permissionMode.auto",
+                defaultValue: "Auto",
+                bundle: .module,
+                comment: "Permission menu item in the job editor: the agent decides per action.",
+            )
+
+        case .acceptEdits:
+            LocalizedStringResource(
+                "permissionMode.acceptEdits",
+                defaultValue: "Accept Edits",
+                bundle: .module,
+                comment: "Permission menu item in the job editor: file edits are accepted without asking.",
+            )
+
+        case .dontAsk:
+            LocalizedStringResource(
+                "permissionMode.dontAsk",
+                defaultValue: "Don’t Ask",
+                bundle: .module,
+                comment: "Permission menu item in the job editor: anything that would ask is refused.",
+            )
+
+        case .plan:
+            LocalizedStringResource(
+                "permissionMode.plan",
+                defaultValue: "Plan",
+                bundle: .module,
+                comment: "Permission menu item in the job editor: the agent plans and changes nothing.",
+            )
+
+        case .default:
+            LocalizedStringResource(
+                "permissionMode.default",
+                defaultValue: "Default",
+                bundle: .module,
+                comment: "Permission menu item in the job editor: the agent's own default permission behavior.",
+            )
+
+        case .bypassPermissions:
+            LocalizedStringResource(
+                "permissionMode.bypassPermissions",
+                defaultValue: "Bypass Permissions",
+                bundle: .module,
+                comment: "Permission menu item in the job editor: every permission check is skipped.",
+            )
+        }
+    }
 }
