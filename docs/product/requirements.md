@@ -97,8 +97,8 @@ removes it.
 - Timeout: the process is terminated at the job's timeout and the run recorded as timed
   out.
 - Stop: the user can stop a running job; recorded as stopped.
-- Failure before start (directory missing, `claude` not found): recorded as failed with
-  the reason; follows the job's notification setting.
+- Failure before start (directory missing, `claude` not found): recorded as skipped with
+  its reason (`directoryMissing` / `agentNotFound`); follows the job's notification setting.
 
 ### 3.4 Run history
 
@@ -173,6 +173,7 @@ skipped. Clicking a notification opens that run in the history.
 - 2026-09-29 Deleting a job keeps its history (rejected: delete together).
 - 2026-09-29 Later: Codex CLI, lid-closed sleep prevention, chaining/export. Non-goal: session continuation.
 - 2026-09-29 All permission modes including `bypassPermissions`, with a warning and badge (rejected: hide bypass; only auto and dontAsk).
+- 2026-09-30 A failure before start is recorded as skipped with its reason (`directoryMissing` / `agentNotFound`), matching the run model and the dispatcher (rejected: a failed outcome) (#51).
 - 2026-09-29 Missed-run grace window 60 minutes, global (rejected: per job; 15 minutes).
 - 2026-09-29 Different jobs run in parallel (rejected: serialize per directory; serialize all).
 - 2026-09-29 Prompt typed in the app only (rejected: also a prompt file in the repository).

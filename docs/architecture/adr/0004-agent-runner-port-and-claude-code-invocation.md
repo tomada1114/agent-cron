@@ -3,6 +3,7 @@
 - **Status:** Accepted 2026-09-29: the Claude Code invocation (login shell, flags,
   per-job options, timeout). Accepted 2026-09-30: the port's shape.
 - **Date:** 2026-09-29
+- **Amended:** 2026-09-30 — a pre-flight failure is recorded as `skipped` with its `SkipReason` (`directoryMissing` / `agentNotFound`), not `failed`, matching the run model and the `Dispatcher` (#51).
 - **Deciders:** the owner
 
 ## Context
@@ -51,7 +52,8 @@ Option 1.
   SIGTERM, then SIGKILL after 10 s; reports exit code and signal.
 - **Pre-flight in Core**: directory exists; the agent resolves in the login shell
   (`command -v claude`, also used by General's agent check) — failures recorded as
-  `failed` with the reason, never thrown past the dispatcher.
+  `skipped` with a `SkipReason` (`directoryMissing` / `agentNotFound`), never thrown past
+  the dispatcher.
 - Codex CLI later adds `AgentKind.codexCLI` and a `CodexCommand` builder (`codex exec`
   with `-m`, `-s/--sandbox`, `-c model_reasoning_effort=…`, `--json`); the runner and
   scheduler do not change. Its permission vocabulary differs (sandbox modes, no
