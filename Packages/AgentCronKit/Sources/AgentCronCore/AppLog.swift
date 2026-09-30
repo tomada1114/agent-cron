@@ -34,6 +34,10 @@ public enum AppLog {
     /// story. A new concern adds a `Logger` here instead of building one inline.
     public static let frontmostApp = Logger(subsystem: subsystem, category: "frontmost-app")
 
+    /// The Jobs screen concern: ``JobListModel``, ``JobEditorModel``, and the views over
+    /// them.
+    public static let jobsScreen = Logger(subsystem: subsystem, category: "jobs-screen")
+
     /// The keep-awake concern: ``KeepAwakeController`` and the ``SleepPreventing``
     /// adapter behind it.
     public static let keepAwake = Logger(subsystem: subsystem, category: "keep-awake")

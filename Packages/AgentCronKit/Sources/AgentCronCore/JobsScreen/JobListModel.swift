@@ -46,9 +46,35 @@ public final class JobListModel {
     /// ``newJob()``, or `nil` when nothing is selected.
     public private(set) var editor: JobEditorModel?
 
+    /// Where the user asked to go while the editor held unsaved edits: the
+    /// unsaved-changes alert shows until ``unsavedChangesSaved()``,
+    /// ``unsavedChangesDiscarded()``, or ``unsavedChangesCancelled()`` answers it.
+    public private(set) var pendingSelection: JobListTarget?
+
+    /// The delete alert waiting for the user's answer (`docs/product/ux-flows.md` S5),
+    /// or `nil` when none shows.
+    public private(set) var pendingDeletion: JobDeleteConfirmation?
+
     private let store: any JobStoring
-    private let calendar: Calendar
-    private let now: @Sendable () -> Date
+    /// The calendar schedules are read in, which the rows' status lines use too.
+    let calendar: Calendar
+    /// The time the rows are read against.
+    let now: @Sendable () -> Date
+    private let directoryExists: @Sendable (URL) -> Bool
+
+    /// The identifiers of the saved jobs, for ``MainNavigationModel/knownJobsChanged(to:)``.
+    public var jobIDs: Set<UUID> {
+        Set(jobs.map(\.id))
+    }
+
+    /// The row of the selected saved job, which the editor's header reads its status
+    /// from, or `nil` for none or a new draft.
+    public var selectedRow: JobListRow? {
+        guard let selectedJobID, let job = jobs.first(where: { $0.id == selectedJobID }) else {
+            return nil
+        }
+        return row(for: job, at: now())
+    }
 
     /// The rows the list shows: enabled jobs by their next run, earliest first, then any
     /// enabled job that never fires, then paused jobs; jobs that tie keep the store's
@@ -78,15 +104,18 @@ public final class JobListModel {
 
     /// Makes a list over `store`, reading schedules in `calendar` (whose time zone is the
     /// one fire dates are computed in) against the time `now` answers. Reads nothing
-    /// until ``load()``.
+    /// until ``load()``. `directoryExists` is handed to every editor it opens
+    /// (``JobEditorModel/isDirectoryMissing``).
     public init(
         store: any JobStoring,
         calendar: Calendar,
         now: @escaping @Sendable () -> Date = { Date.now },
+        directoryExists: @escaping @Sendable (URL) -> Bool = JobEditorModel.folderExists,
     ) {
         self.store = store
         self.calendar = calendar
         self.now = now
+        self.directoryExists = directoryExists
     }
 
     /// Reads the saved jobs. On failure the list is empty and nothing is selected, since
@@ -120,9 +149,15 @@ public final class JobListModel {
             return
         }
         selectedJobID = jobID
-        let opened = JobEditorModel(editing: job, store: store, now: now) { [weak self] document in
-            self?.editorSaved(document, jobID: jobID)
-        }
+        let opened = JobEditorModel(
+            editing: job,
+            store: store,
+            now: now,
+            saved: { [weak self] document in
+                self?.editorSaved(document, jobID: jobID)
+            },
+            directoryExists: directoryExists,
+        )
         opened.runningStateChanged(isRunning: runningJobIDs.contains(jobID))
         editor = opened
     }
@@ -132,9 +167,15 @@ public final class JobListModel {
     public func newJob() {
         let id = UUID()
         selectedJobID = nil
-        editor = JobEditorModel(newJobWithID: id, store: store, now: now) { [weak self] document in
-            self?.editorSaved(document, jobID: id)
-        }
+        editor = JobEditorModel(
+            newJobWithID: id,
+            store: store,
+            now: now,
+            saved: { [weak self] document in
+                self?.editorSaved(document, jobID: id)
+            },
+            directoryExists: directoryExists,
+        )
     }
 
     /// The app saw the set of running jobs change.
@@ -172,7 +213,136 @@ public final class JobListModel {
         }
     }
 
+    // MARK: - Leaving unsaved edits
+
+    /// The Jobs screen appeared: reads the saved jobs, then goes to `jobID` — the
+    /// navigation's remembered selection — unless the editor already shows it. Going
+    /// elsewhere asks first when there are unsaved edits, as any selection does.
+    public func screenAppeared(restoringSelection jobID: UUID?) {
+        load()
+        guard jobID != selectedJobID || editor == nil else {
+            return
+        }
+        selectionRequested(jobID: jobID)
+    }
+
+    /// The user picked a row in the list, or cleared the selection with `nil`. With
+    /// unsaved edits the editor stays and ``pendingSelection`` asks first
+    /// (`docs/design/ux-guidelines.md` › Feedback and loading).
+    public func selectionRequested(jobID: UUID?) {
+        go(to: jobID.map(JobListTarget.job) ?? .nothing)
+    }
+
+    /// The user asked for a new job (New Job, ⌘N); with unsaved edits,
+    /// ``pendingSelection`` asks first.
+    public func newJobRequested() {
+        go(to: .newJob)
+    }
+
+    /// The user chose Save in the unsaved-changes alert: the draft is saved and the
+    /// pending selection follows. A save that is refused keeps the editor and drops the
+    /// pending selection, so the errors show where the user can fix them.
+    /// - Returns: What the save did, or `nil` when nothing was pending.
+    @discardableResult
+    public func unsavedChangesSaved() -> JobEditorSaveResult? {
+        guard let target = pendingSelection, let editor else {
+            pendingSelection = nil
+            return nil
+        }
+        let result = editor.save()
+        guard result == .saved else {
+            pendingSelection = nil
+            return result
+        }
+        apply(target)
+        return result
+    }
+
+    /// The user chose Don't Save: the edits are thrown away and the pending selection
+    /// follows.
+    public func unsavedChangesDiscarded() {
+        guard let target = pendingSelection else {
+            return
+        }
+        editor?.revert()
+        apply(target)
+    }
+
+    /// The user chose Cancel: the editor stays as it was, edits and all.
+    public func unsavedChangesCancelled() {
+        pendingSelection = nil
+    }
+
+    // MARK: - Deleting
+
+    /// The user asked to delete the saved job `jobID` (Delete Job…, or Job › Delete…):
+    /// ``pendingDeletion`` asks first. Nothing shows for a job that is not saved.
+    public func deleteRequested(jobID: UUID) {
+        pendingDeletion = deleteConfirmation(forJobID: jobID)
+    }
+
+    /// The user confirmed the pending deletion.
+    public func deletionConfirmed() {
+        guard let pending = pendingDeletion else {
+            return
+        }
+        pendingDeletion = nil
+        delete(jobID: pending.jobID)
+    }
+
+    /// The user cancelled the pending deletion.
+    public func deletionCancelled() {
+        pendingDeletion = nil
+    }
+
+    // MARK: - Menu commands
+
+    /// A main-menu command reached the Jobs screen through
+    /// ``MainNavigationModel/pendingJobsScreenRequest``. Enable / Disable edits the
+    /// open editor's draft, like the header's switch, and applies on save.
+    public func menuCommandRequested(_ command: JobsScreenCommand) {
+        switch command {
+        case .newJob:
+            newJobRequested()
+
+        case let .delete(jobID):
+            deleteRequested(jobID: jobID)
+
+        case let .toggleEnabled(jobID):
+            guard let editor, editor.draft.id == jobID else {
+                return
+            }
+            editor.enabledChanged(to: !editor.draft.enabled)
+        }
+    }
+
     // MARK: - Private
+
+    private func go(to target: JobListTarget) {
+        if case let .job(jobID) = target, jobID == selectedJobID, editor != nil {
+            pendingSelection = nil
+            return
+        }
+        guard let editor, editor.isEdited else {
+            apply(target)
+            return
+        }
+        pendingSelection = target
+    }
+
+    private func apply(_ target: JobListTarget) {
+        pendingSelection = nil
+        switch target {
+        case let .job(jobID):
+            select(jobID: jobID)
+
+        case .newJob:
+            newJob()
+
+        case .nothing:
+            select(jobID: nil)
+        }
+    }
 
     private func row(for job: Job, at date: Date) -> JobListRow {
         let nextRun = job.enabled

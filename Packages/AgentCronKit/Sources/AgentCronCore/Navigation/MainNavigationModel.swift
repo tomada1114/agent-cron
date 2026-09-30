@@ -32,12 +32,30 @@ public final class MainNavigationModel {
     /// The run the History section has selected, or `nil` for none.
     public private(set) var selectedRunID: UUID?
 
+    /// The menu command waiting for the Jobs screen, which reports it handled with
+    /// ``jobsScreenRequestHandled(_:)``; `nil` when none waits.
+    public private(set) var pendingJobsScreenRequest: JobsScreenRequest?
+
+    /// Whether a field or control of the job editor has keyboard focus, as last reported
+    /// by ``editorFocusChanged(isFocused:)``.
+    public private(set) var isEditorFocused = false
+
     private let defaults: UserDefaults
+    private var requestCount = 0
 
     /// Whether the Job menu's commands have a job to act on: a saved job selected while
     /// the Jobs section shows it. A menu item that cannot act is disabled, not hidden.
     public var canActOnSelectedJob: Bool {
         section == .jobs && selectedJobID != nil
+    }
+
+    /// Whether Job › Delete… can act: as ``canActOnSelectedJob``, and not while the job
+    /// editor has focus. ⌘⌫ is the menu item's key equivalent, and a menu key
+    /// equivalent reaches the menu before the focused field, so an enabled item would
+    /// turn "delete to the start of the line" in the Name or Prompt field into the delete
+    /// alert; S5 scopes the shortcut to the list.
+    public var canDeleteSelectedJob: Bool {
+        canActOnSelectedJob && !isEditorFocused
     }
 
     /// Restores the last section and selections from `defaults`, or Jobs with nothing
@@ -95,35 +113,58 @@ public final class MainNavigationModel {
     // MARK: - Job commands
 
     /// The user chose New Job (⌘N): the Jobs section shows, with no saved job selected
-    /// (`docs/product/ux-flows.md` F1). Opening the empty draft is the Jobs screen's
-    /// (#21), through ``JobListModel/newJob()``.
+    /// (`docs/product/ux-flows.md` F1), and the Jobs screen is asked to open an empty
+    /// draft (``JobListModel/menuCommandRequested(_:)``), which asks first about any
+    /// unsaved edits.
     public func newJob() {
         select(section: .jobs)
         select(jobID: nil)
+        request(.newJob)
     }
 
-    /// The user chose Run Now (⌘R). A stub until the Jobs screen (#21) routes it to the
-    /// runner; it only records the request.
+    /// The user chose Run Now (⌘R). A stub until the runner is wired in (#28); it only
+    /// records the request.
     public func runSelectedJobNow() {
         requestJobCommand("run now")
     }
 
-    /// The user chose Stop (⌘.). A stub until the Jobs screen (#21) routes it to the
-    /// runner; it only records the request.
+    /// The user chose Stop (⌘.). A stub until the runner is wired in (#28); it only
+    /// records the request.
     public func stopSelectedJob() {
         requestJobCommand("stop")
     }
 
-    /// The user chose Enable / Disable (⌘E). A stub until the Jobs screen (#21) routes it
-    /// to ``JobEditorModel/enabledChanged(to:)``; it only records the request.
+    /// The user chose Enable / Disable (⌘E): the Jobs screen flips the selected job's
+    /// Enabled switch in its editor, which applies on save.
     public func toggleSelectedJobEnabled() {
-        requestJobCommand("enable or disable")
+        guard canActOnSelectedJob, let selectedJobID else {
+            AppLog.navigation.debug("job command enable or disable ignored: no job selected")
+            return
+        }
+        request(.toggleEnabled(jobID: selectedJobID))
     }
 
-    /// The user chose Delete… (⌘⌫). A stub until the Jobs screen (#21) routes it to
-    /// ``JobListModel/deleteConfirmation(forJobID:)``; it only records the request.
+    /// The user chose Delete… (⌘⌫): the Jobs screen asks before deleting the selected
+    /// job (S5). Ignored while ``canDeleteSelectedJob`` is false.
     public func deleteSelectedJob() {
-        requestJobCommand("delete")
+        guard canDeleteSelectedJob, let selectedJobID else {
+            AppLog.navigation.debug("job command delete ignored: no job selected or editor focused")
+            return
+        }
+        request(.delete(jobID: selectedJobID))
+    }
+
+    /// The Jobs screen carried out `request`. A newer request that arrived meanwhile
+    /// stays pending.
+    public func jobsScreenRequestHandled(_ request: JobsScreenRequest) {
+        if pendingJobsScreenRequest == request {
+            pendingJobsScreenRequest = nil
+        }
+    }
+
+    /// Keyboard focus entered or left the job editor's fields and controls.
+    public func editorFocusChanged(isFocused: Bool) {
+        isEditorFocused = isFocused
     }
 
     // MARK: - Private
@@ -136,6 +177,11 @@ public final class MainNavigationModel {
         }
     }
 
+    private func request(_ command: JobsScreenCommand) {
+        requestCount += 1
+        pendingJobsScreenRequest = JobsScreenRequest(command: command, sequence: requestCount)
+    }
+
     private func requestJobCommand(_ command: String) {
         guard canActOnSelectedJob else {
             AppLog.navigation
@@ -144,7 +190,7 @@ public final class MainNavigationModel {
         }
         AppLog.navigation
             .debug(
-                "job command \(command, privacy: .public) requested; the Jobs screen does not handle it yet",
+                "job command \(command, privacy: .public) requested; the runner is not wired in yet",
             )
     }
 }
