@@ -4,6 +4,7 @@
   per-job options, timeout). Accepted 2026-09-30: the port's shape.
 - **Date:** 2026-09-29
 - **Amended:** 2026-09-30 — a pre-flight failure is recorded as `skipped` with its `SkipReason` (`directoryMissing` / `agentNotFound`), not `failed`, matching the run model and the `Dispatcher` (#51).
+- **Amended:** 2026-09-30 — the prompt moves after every option and an end-of-options `--`, because Claude Code rejects a bare prompt starting with `-` as an unknown option; checked by hand, `--` passes it through as text (#42).
 - **Deciders:** the owner
 
 ## Context
@@ -33,9 +34,10 @@ Option 1.
 
 - `Job.agent: AgentKind` (`claudeCode` only in MVP) is stored from day one.
 - **Core — `ClaudeCodeCommand`** builds argv:
-  `claude -p <prompt> --output-format json --permission-mode <mode>` plus `--model
-  <alias>` and `--effort <level>` only when the job sets them (default: flag omitted, so
-  Claude Code's own settings apply). Permission modes offered: `auto` (default),
+  `claude -p --output-format json --permission-mode <mode>` plus `--model <alias>` and
+  `--effort <level>` only when the job sets them (default: flag omitted, so Claude Code's
+  own settings apply), then `--` and the prompt last, so a prompt starting with `-` is
+  never read as an option. Permission modes offered: `auto` (default),
   `acceptEdits`, `dontAsk`, `plan`, `default`, `bypassPermissions` (with the warning in
   `ux-flows.md` S6). Effort levels offered: `low`, `medium`, `high`, `xhigh`, `max`,
   filtered to the levels the chosen model supports; `ultracode` is not offered (it turns
