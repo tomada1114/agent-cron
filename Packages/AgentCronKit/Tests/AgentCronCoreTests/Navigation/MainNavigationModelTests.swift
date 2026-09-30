@@ -26,6 +26,17 @@ struct MainNavigationModelTests {
 
     // MARK: - Selecting
 
+    @Test
+    func `opening a run's job shows Jobs with that job selected`() throws {
+        try withScratchDefaults { defaults in
+            let model = MainNavigationModel(defaults: defaults)
+            model.select(section: .history)
+            model.showJob(Self.jobID)
+            #expect(model.section == .jobs)
+            #expect(model.selectedJobID == Self.jobID)
+        }
+    }
+
     @Test(arguments: [MainSection.jobs, .history, .general])
     func `selecting a section shows it and is restored on relaunch`(section: MainSection) throws {
         try withScratchDefaults { defaults in
