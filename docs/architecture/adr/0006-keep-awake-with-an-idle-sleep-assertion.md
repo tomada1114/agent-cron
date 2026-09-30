@@ -1,6 +1,7 @@
 # ADR-0006: Keep the Mac awake with an idle-sleep power assertion
 
 - **Status:** Accepted 2026-09-29
+- **Amended:** 2026-09-30 — the adapter's local-machine test ran the assertion unelevated; Sources updated to say what that did and did not verify.
 - **Date:** 2026-09-29
 - **Deciders:** the owner
 
@@ -52,7 +53,7 @@ now`, so the manual timer and running jobs never fight. Durations: Off / 1 hour 
 ## Sources
 
 - <https://developer.apple.com/documentation/iokit/kiopmassertiontypepreventuseridlesystemsleep> — prevents idle system sleep; the display may still sleep; "the system may still sleep for lid close, Apple menu, low battery, or other sleep reasons" — checked 2026-09-29
-- Unverified: that creating the assertion needs no admin rights (it is how `caffeinate -i` works for an ordinary user); confirm on the adapter's local-machine test.
+- Checked 2026-09-30 by `PowerAssertionSleepPreventerTests` (`just test-local`): a test process running without root and without any authorization prompt creates the assertion, `pmset -g assertions` lists it by name as `PreventUserIdleSystemSleep`, and releasing it removes it. That account is in the admin group, so a standard (non-admin) account is still unverified.
 
 ## Related
 
