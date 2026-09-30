@@ -295,6 +295,142 @@
         }
       }
     },
+    "outcomeBadge.bypass" : {
+      "comment" : "Text label of the bypass status badge next to its glyph.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bypass"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バイパス"
+          }
+        }
+      }
+    },
+    "outcomeBadge.failed" : {
+      "comment" : "Text label of the failed status badge next to its glyph.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "失敗"
+          }
+        }
+      }
+    },
+    "outcomeBadge.running" : {
+      "comment" : "Text label of the running status badge next to its glyph.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Running"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "実行中"
+          }
+        }
+      }
+    },
+    "outcomeBadge.skipped" : {
+      "comment" : "Text label of the skipped status badge next to its glyph.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skipped"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スキップ"
+          }
+        }
+      }
+    },
+    "outcomeBadge.stopped" : {
+      "comment" : "Text label of the stopped status badge next to its glyph.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stopped"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止"
+          }
+        }
+      }
+    },
+    "outcomeBadge.succeeded" : {
+      "comment" : "Text label of the succeeded status badge next to its glyph.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Succeeded"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "成功"
+          }
+        }
+      }
+    },
+    "outcomeBadge.timedOut" : {
+      "comment" : "Text label of the timed out status badge next to its glyph.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timed Out"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タイムアウト"
+          }
+        }
+      }
+    },
+    "outcomeBadge.upcoming" : {
+      "comment" : "Text label of the upcoming status badge next to its glyph.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upcoming"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "予定"
+          }
+        }
+      }
+    },
     "schedulePreset.everyDay" : {
       "comment" : "Days preset in the job editor, and a schedule summary's name for all seven days.",
       "localizations" : {

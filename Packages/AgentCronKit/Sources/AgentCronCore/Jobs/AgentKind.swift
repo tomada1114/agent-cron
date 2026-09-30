@@ -7,4 +7,13 @@
 public enum AgentKind: String, Sendable, Codable, CaseIterable {
     /// Claude Code, run headless as `claude -p`.
     case claudeCode = "claude_code"
+
+    /// The builder that speaks this agent's command line and reads its output — the one
+    /// place a caller turns a kind into an agent's vocabulary (``AgentCommandBuilding``).
+    public var commandBuilder: any AgentCommandBuilding {
+        switch self {
+        case .claudeCode:
+            ClaudeCodeCommand()
+        }
+    }
 }
