@@ -2523,6 +2523,66 @@
         }
       }
     },
+    "popover.banner.failures" : {
+      "comment" : "Menu-bar popover banner for failed runs the user has not seen. The argument is the count.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld failed run since you last looked."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld failed runs since you last looked."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "popover.banner.openGeneral" : {
+      "comment" : "Button in the menu-bar popover's agent-not-found banner that opens General.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open General"
+          }
+        }
+      }
+    },
+    "popover.banner.view" : {
+      "comment" : "Button in the menu-bar popover's failure banner that opens History.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View"
+          }
+        }
+      }
+    },
+    "popover.day.today" : {
+      "comment" : "Heading above today's rows in the menu-bar popover's timeline.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today"
+          }
+        }
+      }
+    },
     "popover.day.tomorrow" : {
       "comment" : "Day label of the menu-bar popover's next run when it is tomorrow.",
       "extractionState" : "manual",
@@ -2559,6 +2619,18 @@
         }
       }
     },
+    "popover.empty.createFirstJob" : {
+      "comment" : "Button in the menu-bar popover when no job is saved; opens a new job.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create your first job"
+          }
+        }
+      }
+    },
     "popover.empty.noJobs" : {
       "comment" : "Menu-bar popover empty state when no job is saved.",
       "extractionState" : "manual",
@@ -2591,6 +2663,78 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "今日の予定はありません。次回：%1$@ %2$@ %3$@"
+          }
+        }
+      }
+    },
+    "popover.empty.openJobs" : {
+      "comment" : "Button in the menu-bar popover when every job is paused; opens Jobs.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Jobs"
+          }
+        }
+      }
+    },
+    "popover.footer.newJob" : {
+      "comment" : "Button in the menu-bar popover's footer that opens a new job.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Job"
+          }
+        }
+      }
+    },
+    "popover.footer.quit" : {
+      "comment" : "Button in the menu-bar popover's footer that quits the app.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quit"
+          }
+        }
+      }
+    },
+    "popover.keepAwake.remaining" : {
+      "comment" : "Time left on a timed keep-awake choice in the menu-bar popover. The argument is hours:minutes.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(%@ left)"
+          }
+        }
+      }
+    },
+    "popover.keepAwake.title" : {
+      "comment" : "Label of the keep-awake menu in the menu-bar popover.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep awake"
+          }
+        }
+      }
+    },
+    "popover.row.stop" : {
+      "comment" : "Accessibility label of the Stop button on a running row. The argument is the job's name.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop %@"
           }
         }
       }

@@ -22,6 +22,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   ask before deleting. ⌘⌫ in a text field still deletes to the start of the line. It
   shows jobs once the app is wired to its job store; until then the section keeps its
   placeholder.
+- The menu-bar popover now shows today's timeline — finished runs with their outcome,
+  duration, and cost (click one to open it in History), running runs with elapsed time
+  and Stop, and upcoming runs — with a banner for failed runs since you last looked and
+  for a missing claude CLI, empty states for no jobs, nothing today, and all jobs paused,
+  a Keep awake menu (Off, 1 hour, 4 hours, Until turned off) with the time left, and New
+  Job, Open AgentCron… (⌘,), and Quit (⌘Q). The status item shows a filled clock while a
+  job runs, a cup while kept awake, and a red dot for unseen failures. Stopping a run
+  and keeping the Mac awake take effect once the scheduler is wired in.
 - The General screen: a Launch at login switch (with Open Login Items while macOS waits
   for your approval), where `claude` resolves in your login shell and its version with
   Check Again, and notes that the Mac stays awake while jobs run and that runs are kept
