@@ -5,6 +5,8 @@ extension LocalizationTests {
     /// Every resource the popover model returns, once per key, with the English
     /// arguments each takes.
     static func popoverCases() -> [Case] {
+        let bannerCount = 3
+        let remainingSeconds = 14_340
         let next = PopoverRow(
             id: "next",
             date: PopoverFixture.tuesday(PopoverFixture.nineHour, 0, plusDays: 1),
@@ -30,6 +32,18 @@ extension LocalizationTests {
         } + [
             Case(resource: PopoverBanner.agentNotFound, arguments: []),
             Case(resource: PopoverDay.tomorrow.label ?? PopoverBanner.agentNotFound, arguments: []),
-        ] + KeepAwakeMode.menuOrder.map { Case(resource: $0.label, arguments: []) }
+        ] + KeepAwakeMode.menuOrder.map { Case(resource: $0.label, arguments: []) } + [
+            Case(resource: PopoverText.failureBanner(count: bannerCount), arguments: [bannerCount]),
+            Case(resource: PopoverText.view, arguments: []),
+            Case(resource: PopoverText.openGeneral, arguments: []),
+            Case(resource: PopoverText.createFirstJob, arguments: []),
+            Case(resource: PopoverText.openJobs, arguments: []),
+            Case(resource: PopoverText.today, arguments: []),
+            Case(resource: PopoverText.stop(jobName: "RSS digest"), arguments: ["RSS digest"]),
+            Case(resource: PopoverText.keepAwake, arguments: []),
+            Case(resource: PopoverText.remaining(.seconds(remainingSeconds)), arguments: ["3:59"]),
+            Case(resource: PopoverText.newJob, arguments: []),
+            Case(resource: PopoverText.quit, arguments: []),
+        ]
     }
 }
