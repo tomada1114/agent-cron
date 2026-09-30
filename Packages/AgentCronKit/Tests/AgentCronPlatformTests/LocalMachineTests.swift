@@ -22,7 +22,14 @@ enum LocalMachineTests {
 
     /// Whether this process was started with the opt-in.
     static var isOptedIn: Bool {
-        guard let raw = ProcessInfo.processInfo.environment[optInVariable] else {
+        isOptedIn(to: optInVariable)
+    }
+
+    /// Whether this process was started with `variable` set to anything other than empty,
+    /// `0`, or `false` — the rule every opt-in here follows, including the ones a single
+    /// suite adds on top of this one.
+    static func isOptedIn(to variable: String) -> Bool {
+        guard let raw = ProcessInfo.processInfo.environment[variable] else {
             return false
         }
         return !["", "0", "false"].contains(raw)
