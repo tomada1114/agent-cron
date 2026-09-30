@@ -160,7 +160,11 @@ public final class GeneralModel {
         } else {
             spinner.cancel()
         }
-        agent = result
+        // A cancelled check (the user left General) ends as "stopped", which says
+        // nothing about the agent, so the last real answer stays.
+        if !Task.isCancelled {
+            agent = result
+        }
         showsSpinner = false
         isChecking = false
     }
