@@ -1,7 +1,7 @@
+import AgentCronCore
+import AgentCronPlatform
+import AgentCronTestSupport
 import AppKit
-import MyAppCore
-import MyAppPlatform
-import MyAppTestSupport
 import Testing
 
 /// The worked example of a local-machine adapter test, and the shape every other one
@@ -14,7 +14,7 @@ import Testing
 /// coverage floor sees it (`.claude/rules/testing.md` › Where a test goes).
 ///
 /// Beside the translation test sits the adapter half of the port's contract suite:
-/// `FrontmostAppProvidingContract`, the same function `MyAppCoreTests` runs against the
+/// `FrontmostAppProvidingContract`, the same function `AgentCronCoreTests` runs against the
 /// fake on every `just test` (`.claude/rules/testing.md` › One Contract Suite per Port).
 ///
 /// `WorkspaceFrontmostAppProvider` needs no TCC grant; it needs a logged-in GUI

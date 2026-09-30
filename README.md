@@ -1,7 +1,7 @@
-# my-app
+# agent-cron
 
-[![CI](https://github.com/your-username/my-app/actions/workflows/ci.yml/badge.svg)](https://github.com/your-username/my-app/actions/workflows/ci.yml)
-[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/your-username/my-app/badge)](https://scorecard.dev/viewer/?uri=github.com/your-username/my-app)
+[![CI](https://github.com/tomada1114/agent-cron/actions/workflows/ci.yml/badge.svg)](https://github.com/tomada1114/agent-cron/actions/workflows/ci.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/tomada1114/agent-cron/badge)](https://scorecard.dev/viewer/?uri=github.com/tomada1114/agent-cron)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 A strict, supply-chain-hardened GitHub template for open-source macOS apps.
@@ -21,12 +21,12 @@ Prerequisites: Xcode 26.5+, [mise](https://mise.jdx.dev/), and
 [Just](https://just.systems) (`brew install mise just`).
 
 ```bash
-git clone https://github.com/your-username/my-app.git
-cd my-app
+git clone https://github.com/tomada1114/agent-cron.git
+cd agent-cron
 mise trust     # approve mise.toml once — mise refuses untrusted configs
 just install   # pinned tools via mise + git hooks + xcodegen generate
 just check     # verify-hooks → fmt → lint → test-scripts → check-harness → test → build
-open MyApp.xcodeproj
+open AgentCron.xcodeproj
 ```
 
 ## Design Philosophy
@@ -46,16 +46,16 @@ away from if that ever matters.
 ### Why a thin app shell + local Swift package?
 
 `App/` contains only the `@main` entry point and resources. Everything real
-lives in `Packages/MyAppKit`, so tests run with plain `swift test` — no
+lives in `Packages/AgentCronKit`, so tests run with plain `swift test` — no
 simulator, no signing, no Xcode project required. Precedent: pointfreeco's
 isowords.
 
 ### Why the Core/UI/Platform split and a coverage floor on Core only?
 
-`MyAppCore` holds all logic and never imports a UI or OS-integration framework
+`AgentCronCore` holds all logic and never imports a UI or OS-integration framework
 (SwiftUI, AppKit, UIKit, Cocoa, ApplicationServices, Carbon, ServiceManagement —
-a lint rule and a test both enforce it); `MyAppUI` holds thin
-views; `MyAppPlatform` holds the adapters that do talk to the OS, each behind a
+a lint rule and a test both enforce it); `AgentCronUI` holds thin
+views; `AgentCronPlatform` holds the adapters that do talk to the OS, each behind a
 protocol Core declares, so a test can substitute a fake and `App/` decides which
 implementation the app gets (`docs/architecture.md`). The 80% line-coverage and 75%
 function-coverage floors apply to Core only — that is what makes a
@@ -69,7 +69,7 @@ no test calls cannot hide under the line floor.
 User-facing wording is a decision like any other, so it lives where the
 coverage floor sees it: Core view models return `LocalizedStringResource`
 (Foundation, not a UI framework), and the one `Localizable.xcstrings` sits in
-`MyAppCore` beside them. Views render those resources and carry no literal of
+`AgentCronCore` beside them. Views render those resources and carry no literal of
 their own, because a SwiftUI literal is looked up in the app's main bundle, not
 the package's. The template ships English alone — `defaultLocalization: "en"`
 and one catalog — since a second language makes every later string owe a
@@ -161,7 +161,7 @@ secrets — no workflow edits. See docs/distribution.md.
    (`.github/labels.yml`; issue forms rely on these labels existing)
 6. Update `README.md` (this file), `SECURITY.md`, the rest of `AGENTS.md`, and
    `CODE_OF_CONDUCT.md` for your app (the conduct-reporting contact stays
-   `you@example.com` if `--email` was omitted, so check it), and review
+   `tmasuyama1114@gmail.com` if `--email` was omitted, so check it), and review
    `LICENSE`'s copyright line (`CHANGELOG.md` is reset automatically)
 7. Replace or remove the example code — the counter and the `FrontmostApp`
    port/adapter — following the checklist in

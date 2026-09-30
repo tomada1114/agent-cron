@@ -1,4 +1,4 @@
-import MyAppCore
+import AgentCronCore
 import Testing
 
 @Suite("Counter")

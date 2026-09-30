@@ -1,9 +1,9 @@
-import MyAppCore
-import MyAppTestSupport
+import AgentCronCore
+import AgentCronTestSupport
 import Testing
 
 /// The fake half of the `FrontmostAppProviding` contract suite: the same
-/// ``FrontmostAppProvidingContract`` that `MyAppPlatformTests` runs against the real
+/// ``FrontmostAppProvidingContract`` that `AgentCronPlatformTests` runs against the real
 /// adapter under `just test-local` runs here against ``FakeFrontmostAppProvider``, on
 /// every `just test` and in CI, so the fake cannot drift from the port's promises.
 @Suite("FrontmostAppProviding contract, against the fake")

@@ -1,5 +1,5 @@
+import AgentCronCore
 import Foundation
-import MyAppCore
 import Testing
 
 @MainActor

@@ -1,12 +1,12 @@
+import AgentCronCore
 import AppKit
-import MyAppCore
 
-/// The `NSWorkspace`-backed adapter for ``MyAppCore/FrontmostAppProviding``.
+/// The `NSWorkspace`-backed adapter for ``AgentCronCore/FrontmostAppProviding``.
 ///
 /// The template's worked example of an adapter, and the shape every other one copies:
 /// it imports the OS framework Core may not, translates the OS type into Core's value
-/// type, and holds no branching domain logic of its own. That is why `MyAppPlatform`
-/// sits outside the coverage floor (`scripts/coverage.sh` measures `MyAppCore` only) —
+/// type, and holds no branching domain logic of its own. That is why `AgentCronPlatform`
+/// sits outside the coverage floor (`scripts/coverage.sh` measures `AgentCronCore` only) —
 /// a decision that would need a test belongs in Core, behind the port. What is checked
 /// here instead is the translation, by the local-machine test
 /// `WorkspaceFrontmostAppProviderTests`: opt-in, human-run (`just test-local`), and

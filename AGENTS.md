@@ -19,47 +19,55 @@ keeping a second copy that goes stale.
 
 This is a macOS SwiftUI app built from a strict template: XcodeGen generates the
 Xcode project from `project.yml`, all real code lives in a local Swift package
-(`Packages/MyAppKit`), and quality gates (SwiftLint strict, SwiftFormat, Swift 6
+(`Packages/AgentCronKit`), and quality gates (SwiftLint strict, SwiftFormat, Swift 6
 language mode, an 80% line-coverage and a 75% function-coverage floor on the Core
 module) are enforced from day one.
 
 ## Product
 
-**TODO: in the template this section is a placeholder.** It is the one part of this
-file about the application rather than the harness, so every repository cut from the
-template writes its own: without it an agent implementing an issue here has no in-repo
-answer to "is this in scope?". Fill in every `TODO:` below right after the rename
-(`README.md`'s "Using This Template", step 3) — once `scripts/bootstrap.sh` has run,
-`just check-harness` fails while one is left
-(`scripts/checks/product-section-filled.sh`).
-
-- **What it is, and who it is for** — TODO: one paragraph. The problem it solves, and
-  whose problem that is.
-- **The core interaction** — TODO: the one thing a user does most. If the app does not
-  do this well, nothing else about it matters.
-- **Non-goals** — TODO: what this app deliberately does not do, even where it would be
-  easy. A first version's cut list is longer than its feature list, and this is the
-  line an eager implementer crosses first: moving anything from here to a goal is a
-  human's decision, not an implementer's.
-- **Where these decisions are recorded** — TODO: where the reasoning behind the three
-  entries above lives — an ADR under `docs/architecture/` (see "Before changing the
-  architecture"), a design issue, or another decision log — so a reader can find why
-  and not only what.
+- **What it is, and who it is for** — AgentCron is a macOS menu-bar app that runs a
+  coding-agent CLI — Claude Code today (`claude -p`), Codex CLI later — in one-shot
+  headless mode on a schedule: a stored prompt, in a chosen directory, on chosen weekdays
+  and times. It is for a single developer on their own Mac who wants recurring agent
+  chores (summarizing RSS news into an HTML page in a repository, reviewing and merging
+  safe Dependabot PRs) to happen without opening a terminal, and who needs to see
+  afterwards that each run happened and what it decided. It also keeps the Mac from idle
+  sleep while jobs run, or on demand.
+- **The core interaction** — define a job (directory + prompt + weekdays and times +
+  agent options), then glance at the menu bar to see what runs next and whether recent
+  runs succeeded. A scheduled run must produce the same result as running the same
+  prompt by hand with `claude -p` in that directory.
+- **Non-goals** —
+  - Continuing a previous agent session (`--continue` / `--resume`); every run is fresh.
+  - Running while the app is not running (launchd plists, a daemon); the app is the
+    scheduler.
+  - Cron expressions and interval schedules; weekdays + times only.
+  - Full stream logs of tool calls; only the final result and run metadata are kept.
+  - Per-job tool allow/deny lists, max turns, or budget caps; timeout is the only limit.
+  - Multiple users, accounts, sync across Macs, remote triggers.
+  - Sandboxed or Mac App Store distribution.
+  - Prompt files; the prompt is typed in the app.
+  - Later, not now (a human moves these): Codex CLI, lid-closed sleep prevention, job
+    chaining and export/import, duplicating a job.
+- **Where these decisions are recorded** — `docs/product/requirements.md` (scope,
+  features, and its decision log), `docs/product/ux-flows.md`,
+  `docs/design/ux-guidelines.md`, `docs/design/design-direction.md`, and the ADRs under
+  `docs/architecture/adr/`.
 
 ## Quick Reference
 
 ```bash
 just install   # Install pinned tools (mise), git hooks, and generate the Xcode project
-just generate  # Regenerate MyApp.xcodeproj from project.yml
+just generate  # Regenerate AgentCron.xcodeproj from project.yml
 just fmt       # Format code (swiftformat)
 just fix       # Format, auto-fix SwiftLint violations, then run just lint
 just lint      # Lint (scripts/lint.sh: swiftformat --lint + swiftlint --strict + shellcheck + actionlint + typos)
 just verify-hooks  # Verify the git hooks are installed and executable (scripts/verify-hooks.sh)
 just test-scripts  # Run the plain-bash tests for scripts/ and the skills' Python suites (scripts/tests/run.sh)
 just check-harness # Re-assert the harness's claims about itself (scripts/checks/run-all.sh)
-just test      # Run tests with the 80% line / 75% function coverage floors on MyAppCore
+just test      # Run tests with the 80% line / 75% function coverage floors on AgentCronCore
 just test-fast CounterTests  # Run only the matching tests, no coverage floor (iteration only)
-just test-local    # Run the local-machine adapter tests (MyAppPlatformTests) CI cannot run
+just test-local    # Run the local-machine adapter tests (AgentCronPlatformTests) CI cannot run
 just build     # Build the app (Debug)
 just run       # Build (Debug), quit any running instance, and launch the fresh build
 just logs      # Stream this app's unified-log output (Ctrl-C to stop)
@@ -86,16 +94,16 @@ job call.
 
 | What you changed | The narrowest check that can fail |
 |---|---|
-| A Swift file under `Packages/MyAppKit/Sources/MyAppCore/` | `just test` |
-| A test under `Packages/MyAppKit/Tests/MyAppCoreTests/` | `just test` |
-| A view under `Packages/MyAppKit/Sources/MyAppUI/`, or anything under `App/` | `just build` |
-| An adapter under `Packages/MyAppKit/Sources/MyAppPlatform/` | `just test` (it compiles under `swift test`); then `just test-local` for its real-OS test, whose output goes in the PR; `just build` if `App/` wires it |
-| A test under `Packages/MyAppKit/Tests/MyAppPlatformTests/` | `just test-local` (`just test` and CI report these skipped — they are human-run) |
-| A fake or a port contract under `Packages/MyAppKit/Tests/MyAppTestSupport/` | `just test` (the contract against the fake); then `just test-local` (the contract against the real adapter) |
+| A Swift file under `Packages/AgentCronKit/Sources/AgentCronCore/` | `just test` |
+| A test under `Packages/AgentCronKit/Tests/AgentCronCoreTests/` | `just test` |
+| A view under `Packages/AgentCronKit/Sources/AgentCronUI/`, or anything under `App/` | `just build` |
+| An adapter under `Packages/AgentCronKit/Sources/AgentCronPlatform/` | `just test` (it compiles under `swift test`); then `just test-local` for its real-OS test, whose output goes in the PR; `just build` if `App/` wires it |
+| A test under `Packages/AgentCronKit/Tests/AgentCronPlatformTests/` | `just test-local` (`just test` and CI report these skipped — they are human-run) |
+| A fake or a port contract under `Packages/AgentCronKit/Tests/AgentCronTestSupport/` | `just test` (the contract against the fake); then `just test-local` (the contract against the real adapter) |
 | Formatting or style of any Swift file | `just lint` |
 | A SwiftLint or SwiftFormat violation that may be auto-fixable | `just fix` (formats, runs `swiftlint --fix`, then `just lint` reports what still needs a hand edit) |
 | One Core suite, while iterating | `just test-fast <filter>` (e.g. `just test-fast CounterTests`) — no coverage floor, so finish with `just test` |
-| `Packages/MyAppKit/Sources/MyAppCore/Resources/Localizable.xcstrings`, or a `LocalizedStringResource` in Core | `just test` (`LocalizationTests` scans Core's `LocalizedStringResource(…)` calls and holds their keys and English to the catalog); `just build` to compile the catalog into the app |
+| `Packages/AgentCronKit/Sources/AgentCronCore/Resources/Localizable.xcstrings`, or a `LocalizedStringResource` in Core | `just test` (`LocalizationTests` scans Core's `LocalizedStringResource(…)` calls and holds their keys and English to the catalog); `just build` to compile the catalog into the app |
 | `project.yml`, or `Config/Debug.xcconfig` | `just generate && just build` |
 | A test under `LaunchUITests/`, or launch behavior | `just uitest` |
 | The Release configuration, or anything only a Release launch shows | `just smoke` |
@@ -115,25 +123,25 @@ job call.
 
 ```
 App/                        # Thin shell: @main entry point + resources, NO logic.
-                            #   The composition root: builds MyAppPlatform adapters
+                            #   The composition root: builds AgentCronPlatform adapters
                             #   and hands them to Core view models
-Packages/MyAppKit/
-├── Sources/MyAppCore/      # Domain logic + view models + the ports (protocols) OS
+Packages/AgentCronKit/
+├── Sources/AgentCronCore/      # Domain logic + view models + the ports (protocols) OS
 │                           #   code is reached through — platform-agnostic, no
 │                           #   SwiftUI/AppKit/UIKit/Cocoa/ApplicationServices/
 │                           #   Carbon/ServiceManagement import (enforced by lint
 │                           #   and test), coverage-gated at 80% of lines
 │                           #   and 75% of functions
-├── Sources/MyAppUI/        # SwiftUI views — thin, delegate to Core view models
-├── Sources/MyAppPlatform/  # OS-integration adapters behind Core ports (AppKit and
+├── Sources/AgentCronUI/        # SwiftUI views — thin, delegate to Core view models
+├── Sources/AgentCronPlatform/  # OS-integration adapters behind Core ports (AppKit and
 │                           #   friends) — translation only, no domain logic, and
 │                           #   deliberately outside the coverage floor
-├── Tests/MyAppTestSupport/ # Test code both test targets share: each port's fake and
+├── Tests/AgentCronTestSupport/ # Test code both test targets share: each port's fake and
 │                           #   its contract function — a library target no product
 │                           #   exports and no shipped module imports (enforced by
 │                           #   test), outside the coverage floor
-├── Tests/MyAppCoreTests/   # Swift Testing suites — CI-run, coverage-gated
-└── Tests/MyAppPlatformTests/
+├── Tests/AgentCronCoreTests/   # Swift Testing suites — CI-run, coverage-gated
+└── Tests/AgentCronPlatformTests/
                             # Adapter tests against the real OS — opt-in and human-run
                             #   (`just test-local`), reported as skipped everywhere else
 LaunchUITests/              # XCUITest launch guarantee (XCTest by necessity)
@@ -142,26 +150,26 @@ Config/Debug.xcconfig       # Debug-only build settings project.yml cannot expre
                             #   Config/Local.xcconfig (a local signing identity)
 ```
 
-- New logic goes in `MyAppCore` with tests; views only render Core state
+- New logic goes in `AgentCronCore` with tests; views only render Core state
 - The dependency direction is one-way: Core ← UI and Core ← Platform, both ← App.
-  `MyAppUI` and `MyAppPlatform` are siblings and never import each other
-- OS integration goes in `MyAppPlatform` as an adapter behind a `Sendable` port Core
+  `AgentCronUI` and `AgentCronPlatform` are siblings and never import each other
+- OS integration goes in `AgentCronPlatform` as an adapter behind a `Sendable` port Core
   declares; a Core test substitutes a fake for that port, and `App/` picks the real one.
   Adapters translate and never decide — a decision belongs in Core, which is why
   Platform stays outside the coverage floor (`scripts/coverage.sh` measures Core only).
   The worked example is `FrontmostAppProviding` / `WorkspaceFrontmostAppProvider`
   (`docs/architecture.md` › Ports and adapters)
-- The translation an adapter does *is* checked, just not by a gate: `Tests/MyAppPlatformTests`
+- The translation an adapter does *is* checked, just not by a gate: `Tests/AgentCronPlatformTests`
   runs it against the real OS behind the `.requiresLocalMachine` opt-in, so a human runs
   it with `just test-local` and puts the output in the PR, while `just test` and CI
   report those tests as skipped (`.claude/rules/testing.md` › Where a Test Goes)
 - A fake keeps the port's promises only while something checks it against the adapter:
-  each port's fake and one contract function live in `Tests/MyAppTestSupport`, which
-  `MyAppCoreTests` runs against the fake (`just test`) and `MyAppPlatformTests` against
+  each port's fake and one contract function live in `Tests/AgentCronTestSupport`, which
+  `AgentCronCoreTests` runs against the fake (`just test`) and `AgentCronPlatformTests` against
   the real adapter (`just test-local`) (`.claude/rules/testing.md` › One Contract Suite
   per Port). It is test code: no shipped module imports it, which
   `ArchitectureBoundaryTests` enforces
-- `MyAppCore` never imports SwiftUI, AppKit, UIKit, Cocoa, ApplicationServices, Carbon,
+- `AgentCronCore` never imports SwiftUI, AppKit, UIKit, Cocoa, ApplicationServices, Carbon,
   or ServiceManagement — in any spelling, including `@preconcurrency import AppKit` and
   `import struct SwiftUI.Color`. SwiftPM cannot block a
   system framework, so this is enforced twice: `.swiftlint.yml`'s `no_ui_import_in_core`
@@ -169,10 +177,10 @@ Config/Debug.xcconfig       # Debug-only build settings project.yml cannot expre
   `scripts/checks/core-ban-lists-agree.sh` (`just check-harness`) fails when they differ.
   `os`/`OSLog` are deliberately *not* on that list — logging is neither a UI nor an
   OS-integration framework, so Core logs directly (`docs/architecture.md` › Logging)
-- Shipped code logs through `os.Logger`, declared once in `MyAppCore`'s `AppLog`;
+- Shipped code logs through `os.Logger`, declared once in `AgentCronCore`'s `AppLog`;
   `print`, `debugPrint`, and `NSLog` are rejected under `Packages/*/Sources/` and `App/`
   by `.swiftlint.yml`'s `no_print_in_sources` (`.claude/rules/swift.md` › Logging)
-- `MyApp.xcodeproj` is generated — edit `project.yml` instead
+- `AgentCron.xcodeproj` is generated — edit `project.yml` instead
 - Four things are contract rather than private — Core's public API, the bundle
   identifier, `UserDefaults` keys, and file formats — and each changes only as
   `docs/architecture.md` › What is contract and what is private says
@@ -224,7 +232,7 @@ tool that sees the generated copy rather than the authored one:
 |---|---|
 | `smart-commit` | committing and pushing changes: grouping them into Conventional Commits, excluding sensitive files |
 | `create-pr` | opening or updating a pull request: the `just check` pre-check, title, template, and checklist |
-| `tdd` | a behavior change in `MyAppCore`: writing a failing Swift Testing test before the implementation |
+| `tdd` | a behavior change in `AgentCronCore`: writing a failing Swift Testing test before the implementation |
 | `designing-errors` | an `Error` type, a `throws`/`throws(E)` signature, a `do`/`catch`, or cancellation: Core error enums, typed throws, no user data in errors or logs, `CancellationError`, and mapping `OSStatus`/`NSError`/`AXError` in an adapter |
 | `changing-gates` | a file that enforces rather than implements: `.swiftlint.yml`, `.swiftformat`, `Package.swift`'s `strictSettings`, `mise.toml`, `.githooks/pre-commit`, `scripts/lint.sh`, `scripts/coverage.sh`, the `scripts/guard/` commit-time guard, or a workflow — and which gate would catch a change |
 | `triaging-issues` | filing or triaging an issue: the labels in `.github/labels.yml` (`just labels`), priority tiers, the `Depends on #N` convention, and routing a request from daily use (file, park as `on hold`, or drop) |
@@ -233,14 +241,14 @@ tool that sees the generated copy rather than the authored one:
 | `recording-architecture-decisions` | the ADR tree under `docs/architecture/`: whether a change owes an ADR (a target or port, app shape, sandbox posture, persistence, a dependency, distribution, `deploymentTarget`, a TCC permission), an ADR's statuses, amending versus superseding, and fact discipline — every external claim with a URL and a checked date |
 | `writing-repo-scripts` | writing or testing a shell script under `scripts/`, `.githooks/pre-commit`, or `scripts/tests/`: why bash, refusing or skipping outside a git checkout, the stderr contract by example, and `scripts/tests/lib.sh` |
 | `running-the-app` | seeing a change work in the real app: `just run` and confirming the running process is the fresh build, reading `just logs`, screenshotting a window, a throwaway XCUITest, the human hand-off for a TCC prompt, and the evidence a PR then carries |
-| `integrating-system-apis` | calling a macOS system API from `MyAppPlatform`: choosing the mechanism (`CGEventTap`, `AXObserver`, a Carbon hotkey), a C callback's refcon and teardown under Swift 6 strict concurrency, TCC-gated permissions (Accessibility, Input Monitoring, Screen Recording), and what can be tested where |
-| `designing-core-logic` | shaping logic in `MyAppCore`: injecting time (`Clock`, a `() -> Date`), `Locale`, and a `RandomNumberGenerator`; one `Tuning` type for tunables; action-shaped `@Observable` view models; and the patterns deliberately not adopted |
+| `integrating-system-apis` | calling a macOS system API from `AgentCronPlatform`: choosing the mechanism (`CGEventTap`, `AXObserver`, a Carbon hotkey), a C callback's refcon and teardown under Swift 6 strict concurrency, TCC-gated permissions (Accessibility, Input Monitoring, Screen Recording), and what can be tested where |
+| `designing-core-logic` | shaping logic in `AgentCronCore`: injecting time (`Clock`, a `() -> Date`), `Locale`, and a `RandomNumberGenerator`; one `Tuning` type for tunables; action-shaped `@Observable` view models; and the patterns deliberately not adopted |
 | `designing-ui` | how a screen looks: HIG-based craft rules (system text styles, semantic and accent colors, light and dark, contrast, SF Symbols, window sizing, menu commands and shortcuts, motion, copy) and the app's design lock, recorded as an ADR under `docs/architecture/` |
-| `building-swiftui-screens` | a view in `MyAppUI`: a thin renderer over a `MyAppCore` `@Observable` view model (how it holds its model, what `body` may contain), `#Preview` per state, accessibility identifiers and labels, Reduce Motion, keyboard reachability, and verifying a screen |
+| `building-swiftui-screens` | a view in `AgentCronUI`: a thin renderer over a `AgentCronCore` `@Observable` view model (how it holds its model, what `body` may contain), `#Preview` per state, accessibility identifiers and labels, Reduce Motion, keyboard reachability, and verifying a screen |
 | `starting-an-app` | turning this template into a new app: `scripts/bootstrap.sh`'s rename, what the new repository keeps, its `just labels` and `just ruleset` setup, choosing the app shape (windowed or menu-bar agent), and deciding the sandbox posture |
 | `shipping-issues` | shipping the open issue backlog: ranking issues by `priority: P0`-`P3`, implementing the top one, reviewing it with `/code-review`, and taking its PR through CI to merge |
 | `steering-the-roadmap` | the app's direction in `docs/architecture/roadmap.md`: its Now / Next / Later horizons, who changes it and when, how the backlog and parked `on hold` issues feed it, and answering "what is next?" before `shipping-issues` |
-| `localizing-the-app` | a string a person reads: the String Catalog `Localizable.xcstrings` in `MyAppCore`, `defaultLocalization`, Core view models returning `LocalizedStringResource` (`bundle: .module`), `Text(verbatim:)` in `MyAppUI`, keeping the catalog and `LocalizationTests` in step, `xcodebuild -exportLocalizations`, plurals, and what adding a language involves |
+| `localizing-the-app` | a string a person reads: the String Catalog `Localizable.xcstrings` in `AgentCronCore`, `defaultLocalization`, Core view models returning `LocalizedStringResource` (`bundle: .module`), `Text(verbatim:)` in `AgentCronUI`, keeping the catalog and `LocalizationTests` in step, `xcodebuild -exportLocalizations`, plurals, and what adding a language involves |
 | `merging-dependency-prs` | landing open Dependabot (SwiftPM, GitHub Actions) and Renovate (`mise.toml`) PRs: the security checklist, one human approval for a listed batch of passing PRs, and a combined branch for conflicting bumps |
 
 ### Rules
@@ -293,7 +301,7 @@ Get a human's sign-off before acting on any of these. No file in this repository
 blocks them mechanically today — this section is the rule itself, not a description
 of a check that enforces it.
 
-- Touching `App/MyApp.entitlements`, a signing identity — including the Debug
+- Touching `App/AgentCron.entitlements`, a signing identity — including the Debug
   signing `Config/Debug.xcconfig` and `project.yml` set up — or any signing,
   notarization, or release secret. Creating your own `Config/Local.xcconfig` is not
   such a change: it is gitignored, never committed, and changes nobody else's build.
@@ -433,8 +441,8 @@ The rules in this file are enforced by these layers, from mechanical to procedur
 | Layer | Fires on | Applies to | Holds |
 |---|---|---|---|
 | `.githooks/pre-commit` | `git commit` | anyone who ran `just install` | `scripts/lint.sh --staged-tree` — `swiftformat --lint` and `swiftlint --strict` on the staged Swift files |
-| `.swiftlint.yml`'s `no_ui_import_in_core` custom rule and `ArchitectureBoundaryTests` (`Packages/MyAppKit/Tests/MyAppCoreTests/`) | the lint rule: `git commit` (via the hook's `swiftlint --strict`), `just lint`, and CI's `lint` job; the test: `just test` and CI's `test` job | every author | `MyAppCore` imports none of SwiftUI, AppKit, UIKit, Cocoa, ApplicationServices, Carbon, or ServiceManagement, including attributed and kind-qualified imports — enforced twice, so removing either mechanism leaves the other. The test alone also holds the sibling boundary: `MyAppUI` and `MyAppPlatform` never import each other |
-| `.swiftlint.yml`'s `no_print_in_sources` custom rule | `git commit` (via the hook's `swiftlint --strict`), `just lint`, and CI's `lint` job | every author | no `print(`, `debugPrint(`, or `NSLog(` call site under `Packages/*/Sources/` or `App/` — shipped code logs through `MyAppCore`'s `AppLog` (`os.Logger`), whose output survives an `open`-launched `.app` and is what `just logs` streams. A mention inside a comment or a string literal does not count, and test targets are exempt |
+| `.swiftlint.yml`'s `no_ui_import_in_core` custom rule and `ArchitectureBoundaryTests` (`Packages/AgentCronKit/Tests/AgentCronCoreTests/`) | the lint rule: `git commit` (via the hook's `swiftlint --strict`), `just lint`, and CI's `lint` job; the test: `just test` and CI's `test` job | every author | `AgentCronCore` imports none of SwiftUI, AppKit, UIKit, Cocoa, ApplicationServices, Carbon, or ServiceManagement, including attributed and kind-qualified imports — enforced twice, so removing either mechanism leaves the other. The test alone also holds the sibling boundary: `AgentCronUI` and `AgentCronPlatform` never import each other |
+| `.swiftlint.yml`'s `no_print_in_sources` custom rule | `git commit` (via the hook's `swiftlint --strict`), `just lint`, and CI's `lint` job | every author | no `print(`, `debugPrint(`, or `NSLog(` call site under `Packages/*/Sources/` or `App/` — shipped code logs through `AgentCronCore`'s `AppLog` (`os.Logger`), whose output survives an `open`-launched `.app` and is what `just logs` streams. A mention inside a comment or a string literal does not count, and test targets are exempt |
 | `scripts/verify-hooks.sh` (`just install`'s last step, and `just check`'s first) | `just install` and `just check` | anyone who runs either | git resolves the hooks directory to `.githooks/` and `.githooks/pre-commit` is executable — skips under CI or the `ALLOW_MISSING_GIT_HOOKS` opt-out |
 | `scripts/check-staged.sh` (the hook's "Staged guard" section; the rules live in `scripts/guard/`) | `git commit` when any change is staged, with or without a Swift file | anyone who ran `just install` | no obviously secret-shaped path (`.env*`, `.envrc.*`, `secrets/`, signing material, `Config/Local.xcconfig`, `.claude/settings.local.json`) or credential-shaped content (private-key header, GitHub token, AWS access key id, AWS secret access key next to its variable name, Anthropic or OpenAI API key, Slack token, Google API key, Stripe live key, JWT) lands in a commit; staged deletions are never inspected |
 | `scripts/sync-agents.sh --check` (the hook's "Skills mirror" section, `just lint`, and CI's `lint` job) | `git commit` when a staged path is under `.agents/skills/` or `.claude/skills/`; unconditionally on `just lint` and CI | every author | `.agents/skills/` and `.claude/skills/` stay byte-identical |
@@ -480,7 +488,7 @@ removing or narrowing its bullet here:
   that host runs without stopping to ask, so it shapes where a human is consulted rather
   than what is possible: Codex CLI, another agent, and a human at a shell are bound by
   the instructions in this file and by the gates above, not by that file.
-- **Nothing runs `Tests/MyAppPlatformTests` for you.** A CI runner has no logged-in GUI
+- **Nothing runs `Tests/AgentCronPlatformTests` for you.** A CI runner has no logged-in GUI
   session and cannot be granted Accessibility, Input Monitoring, or Screen Recording, so
   those tests carry `.requiresLocalMachine` and are reported as skipped in `just test`
   and in CI. That is deliberate — a skip is visible where a missing test is not — and it
@@ -494,7 +502,7 @@ Before submitting a PR:
 1. `just check` passes (every step of the justfile's `check` recipe)
 2. New public APIs have `///` doc comments explaining *why*
 3. Tests cover the new functionality (happy path AND error path); a change under
-   `Sources/MyAppPlatform/` also carries `just test-local` output in the PR, since no
+   `Sources/AgentCronPlatform/` also carries `just test-local` output in the PR, since no
    gate runs those tests
 4. No new dependencies without justification (see .claude/rules/project.md)
 5. User-facing changes have a `CHANGELOG.md` entry under `[Unreleased]`

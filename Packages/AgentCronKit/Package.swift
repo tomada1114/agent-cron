@@ -9,46 +9,54 @@ let strictSettings: [SwiftSetting] = [
 ]
 
 let package = Package(
-    name: "MyAppKit",
+    name: "AgentCronKit",
     // The language the String Catalog is written in, and the one a reader falls back to
     // when the catalog lacks theirs. A second language is an ADR (`localizing-the-app`).
     defaultLocalization: "en",
     platforms: [.macOS(.v14)],
     products: [
-        .library(name: "MyAppCore", targets: ["MyAppCore"]),
-        .library(name: "MyAppUI", targets: ["MyAppUI"]),
-        .library(name: "MyAppPlatform", targets: ["MyAppPlatform"]),
+        .library(name: "AgentCronCore", targets: ["AgentCronCore"]),
+        .library(name: "AgentCronUI", targets: ["AgentCronUI"]),
+        .library(name: "AgentCronPlatform", targets: ["AgentCronPlatform"]),
     ],
     targets: [
         // Core owns the user-facing wording (it returns `LocalizedStringResource`), so the
         // one String Catalog lives here. xcodebuild compiles it into Core's resource
         // bundle; `swift build` only copies it, so tests read English from `defaultValue`.
         .target(
-            name: "MyAppCore",
+            name: "AgentCronCore",
             resources: [.process("Resources/Localizable.xcstrings")],
             swiftSettings: strictSettings,
         ),
-        .target(name: "MyAppUI", dependencies: ["MyAppCore"], swiftSettings: strictSettings),
-        // OS-integration adapters behind Core-declared ports. Depends on MyAppCore
-        // only: it must not see MyAppUI, and MyAppUI must not see it (enforced by
+        .target(
+            name: "AgentCronUI",
+            dependencies: ["AgentCronCore"],
+            swiftSettings: strictSettings,
+        ),
+        // OS-integration adapters behind Core-declared ports. Depends on AgentCronCore
+        // only: it must not see AgentCronUI, and AgentCronUI must not see it (enforced by
         // ArchitectureBoundaryTests, since SwiftPM cannot stop a system framework
         // import and this graph alone would not stop a later dependency edit).
-        .target(name: "MyAppPlatform", dependencies: ["MyAppCore"], swiftSettings: strictSettings),
+        .target(
+            name: "AgentCronPlatform",
+            dependencies: ["AgentCronCore"],
+            swiftSettings: strictSettings,
+        ),
         // Test code both test targets share: the fake of each Core port and the contract
         // function every implementation of that port must pass. It is a library target
         // only because a test target cannot be depended on, and it is test code all the
         // same: no product exports it, so `App/` cannot link it, ArchitectureBoundaryTests
         // fails if a shipped module imports it, and its sources sit under Tests/ — outside
-        // scripts/coverage.sh's Sources/MyAppCore filter, so it is never counted as Core.
+        // scripts/coverage.sh's Sources/AgentCronCore filter, so it is never counted as Core.
         .target(
-            name: "MyAppTestSupport",
-            dependencies: ["MyAppCore"],
-            path: "Tests/MyAppTestSupport",
+            name: "AgentCronTestSupport",
+            dependencies: ["AgentCronCore"],
+            path: "Tests/AgentCronTestSupport",
             swiftSettings: strictSettings,
         ),
         .testTarget(
-            name: "MyAppCoreTests",
-            dependencies: ["MyAppCore", "MyAppTestSupport"],
+            name: "AgentCronCoreTests",
+            dependencies: ["AgentCronCore", "AgentCronTestSupport"],
             swiftSettings: strictSettings,
         ),
         // Local-machine tests for the adapters: they talk to the real OS, which a CI
@@ -56,11 +64,11 @@ let package = Package(
         // Input Monitoring, or Screen Recording). Every suite here carries the
         // `.requiresLocalMachine` trait, so the tests are reported as skipped unless
         // RUN_LOCAL_MACHINE_TESTS=1 is set — `just test-local` sets it. Linking
-        // MyAppPlatform does not put it inside the coverage floor: scripts/coverage.sh
-        // measures Sources/MyAppCore and nothing else.
+        // AgentCronPlatform does not put it inside the coverage floor: scripts/coverage.sh
+        // measures Sources/AgentCronCore and nothing else.
         .testTarget(
-            name: "MyAppPlatformTests",
-            dependencies: ["MyAppPlatform", "MyAppCore", "MyAppTestSupport"],
+            name: "AgentCronPlatformTests",
+            dependencies: ["AgentCronPlatform", "AgentCronCore", "AgentCronTestSupport"],
             swiftSettings: strictSettings,
         ),
     ],

@@ -1,6 +1,6 @@
+import AgentCronCore
+import AgentCronTestSupport
 import Foundation
-import MyAppCore
-import MyAppTestSupport
 import Testing
 
 @MainActor

@@ -1,4 +1,4 @@
-import MyAppCore
+import AgentCronCore
 import SwiftUI
 
 /// Layout metrics for ``ContentView``.
@@ -13,15 +13,15 @@ private enum Layout {
 /// The app's single screen: a bounded counter with increment/decrement/reset.
 ///
 /// Deliberately thin — every behavior it renders is owned and unit-tested by
-/// `CounterViewModel` in MyAppCore, and so is every word: the view has no localizable
+/// `CounterViewModel` in AgentCronCore, and so is every word: the view has no localizable
 /// literal of its own. A `Text("…")` literal here would be looked up in the app's main
 /// bundle, not the package's catalog; the value and the "−" and "+" glyphs are
 /// verbatim instead.
 public struct ContentView: View {
     @State private var model: CounterViewModel
     /// Present only when the app shell handed one down — the view has no way to build a
-    /// ``FrontmostAppViewModel``, because the port's adapter lives in `MyAppPlatform`,
-    /// which `MyAppUI` must not import. Previews and tests simply leave it out.
+    /// ``FrontmostAppViewModel``, because the port's adapter lives in `AgentCronPlatform`,
+    /// which `AgentCronUI` must not import. Previews and tests simply leave it out.
     @State private var frontmostApp: FrontmostAppViewModel?
     @Environment(\.scenePhase)
     private var scenePhase
@@ -69,7 +69,7 @@ public struct ContentView: View {
     /// states; the app shell uses the default.
     ///
     /// `frontmostApp` is the worked example of a Core view model over an OS port: the
-    /// app shell builds it with a `MyAppPlatform` adapter and hands it down, so this
+    /// app shell builds it with a `AgentCronPlatform` adapter and hands it down, so this
     /// view renders the answer without knowing where it came from.
     public init(
         model: CounterViewModel = CounterViewModel(),

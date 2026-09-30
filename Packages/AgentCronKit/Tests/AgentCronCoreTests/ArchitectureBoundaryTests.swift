@@ -3,26 +3,26 @@ import Testing
 
 /// The second enforcement of the module boundaries (`AGENTS.md` › Architecture).
 ///
-/// `MyAppCore` never imports a UI or OS-integration framework — `.swiftlint.yml`'s
+/// `AgentCronCore` never imports a UI or OS-integration framework — `.swiftlint.yml`'s
 /// `no_ui_import_in_core` is the first enforcement, this suite the second; the lint rule
 /// runs in the `lint` job and the pre-commit hook, this suite in the macOS `test` job,
 /// so removing either one still leaves the other catching a regression.
 ///
-/// `MyAppUI` and `MyAppPlatform` are siblings over Core and never import each other.
+/// `AgentCronUI` and `AgentCronPlatform` are siblings over Core and never import each other.
 /// SwiftPM's target graph already withholds the modules, but only until someone adds a
 /// dependency edge; this suite is what makes that edit fail a check rather than compile.
 ///
-/// `MyAppTestSupport` is test code (the fakes and the port contracts), so no shipped
+/// `AgentCronTestSupport` is test code (the fakes and the port contracts), so no shipped
 /// module imports it. It is no product, so `App/` cannot link it; inside the package the
 /// target graph alone would allow a dependency edit, and this suite is what refuses it.
 @Suite("Architecture boundary")
 struct ArchitectureBoundaryTests {
-    /// Frameworks `MyAppCore` must not import. `Cocoa` re-exports AppKit; the three
+    /// Frameworks `AgentCronCore` must not import. `Cocoa` re-exports AppKit; the three
     /// OS-integration frameworks are the ones an adapter reaches for first
-    /// (accessibility, hotkeys, login items) and each belongs in `MyAppPlatform`.
+    /// (accessibility, hotkeys, login items) and each belongs in `AgentCronPlatform`.
     ///
     /// `os` and `OSLog` are deliberately absent: logging is not a UI or OS-integration
-    /// framework, so Core logs directly through ``MyAppCore/AppLog``
+    /// framework, so Core logs directly through ``AgentCronCore/AppLog``
     /// (`docs/architecture.md` › Logging). The "ignores other modules" case below pins
     /// that, so narrowing the list to ban them would fail a test rather than pass.
     ///
@@ -32,8 +32,8 @@ struct ArchitectureBoundaryTests {
         "ApplicationServices", "Carbon", "ServiceManagement",
     ]
 
-    /// `Sources/MyAppCore`, the directory the Core ban list applies to.
-    static let coreSourcesDirectory = sourcesDirectory(of: "MyAppCore")
+    /// `Sources/AgentCronCore`, the directory the Core ban list applies to.
+    static let coreSourcesDirectory = sourcesDirectory(of: "AgentCronCore")
 
     // MARK: - Helpers
 
@@ -47,7 +47,7 @@ struct ArchitectureBoundaryTests {
     }
 
     /// `Sources/<module>`, resolved from this file's path:
-    /// `Tests/MyAppCoreTests/<this file>` up to the package root, then down.
+    /// `Tests/AgentCronCoreTests/<this file>` up to the package root, then down.
     static func sourcesDirectory(of module: String) -> URL {
         URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()
@@ -106,23 +106,23 @@ struct ArchitectureBoundaryTests {
     // MARK: - The real sources
 
     @Test
-    func `no MyAppCore source file imports a UI or OS-integration framework`() throws {
-        try Self.expectNoImports(of: Self.forbiddenModules, in: "MyAppCore")
+    func `no AgentCronCore source file imports a UI or OS-integration framework`() throws {
+        try Self.expectNoImports(of: Self.forbiddenModules, in: "AgentCronCore")
     }
 
     @Test
-    func `no MyAppUI source file imports MyAppPlatform`() throws {
-        try Self.expectNoImports(of: ["MyAppPlatform"], in: "MyAppUI")
+    func `no AgentCronUI source file imports AgentCronPlatform`() throws {
+        try Self.expectNoImports(of: ["AgentCronPlatform"], in: "AgentCronUI")
     }
 
     @Test
-    func `no MyAppPlatform source file imports MyAppUI`() throws {
-        try Self.expectNoImports(of: ["MyAppUI"], in: "MyAppPlatform")
+    func `no AgentCronPlatform source file imports AgentCronUI`() throws {
+        try Self.expectNoImports(of: ["AgentCronUI"], in: "AgentCronPlatform")
     }
 
-    @Test(arguments: ["MyAppCore", "MyAppUI", "MyAppPlatform"])
-    func `no shipped source file imports MyAppTestSupport`(module: String) throws {
-        try Self.expectNoImports(of: ["MyAppTestSupport"], in: module)
+    @Test(arguments: ["AgentCronCore", "AgentCronUI", "AgentCronPlatform"])
+    func `no shipped source file imports AgentCronTestSupport`(module: String) throws {
+        try Self.expectNoImports(of: ["AgentCronTestSupport"], in: module)
     }
 
     // MARK: - The pattern itself
