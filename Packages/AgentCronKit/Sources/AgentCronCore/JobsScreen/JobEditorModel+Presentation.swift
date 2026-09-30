@@ -62,11 +62,14 @@ extension JobEditorModel {
         return path
     }
 
-    /// The name the editor's header shows: the draft's, trimmed, or `nil` while it is
-    /// blank — a new job's header then reads New Job.
+    /// The name the editor's header shows: the draft's, trimmed; while that is blank, a
+    /// saved job's saved name, or `nil` for a new job — whose header then reads New Job.
     public var headerName: String? {
         let name = draft.name.trimmingCharacters(in: .whitespacesAndNewlines)
-        return name.isEmpty ? nil : name
+        guard name.isEmpty else {
+            return name
+        }
+        return deleteConfirmation?.jobName
     }
 
     /// The title of the alert that asks before unsaved edits are left

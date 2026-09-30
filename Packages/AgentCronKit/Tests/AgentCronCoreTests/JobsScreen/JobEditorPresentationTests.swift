@@ -186,6 +186,13 @@ struct JobEditorPresentationTests {
         #expect(editor.headerName == "Nightly review")
     }
 
+    @Test
+    func `a saved job's header keeps its saved name while the draft's is blank`() {
+        let editor = Self.editor()
+        editor.nameChanged(to: " ")
+        #expect(editor.headerName == "RSS digest")
+    }
+
     // MARK: - Add Time
 
     @Test(arguments: [
