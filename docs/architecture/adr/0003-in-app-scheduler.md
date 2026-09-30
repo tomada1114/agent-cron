@@ -1,6 +1,7 @@
 # ADR-0003: The app is the scheduler
 
 - **Status:** Accepted 2026-09-29
+- **Amended:** 2026-09-30 — the `SystemEventsProviding` port and its `WorkspaceSystemEvents` adapter landed (#14): its shape and timer clock are recorded under Decision, its local-machine test under Sources, and what only a real sleep or clock change can show under Open questions. Wiring it to the dispatcher is #28.
 - **Date:** 2026-09-29
 - **Deciders:** the owner
 
@@ -41,6 +42,18 @@ Option 1, chosen by the owner.
   `NSWorkspace` sleep/wake notifications, behind a Core `SystemEventsProviding` port.
 - The last-checked instant is persisted with the jobs (ADR-0005), so a relaunch catches
   up the same way a wake does.
+- The port is `events() -> AsyncStream<SystemEvent>` plus `armTimer(at:)`, which
+  replaces the timer armed before. `SystemEvent` is `fireDateReached`, `willSleep`,
+  `didWake`, `clockChanged`, and `timeZoneChanged`; each `events()` stream hears every
+  event from then on, and a stream whose consumer stops has its observers removed.
+  Choosing the date to arm stays with the caller (#28), in Core.
+- The adapter's timer sleeps on `ContinuousClock`, which keeps counting while the Mac is
+  asleep, so a date passed during sleep is due on wake rather than one sleep later. It
+  does not follow the wall clock; the caller re-arms on `clockChanged` and
+  `timeZoneChanged`, as the timer bullet above already requires. The alternative, a
+  wall-clock `DispatchSource` timer, would follow a clock change on its own but brings a
+  non-`Sendable` source object into a Swift 6 adapter for an event the port reports
+  anyway.
 
 Option 2 needs plists kept in step with the app's data and an out-of-process way to
 record results; option 3 has neither catch-up nor a future on macOS.
@@ -64,11 +77,22 @@ record results; option 3 has neither catch-up nor a future on macOS.
 
 ## Open questions
 
-- None.
+- Unverified: that a `Task.sleep` on `ContinuousClock` whose deadline passed during
+  system sleep resumes promptly on wake. The clock's own documentation (Sources) says it
+  keeps counting; the resume on wake is owed to a human-run check with a real sleep.
+- Unverified: that the OS posts `NSSystemClockDidChange` and `NSSystemTimeZoneDidChange`
+  on `NotificationCenter.default` of an app process. Their documentation (Sources) does
+  not name a center; the adapter's test posts them there in-process, and a real clock or
+  time-zone change is owed to a human-run check.
 
 ## Sources
 
 - <https://developer.apple.com/documentation/appkit/nsworkspace/didwakenotification> — posted on `NSWorkspace.shared.notificationCenter` only; another center never receives it — checked 2026-09-29
+- <https://developer.apple.com/documentation/appkit/nsworkspace/willsleepnotification> — posted before the device sleeps, on `NSWorkspace`'s `notificationCenter` only — checked 2026-09-30
+- <https://developer.apple.com/documentation/foundation/nsnotification/name-swift.struct/nssystemclockdidchange> — posted whenever the system clock is changed; the page names no center — checked 2026-09-30
+- <https://developer.apple.com/documentation/foundation/nsnotification/name-swift.struct/nssystemtimezonedidchange> — posted when the time zone changes; the page names no center — checked 2026-09-30
+- <https://developer.apple.com/documentation/swift/continuousclock> — a clock that does not stop incrementing while the system is asleep — checked 2026-09-30
+- `WorkspaceSystemEventsTests` (`just test-local`, 2026-09-30) — each notification posted in-process on its center came out as its event, sleep and wake posted on the default center were not heard, and the adapter kept `SystemEventsProvidingContract` on the real clock. It did not sleep the Mac or change its clock.
 
 ## Related
 
