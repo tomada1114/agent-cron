@@ -533,6 +533,78 @@
         }
       }
     },
+    "keepAwake.mode.fourHours" : {
+      "comment" : "Keep-awake menu choice in the menu-bar popover: keep awake for four hours.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4 hours"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4時間"
+          }
+        }
+      }
+    },
+    "keepAwake.mode.off" : {
+      "comment" : "Keep-awake menu choice in the menu-bar popover: no manual hold.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Off"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "オフ"
+          }
+        }
+      }
+    },
+    "keepAwake.mode.oneHour" : {
+      "comment" : "Keep-awake menu choice in the menu-bar popover: keep awake for one hour.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 hour"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1時間"
+          }
+        }
+      }
+    },
+    "keepAwake.mode.untilTurnedOff" : {
+      "comment" : "Keep-awake menu choice in the menu-bar popover: keep awake with no end time.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Until turned off"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "オフにするまで"
+          }
+        }
+      }
+    },
     "mainMenu.delete" : {
       "comment" : "Job menu item that asks to delete the selected job.",
       "localizations" : {
@@ -1005,6 +1077,96 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "予定"
+          }
+        }
+      }
+    },
+    "popover.banner.agentNotFound" : {
+      "comment" : "Menu-bar popover banner when the claude CLI does not resolve in the login shell.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "claude was not found in your login shell."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログインシェルで claude が見つかりませんでした。"
+          }
+        }
+      }
+    },
+    "popover.day.tomorrow" : {
+      "comment" : "Day label of the menu-bar popover's next run when it is tomorrow.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tomorrow"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "明日"
+          }
+        }
+      }
+    },
+    "popover.empty.allPaused" : {
+      "comment" : "Menu-bar popover empty state when every job is paused.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All jobs are paused."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すべてのジョブが一時停止中です。"
+          }
+        }
+      }
+    },
+    "popover.empty.noJobs" : {
+      "comment" : "Menu-bar popover empty state when no job is saved.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No jobs yet"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ジョブはまだありません"
+          }
+        }
+      }
+    },
+    "popover.empty.nothingToday" : {
+      "comment" : "Menu-bar popover empty state; arguments: the next run's day, time, and job name.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing scheduled today. Next: %1$@ %2$@ %3$@."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今日の予定はありません。次回：%1$@ %2$@ %3$@"
           }
         }
       }
