@@ -68,10 +68,7 @@ public enum ClaudeCodeResultParser {
     /// ``ProcessOutcome/terminatedBy``.
     public static func parse(_ outcome: ProcessOutcome) -> RunResult {
         let stderrLine = firstLine(of: outcome.stderr)
-        guard
-            let object = try? JSONDecoder().decode(ResultObject.self, from: outcome.stdout),
-            object.isResult
-        else {
+        guard let object = resultObject(in: outcome.stdout) else {
             let text = nonBlank(text(from: outcome.stdout)) ?? nonBlank(outcome.stderr)
             return RunResult(
                 status: .failed,
@@ -109,6 +106,26 @@ public enum ClaudeCodeResultParser {
                 : reasonParts.joined(separator: ": "),
             report: report,
         )
+    }
+
+    /// The result object in `stdout`: the whole output when it decodes as one, otherwise
+    /// its last non-blank line — the login shell `ProcessAgentRunner` launches through can
+    /// print ahead of it, and `--output-format json` prints the object as one final line.
+    private static func resultObject(in stdout: Data) -> ResultObject? {
+        if let object = decodeResult(stdout) {
+            return object
+        }
+        let lastLine = text(from: stdout)
+            .split(whereSeparator: \.isNewline)
+            .last { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+        return lastLine.flatMap { decodeResult(Data($0.utf8)) }
+    }
+
+    private static func decodeResult(_ bytes: Data) -> ResultObject? {
+        guard let object = try? JSONDecoder().decode(ResultObject.self, from: bytes),
+              object.isResult
+        else { return nil }
+        return object
     }
 
     /// The first line of `text` that is not blank, without its surrounding whitespace.

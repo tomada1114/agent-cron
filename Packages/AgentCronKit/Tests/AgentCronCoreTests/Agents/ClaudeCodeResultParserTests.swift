@@ -223,4 +223,37 @@ struct ClaudeCodeResultParserTests {
         #expect(result.status == .failed)
         #expect(result.resultText == "ok\u{FFFD}\n")
     }
+
+    // MARK: - Login-shell output ahead of the result
+
+    @Test(arguments: [
+        "Welcome to zsh\n",
+        "Last login: Mon\n\nnvm: using node v20\n   \nrbenv: shims ready\n",
+    ])
+    func `a success result after login-shell noise is succeeded with every field`(
+        noise: String,
+    ) {
+        let result = ClaudeCodeResultParser.parse(Samples.outcome(
+            stdout: noise + Samples.success,
+            exitCode: 0,
+        ))
+        #expect(result == ClaudeCodeResultParser.parse(Samples.outcome(
+            stdout: Samples.success,
+            exitCode: 0,
+        )))
+        #expect(result.status == .succeeded)
+        #expect(result.report.turnCount == 4)
+    }
+
+    @Test
+    func `noise followed by output that is not JSON fails with the raw stdout`() {
+        let stdout = "Welcome to zsh\ncommand not found\n"
+        let result = ClaudeCodeResultParser.parse(Samples.outcome(stdout: stdout, exitCode: 127))
+        #expect(result == RunResult(
+            status: .failed,
+            resultText: stdout,
+            failureReason: "Welcome to zsh",
+            report: .empty,
+        ))
+    }
 }
