@@ -50,6 +50,10 @@ public enum AppLog {
     /// adapter behind it.
     public static let notifications = Logger(subsystem: subsystem, category: "notifications")
 
+    /// The scheduler concern: ``Dispatcher`` deciding which jobs run, skip, or catch up,
+    /// and recording each run.
+    public static let scheduler = Logger(subsystem: subsystem, category: "scheduler")
+
     /// The storage concern: ``FileJobStore`` and ``FileRunStore`` reading and writing
     /// the files in Application Support.
     public static let storage = Logger(subsystem: subsystem, category: "storage")
