@@ -22,6 +22,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   ask before deleting. ⌘⌫ in a text field still deletes to the start of the line. It
   shows jobs once the app is wired to its job store; until then the section keeps its
   placeholder.
+- The History screen: runs grouped by day, newest first, filtered by job (deleted jobs
+  marked "(deleted)") and outcome, beside the selected run's detail — its trigger,
+  times, duration, cost, exit code, folder, model, effort, permission, and session, the
+  result rendered as Markdown with Raw and Copy, the prompt it used (collapsed), a
+  skipped run's reason, a failed run's error output, and, while it runs, the elapsed
+  time and Stop. Open Job shows the run's job in Jobs. It shows runs once the app is
+  wired to its run store; until then the section keeps its placeholder.
 
 ### Changed
 
