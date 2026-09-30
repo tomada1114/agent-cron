@@ -59,7 +59,7 @@ changes it.
 | ADR | Decision | Status |
 |---|---|---|
 | [0001](adr/0001-menu-bar-agent-with-a-main-window.md) | A menu-bar agent with one main window | Accepted 2026-09-29 |
-| [0002](adr/0002-app-sandbox-off.md) | Turn the App Sandbox off | Proposed |
+| [0002](adr/0002-app-sandbox-off.md) | Turn the App Sandbox off | Accepted 2026-09-30 |
 | [0003](adr/0003-in-app-scheduler.md) | The app is the scheduler | Accepted 2026-09-29 |
 | [0004](adr/0004-agent-runner-port-and-claude-code-invocation.md) | An agent-runner port, with Claude Code as its first adapter | Accepted 2026-09-29 (invocation); Accepted 2026-09-30 (port shape) |
 | [0005](adr/0005-json-files-in-application-support.md) | Keep jobs and runs as versioned JSON files in Application Support | Accepted 2026-09-30 |

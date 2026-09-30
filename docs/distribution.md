@@ -84,10 +84,12 @@ Document this in your release notes, or better, configure the secrets above.
 
 ## Sandboxed or not
 
-`App/AgentCron.entitlements` ships with `com.apple.security.app-sandbox` set to
-`true`, and that is the right default: it is what the Mac App Store requires,
-and it keeps a bug in the app from reaching the rest of the user's machine.
-Some apps cannot keep it. Decide this before the first feature — the decision
+The template ships `App/AgentCron.entitlements` with
+`com.apple.security.app-sandbox` set to `true`, and that is the right default: it
+is what the Mac App Store requires, and it keeps a bug in the app from reaching
+the rest of the user's machine. Some apps cannot keep it — AgentCron is one: it
+launches the user's own agent CLI in any repository, so the sandbox is off
+([ADR-0002](architecture/adr/0002-app-sandbox-off.md)). Decide this before the first feature — the decision
 shapes which distribution channels stay open — and because turning it off
 widens what the app may do to the user's machine, it needs a human's sign-off
 (`AGENTS.md`'s "Security and human approval" covers the entitlements file).
@@ -126,9 +128,9 @@ the user's consent.
   them it keeps the ad-hoc signature `xcodebuild` already applied, which
   `project.yml` builds from the same file (`CODE_SIGN_IDENTITY: "-"` and
   `CODE_SIGN_ENTITLEMENTS` on the Release configuration). Either way the
-  workflow then runs `codesign -d --entitlements -` on the app and fails unless
-  it shows `com.apple.security.app-sandbox` — so turning the sandbox off also
-  means changing that release step.
+  workflow then runs `codesign -d --entitlements -` on the app and, for
+  AgentCron, fails if it shows `com.apple.security.app-sandbox` (ADR-0002) — so
+  turning the sandbox back on also means changing that release step.
 - **Every local and CI gate** — nothing in `just check`, `just smoke`, or CI
   reads the entitlements file, so flipping the key changes no check there; only
   the release workflow's entitlements step (above) notices.

@@ -1,6 +1,6 @@
 # ADR-0002: Turn the App Sandbox off
 
-- **Status:** Proposed
+- **Status:** Accepted 2026-09-30
 - **Date:** 2026-09-29
 - **Deciders:** the owner
 
@@ -32,7 +32,7 @@ the repository, runs `git` and `gh`, reads `~/.claude`, and reaches the network.
 
 ## Decision
 
-Option 1, proposed. The capability that forces it: launching an arbitrary user CLI in
+Option 1. The capability that forces it: launching an arbitrary user CLI in
 an arbitrary directory with the user's environment. Hardened Runtime stays on. The app
 can never ship on the Mac App Store, which the Product non-goals already exclude.
 
