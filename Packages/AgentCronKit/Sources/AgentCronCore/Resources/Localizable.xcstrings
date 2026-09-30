@@ -74,6 +74,74 @@
         }
       }
     },
+    "jobDelete.message" : {
+      "comment" : "Message of the alert that confirms deleting a job that is not running.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Its past runs stay in History for up to 90 days."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "過去の実行は最大90日間、履歴に残ります。"
+          }
+        }
+      }
+    },
+    "jobDelete.messageRunning" : {
+      "comment" : "Message of the alert that confirms deleting a job while it is running.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Its past runs stay in History for up to 90 days. The running job will be stopped."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "過去の実行は最大90日間、履歴に残ります。実行中のジョブは停止されます。"
+          }
+        }
+      }
+    },
+    "jobDelete.title" : {
+      "comment" : "Title of the alert that confirms deleting a job. The argument is the job's name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete “%@”?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」を削除しますか？"
+          }
+        }
+      }
+    },
+    "jobEditor.runningNote" : {
+      "comment" : "Note under the job editor's header while the job is running.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Changes apply from the next run."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "変更は次回の実行から反映されます。"
+          }
+        }
+      }
+    },
     "jobValidation.directoryNotLocal" : {
       "comment" : "Error under the job editor's Directory field when the directory is not a folder on this Mac.",
       "localizations" : {
@@ -223,6 +291,244 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "予定された実行がここに表示されます。"
+          }
+        }
+      }
+    },
+    "schedulePreset.everyDay" : {
+      "comment" : "Days preset in the job editor, and a schedule summary's name for all seven days.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Every day"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "毎日"
+          }
+        }
+      }
+    },
+    "schedulePreset.weekdays" : {
+      "comment" : "Days preset in the job editor, and a schedule summary's name for Monday to Friday.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weekdays"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平日"
+          }
+        }
+      }
+    },
+    "schedulePreset.weekends" : {
+      "comment" : "Days preset in the job editor, and a schedule summary's name for Saturday and Sunday.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weekends"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "週末"
+          }
+        }
+      }
+    },
+    "scheduleSummary.compact" : {
+      "comment" : "Job list row schedule with one time: the days (\"Weekdays\"), the time (\"09:00\").",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ %2$@"
+          }
+        }
+      }
+    },
+    "scheduleSummary.compactMore" : {
+      "comment" : "Job list row schedule: the days, the earliest time (\"09:00\"), how many times follow.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ %@ +%lld"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ %2$@ +%3$lld"
+          }
+        }
+      }
+    },
+    "scheduleSummary.days" : {
+      "comment" : "Days matching no preset in a schedule summary: their abbreviations as a list (\"Mon, Wed\").",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        }
+      }
+    },
+    "scheduleSummary.full" : {
+      "comment" : "Job editor schedule summary: the days (\"Weekdays\") at the times (\"09:00, 12:00\").",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ at %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ %2$@"
+          }
+        }
+      }
+    },
+    "weekday.short.friday" : {
+      "comment" : "Abbreviated Friday, on a job editor day chip and in a schedule summary.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fri"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "金"
+          }
+        }
+      }
+    },
+    "weekday.short.monday" : {
+      "comment" : "Abbreviated Monday, on a job editor day chip and in a schedule summary.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mon"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "月"
+          }
+        }
+      }
+    },
+    "weekday.short.saturday" : {
+      "comment" : "Abbreviated Saturday, on a job editor day chip and in a schedule summary.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sat"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "土"
+          }
+        }
+      }
+    },
+    "weekday.short.sunday" : {
+      "comment" : "Abbreviated Sunday, on a job editor day chip and in a schedule summary.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sun"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日"
+          }
+        }
+      }
+    },
+    "weekday.short.thursday" : {
+      "comment" : "Abbreviated Thursday, on a job editor day chip and in a schedule summary.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thu"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "木"
+          }
+        }
+      }
+    },
+    "weekday.short.tuesday" : {
+      "comment" : "Abbreviated Tuesday, on a job editor day chip and in a schedule summary.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tue"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "火"
+          }
+        }
+      }
+    },
+    "weekday.short.wednesday" : {
+      "comment" : "Abbreviated Wednesday, on a job editor day chip and in a schedule summary.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wed"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "水"
           }
         }
       }
