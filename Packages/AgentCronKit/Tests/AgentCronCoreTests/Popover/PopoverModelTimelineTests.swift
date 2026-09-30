@@ -25,7 +25,7 @@ struct PopoverModelTimelineTests {
                 now: Fix.tuesday(12, 4),
                 defaults: defaults,
             )
-            model.runningJobsChanged(to: [Fix.review.id])
+            model.runningRunsChanged(to: [running])
 
             let rows = model.rows
             #expect(rows.map(\.timeText) == ["09:00", "12:00", "18:00"])
@@ -157,14 +157,35 @@ struct PopoverModelTimelineTests {
                 now: Fix.tuesday(12, 30),
                 defaults: defaults,
             )
-            model.runningJobsChanged(to: [Fix.review.id])
+            model.runningRunsChanged(to: [run])
             run.endedAt = Fix.tuesday(12, 10)
             run.outcome = .succeeded
-            model.runningJobsChanged(to: [])
+            model.runningRunsChanged(to: [])
             model.runFinished(run)
             #expect(model.runs.count == 1)
             #expect(model.rows.first?.badge == .succeeded)
             #expect(model.rows.first?.duration == .seconds(600))
+        }
+    }
+
+    @Test
+    func `a run that starts after load shows as running at once`() throws {
+        try withScratchDefaults { defaults in
+            let clock = ManualClock(start: Fix.tuesday(11, 59))
+            let model = PopoverModel(
+                jobStore: FakeJobStore(document: JobsDocument(jobs: [Fix.review])),
+                runStore: FakeRunStore(runs: []),
+                keepAwake: KeepAwakeController(preventer: FakeSleepPreventer()),
+                calendar: Fix.calendar,
+                defaults: defaults,
+            ) { clock.date }
+            model.load()
+            #expect(model.rows.first?.badge == .upcoming)
+            clock.advance(by: .seconds(120))
+            #expect(model.rows.allSatisfy { $0.jobID != Fix.review.id || $0.day != .today })
+            model.runningRunsChanged(to: [Fix.run(of: Fix.review, at: Fix.tuesday(12, 0))])
+            #expect(model.statusSymbol == .running)
+            #expect(model.rows.first?.badge == .running)
         }
     }
 }

@@ -9,7 +9,7 @@ import Observation
 /// a contract key (ADR-0012). A failed, timed-out, or skipped run whose end is strictly
 /// after it counts as unseen; while the key is absent, nothing does.
 ///
-/// Running jobs and finished runs arrive through ``runningJobsChanged(to:)`` and
+/// Running jobs and finished runs arrive through ``runningRunsChanged(to:)`` and
 /// ``runFinished(_:)``, so the model depends on no scheduler. Keep-awake is
 /// ``KeepAwakeController``'s: the model shows and drives it and keeps no copy.
 @MainActor
@@ -32,7 +32,7 @@ public final class PopoverModel {
     /// reported since.
     public private(set) var runs: [Run] = []
 
-    /// The jobs running now, as last reported.
+    /// The jobs running now, from the runs last reported running.
     public private(set) var runningJobIDs: Set<UUID> = []
 
     /// Whether the agent CLI was not found in the login shell, for the banner.
@@ -150,9 +150,14 @@ public final class PopoverModel {
         load()
     }
 
-    /// The app saw the set of running jobs change.
-    public func runningJobsChanged(to jobIDs: Set<UUID>) {
-        runningJobIDs = jobIDs
+    /// The app saw the set of running runs change. Each run is upserted by identifier,
+    /// so a run that started since the last ``load()`` shows at once.
+    public func runningRunsChanged(to running: [Run]) {
+        runningJobIDs = Set(running.map(\.jobID))
+        for run in running {
+            runs.removeAll { $0.id == run.id }
+            runs.append(run)
+        }
     }
 
     /// A run started or ended; it replaces any run with the same identifier.

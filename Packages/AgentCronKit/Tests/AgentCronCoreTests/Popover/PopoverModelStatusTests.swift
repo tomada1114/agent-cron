@@ -25,10 +25,10 @@ struct PopoverModelStatusTests {
             #expect(model.statusSymbol == .manualHold)
             #expect(model.statusSymbol.symbolName == "cup.and.saucer")
 
-            model.runningJobsChanged(to: [Fix.digest.id])
+            model.runningRunsChanged(to: [Fix.run(of: Fix.digest, at: Fix.tuesday(12, 0))])
             #expect(model.statusSymbol == .running)
 
-            model.runningJobsChanged(to: [])
+            model.runningRunsChanged(to: [])
             model.chooseKeepAwake(.off)
             #expect(model.statusSymbol == .idle)
         }
