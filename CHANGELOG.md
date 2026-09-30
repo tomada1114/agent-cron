@@ -22,6 +22,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   ask before deleting. ⌘⌫ in a text field still deletes to the start of the line. It
   shows jobs once the app is wired to its job store; until then the section keeps its
   placeholder.
+- The History screen: runs grouped by day, newest first, filtered by job (deleted jobs
+  marked "(deleted)") and outcome, beside the selected run's detail — its trigger,
+  times, duration, cost, exit code, folder, model, effort, permission, and session, the
+  result rendered as Markdown with Raw and Copy, the prompt it used (collapsed), a
+  skipped run's reason, a failed run's error output, and, while it runs, the elapsed
+  time and Stop. Open Job shows the run's job in Jobs. It shows runs once the app is
+  wired to its run store; until then the section keeps its placeholder.
 - The menu-bar popover now shows today's timeline — finished runs with their outcome,
   duration, and cost (click one to open it in History), running runs with elapsed time
   and Stop, and upcoming runs — with a banner for failed runs since you last looked and
@@ -30,6 +37,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Job, Open AgentCron… (⌘,), and Quit (⌘Q). The status item shows a filled clock while a
   job runs, a cup while kept awake, and a red dot for unseen failures. Stopping a run
   and keeping the Mac awake take effect once the scheduler is wired in.
+- The General screen: a Launch at login switch (with Open Login Items while macOS waits
+  for your approval), where `claude` resolves in your login shell and its version with
+  Check Again, and notes that the Mac stays awake while jobs run and that runs are kept
+  for 90 days. It shows once the app is wired to its login item and agent check; until
+  then the section keeps its placeholder.
 
 ### Changed
 

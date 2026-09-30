@@ -115,6 +115,15 @@ public final class HistoryModel {
             trigger: HistoryFormatting.trigger(run.trigger),
             duration: duration(of: run),
             cost: run.costUSD.map { HistoryFormatting.cost($0, locale: locale) },
+            startedText: HistoryFormatting.dateTime(
+                run.startedAt,
+                calendar: calendar,
+                locale: locale,
+            ),
+            scheduledText: run.scheduledAt.map { scheduled in
+                HistoryFormatting.dateTime(scheduled, calendar: calendar, locale: locale)
+            },
+            isJobDeleted: isDeleted(jobID: run.jobID),
         )
     }
 
@@ -140,6 +149,12 @@ public final class HistoryModel {
     }
 
     // MARK: - Actions
+
+    /// Whether the job `jobID` is known to be gone: the saved jobs were reported and it
+    /// is not among them. Before any report, no job counts as deleted.
+    public func isDeleted(jobID: UUID) -> Bool {
+        jobsKnown && !liveJobs.contains { $0.id == jobID }
+    }
 
     /// Reads the runs of the retention window from the store.
     public func reload() {
@@ -167,6 +182,12 @@ public final class HistoryModel {
     public func jobsChanged(to jobs: [Job]) {
         liveJobs = jobs
         jobsKnown = true
+    }
+
+    /// The user chose Clear Filters: every job and every outcome show again.
+    public func clearFilters() {
+        jobFilter = nil
+        outcomeFilter = .all
     }
 
     /// The user selected a run, or cleared the selection with `nil`.
@@ -216,6 +237,9 @@ public final class HistoryModel {
             startedAt: run.startedAt,
             badge: OutcomeBadgeKind(run.outcome),
             duration: duration(of: run),
+            timeText: HistoryFormatting.time(run.startedAt, calendar: calendar, locale: locale),
+            cost: run.costUSD.map { HistoryFormatting.cost($0, locale: locale) },
+            isJobDeleted: isDeleted(jobID: run.jobID),
         )
     }
 

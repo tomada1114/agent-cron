@@ -176,6 +176,332 @@
         }
       }
     },
+    "generalScreen.agent.checkAgain" : {
+      "comment" : "Button that checks again whether claude resolves.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check Again"
+          }
+        }
+      }
+    },
+    "generalScreen.agent.checking" : {
+      "comment" : "Accessibility label of the spinner on the Claude Code row.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Checking…"
+          }
+        }
+      }
+    },
+    "generalScreen.agent.error" : {
+      "comment" : "Shown on the Claude Code row when the check itself failed; the argument is a short reason such as \"timed out\".",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check failed: %@"
+          }
+        }
+      }
+    },
+    "generalScreen.agent.notFound" : {
+      "comment" : "Shown on the Claude Code row when the login shell does not find claude.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "claude was not found in your login shell (zsh -l)"
+          }
+        }
+      }
+    },
+    "generalScreen.agent.notFoundHint" : {
+      "comment" : "Hint under the not-found message on the Claude Code row.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Install Claude Code, or add its folder to PATH in your shell profile, then check again."
+          }
+        }
+      }
+    },
+    "generalScreen.agent.resolvedViaLoginShell" : {
+      "comment" : "Line under the resolved claude path, saying where it was looked up.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "resolved via login shell"
+          }
+        }
+      }
+    },
+    "generalScreen.agents.claudeCode" : {
+      "comment" : "Name of the Claude Code agent row on the General screen.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Claude Code"
+          }
+        }
+      }
+    },
+    "generalScreen.agents.heading" : {
+      "comment" : "The General screen's heading over the agent checks.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agents"
+          }
+        }
+      }
+    },
+    "generalScreen.history.heading" : {
+      "comment" : "The General screen's heading over run retention.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "History"
+          }
+        }
+      }
+    },
+    "generalScreen.history.retention" : {
+      "comment" : "How long run history is kept, on the General screen.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Runs are kept for 90 days."
+          }
+        }
+      }
+    },
+    "generalScreen.keepAwake.alwaysOn" : {
+      "comment" : "Value of the keep-awake row: the Mac never idle-sleeps while a job runs.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Always on"
+          }
+        }
+      }
+    },
+    "generalScreen.keepAwake.heading" : {
+      "comment" : "The General screen's heading over keep-awake behavior.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep awake"
+          }
+        }
+      }
+    },
+    "generalScreen.keepAwake.whileJobsRun" : {
+      "comment" : "Label of the keep-awake row on the General screen.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep awake while jobs run"
+          }
+        }
+      }
+    },
+    "generalScreen.startup.heading" : {
+      "comment" : "The General screen's heading over launch at login.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Startup"
+          }
+        }
+      }
+    },
+    "generalScreen.startup.launchAtLogin" : {
+      "comment" : "Label of the toggle that opens the app at login.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Launch at login"
+          }
+        }
+      }
+    },
+    "generalScreen.startup.notFound" : {
+      "comment" : "Note under the launch-at-login toggle when macOS cannot find the app.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS cannot find this copy of AgentCron. Move it to Applications and try again."
+          }
+        }
+      }
+    },
+    "generalScreen.startup.openLoginItems" : {
+      "comment" : "Button that opens System Settings › Login Items.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Login Items"
+          }
+        }
+      }
+    },
+    "generalScreen.startup.requiresApproval" : {
+      "comment" : "Note under the launch-at-login toggle while macOS waits for the user's approval.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow AgentCron in System Settings › Login Items to open it at login."
+          }
+        }
+      }
+    },
+    "history.clearFilters" : {
+      "comment" : "Button in the History list when the filters hide every run.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear Filters"
+          }
+        }
+      }
+    },
+    "history.detail.copy" : {
+      "comment" : "Button in the History detail that copies the run result.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy"
+          }
+        }
+      }
+    },
+    "history.detail.noResult" : {
+      "comment" : "Shown in the History detail's Result section when a finished run has no text.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The agent reported no result."
+          }
+        }
+      }
+    },
+    "history.detail.openJob" : {
+      "comment" : "Link in the History detail header that shows the run's job in the Jobs section.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Job"
+          }
+        }
+      }
+    },
+    "history.detail.prompt" : {
+      "comment" : "Collapsed section in the History detail with the prompt the run used.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prompt"
+          }
+        }
+      }
+    },
+    "history.detail.raw" : {
+      "comment" : "Toggle in the History detail that shows the result as raw monospaced text.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raw"
+          }
+        }
+      }
+    },
+    "history.detail.reason" : {
+      "comment" : "Heading of a skipped run's reason in the History detail.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reason"
+          }
+        }
+      }
+    },
+    "history.detail.result" : {
+      "comment" : "Heading of the run result in the History detail.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Result"
+          }
+        }
+      }
+    },
+    "history.detail.resultPending" : {
+      "comment" : "Shown in the History detail while the selected run is still running.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Result appears when the run finishes"
+          }
+        }
+      }
+    },
+    "history.detail.stop" : {
+      "comment" : "Button in the History detail that stops the running run.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop"
+          }
+        }
+      }
+    },
     "history.duration.minutesSeconds" : {
       "comment" : "A run's duration. The arguments are minutes and seconds.",
       "localizations" : {
@@ -244,6 +570,138 @@
         }
       }
     },
+    "history.field.cost" : {
+      "comment" : "History detail field label: what the run cost in US dollars.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cost"
+          }
+        }
+      }
+    },
+    "history.field.directory" : {
+      "comment" : "History detail field label: the folder the run ran in.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Directory"
+          }
+        }
+      }
+    },
+    "history.field.duration" : {
+      "comment" : "History detail field label: how long the run took.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duration"
+          }
+        }
+      }
+    },
+    "history.field.effort" : {
+      "comment" : "History detail field label: the effort level the run used.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effort"
+          }
+        }
+      }
+    },
+    "history.field.elapsed" : {
+      "comment" : "History detail field label: how long the running run has run so far.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elapsed"
+          }
+        }
+      }
+    },
+    "history.field.exitCode" : {
+      "comment" : "History detail field label: the agent process's exit status.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exit Code"
+          }
+        }
+      }
+    },
+    "history.field.model" : {
+      "comment" : "History detail field label: the model the run used.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model"
+          }
+        }
+      }
+    },
+    "history.field.permission" : {
+      "comment" : "History detail field label: the permission mode the run used.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permission"
+          }
+        }
+      }
+    },
+    "history.field.scheduled" : {
+      "comment" : "History detail field label: the time the run was scheduled for.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scheduled"
+          }
+        }
+      }
+    },
+    "history.field.session" : {
+      "comment" : "History detail field label: the agent's session identifier.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Session"
+          }
+        }
+      }
+    },
+    "history.field.started" : {
+      "comment" : "History detail field label: when the run started.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Started"
+          }
+        }
+      }
+    },
+    "history.field.trigger" : {
+      "comment" : "History detail field label: how the run was started.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trigger"
+          }
+        }
+      }
+    },
     "history.group.date" : {
       "comment" : "History day group title for an older day. The argument is the date.",
       "localizations" : {
@@ -295,6 +753,17 @@
         }
       }
     },
+    "history.jobFilter.all" : {
+      "comment" : "History job filter option: runs of every job.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All Jobs"
+          }
+        }
+      }
+    },
     "history.jobFilter.deleted" : {
       "comment" : "History job filter option for a deleted job. The argument is its name.",
       "localizations" : {
@@ -325,6 +794,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@"
+          }
+        }
+      }
+    },
+    "history.jobFilter.label" : {
+      "comment" : "Label of the History job filter picker.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Job"
+          }
+        }
+      }
+    },
+    "history.noSelection" : {
+      "comment" : "Detail pane of the History screen while no run is selected.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select a run"
+          }
+        }
+      }
+    },
+    "history.openJobs" : {
+      "comment" : "Button in the empty History list that shows the Jobs section.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Jobs"
           }
         }
       }
@@ -363,6 +865,17 @@
         }
       }
     },
+    "history.outcomeFilter.label" : {
+      "comment" : "Label of the History outcome filter picker.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Outcome"
+          }
+        }
+      }
+    },
     "history.outcomeFilter.skipped" : {
       "comment" : "History outcome filter: runs that never started.",
       "localizations" : {
@@ -393,6 +906,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "成功"
+          }
+        }
+      }
+    },
+    "history.skipReason.agentNotFound" : {
+      "comment" : "History detail: a run was skipped because the agent's command was not found.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agent not found"
+          }
+        }
+      }
+    },
+    "history.skipReason.directoryMissing" : {
+      "comment" : "History detail: a run was skipped because the job's folder no longer exists.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Folder missing"
+          }
+        }
+      }
+    },
+    "history.skipReason.missed" : {
+      "comment" : "History detail: a run was skipped because its time passed too long ago to catch up.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Missed beyond 60 min"
+          }
+        }
+      }
+    },
+    "history.skipReason.stillRunning" : {
+      "comment" : "History detail: a run was skipped because the job was still running from an earlier time.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Still running"
           }
         }
       }
