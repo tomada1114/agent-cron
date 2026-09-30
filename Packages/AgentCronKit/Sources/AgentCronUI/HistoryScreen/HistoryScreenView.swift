@@ -33,6 +33,13 @@ struct HistoryScreenView: View {
         .onAppear {
             history.select(runID: navigation.selectedRunID)
         }
+        // A run picked elsewhere (the popover, a notification) while History shows. The
+        // list's own selection sets both models to the same value, so this settles.
+        .onChange(of: navigation.selectedRunID) { _, runID in
+            if history.selectedRunID != runID {
+                history.select(runID: runID)
+            }
+        }
     }
 
     @ViewBuilder private var detailPane: some View {
