@@ -295,6 +295,108 @@
         }
       }
     },
+    "notification.subtitle" : {
+      "comment" : "Notification subtitle: the time the run was for, 24-hour (\"22:00\"), after a middle dot.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "· %@"
+          }
+        }
+      }
+    },
+    "notification.title.failed" : {
+      "comment" : "Notification title for a run that failed. The argument is the job's name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ failed"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」が失敗しました"
+          }
+        }
+      }
+    },
+    "notification.title.skipped" : {
+      "comment" : "Notification title for a scheduled run that did not start. The argument is the job's name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ was skipped"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」はスキップされました"
+          }
+        }
+      }
+    },
+    "notification.title.stopped" : {
+      "comment" : "Notification title for a run the user stopped. The argument is the job's name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ was stopped"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」は停止されました"
+          }
+        }
+      }
+    },
+    "notification.title.succeeded" : {
+      "comment" : "Notification title for a run that succeeded. The argument is the job's name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ succeeded"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」が成功しました"
+          }
+        }
+      }
+    },
+    "notification.title.timedOut" : {
+      "comment" : "Notification title for a run stopped by its timeout. The argument is the job's name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ timed out"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」がタイムアウトしました"
+          }
+        }
+      }
+    },
     "outcomeBadge.bypass" : {
       "comment" : "Text label of the bypass status badge next to its glyph.",
       "localizations" : {

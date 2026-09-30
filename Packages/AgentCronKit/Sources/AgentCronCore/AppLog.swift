@@ -38,6 +38,10 @@ public enum AppLog {
     /// adapter behind it.
     public static let keepAwake = Logger(subsystem: subsystem, category: "keep-awake")
 
+    /// The notifications concern: ``RunNotificationController`` and the ``RunNotifying``
+    /// adapter behind it.
+    public static let notifications = Logger(subsystem: subsystem, category: "notifications")
+
     /// The storage concern: ``FileJobStore`` and ``FileRunStore`` reading and writing
     /// the files in Application Support.
     public static let storage = Logger(subsystem: subsystem, category: "storage")
