@@ -69,3 +69,4 @@ changes it.
 | [0009](adr/0009-design-lock.md) | Design lock — a precise instrument panel | Accepted 2026-09-29 |
 | [0010](adr/0010-markdown-results-without-a-dependency.md) | Render run results as Markdown without a dependency | Accepted 2026-09-30 |
 | [0011](adr/0011-distribution-local-builds-first.md) | Distribution — local builds first, Developer ID later | Accepted 2026-09-30 |
+| [0012](adr/0012-main-window-navigation-in-user-defaults.md) | Remember the main window's navigation in UserDefaults | Proposed |

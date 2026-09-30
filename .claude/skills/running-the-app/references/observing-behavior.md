@@ -134,10 +134,12 @@ Two rules about the probe:
 
 ## Start the app in a known state
 
-Nothing in this app reads a launch argument or an environment variable today: no `App/`
-or `AgentCronCore` code consults `UserDefaults` or `ProcessInfo`. The two snippets here
-pass `-probeValue 5` and `PROBE_STATE` to prove the plumbing, not because the app answers
-them. **Do not add such a hook to the app just to observe it** — a state you only need to
+The one launch argument this app answers is a stored `UserDefaults` key:
+`MainNavigationModel` reads `mainWindow.section`, `mainWindow.selectedJobID`, and
+`mainWindow.selectedRunID` at launch (ADR-0012), so `-mainWindow.section history` opens
+the main window on History for that launch. Nothing reads an environment variable or
+`ProcessInfo`. The two snippets here pass `-probeValue 5` and `PROBE_STATE` to prove the
+plumbing, not because the app answers them. **Do not add such a hook to the app just to observe it** — a state you only need to
 *look at* is a state a Core test can construct directly, and a `#Preview` can show by
 handing the view a view model already in that state.
 
