@@ -57,6 +57,278 @@
         }
       }
     },
+    "history.duration.minutesSeconds" : {
+      "comment" : "A run's duration. The arguments are minutes and seconds.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lldm %llds"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld分%lld秒"
+          }
+        }
+      }
+    },
+    "history.duration.seconds" : {
+      "comment" : "A run's duration under a minute. The argument is seconds.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%llds"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld秒"
+          }
+        }
+      }
+    },
+    "history.empty.noMatches" : {
+      "comment" : "History list placeholder when the filters hide every run.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No runs match these filters."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このフィルタに一致する実行はありません。"
+          }
+        }
+      }
+    },
+    "history.empty.noRuns" : {
+      "comment" : "History list placeholder when no run was ever recorded.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No runs yet. Runs appear here after a job runs."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "まだ実行履歴はありません。ジョブが実行されるとここに表示されます。"
+          }
+        }
+      }
+    },
+    "history.group.date" : {
+      "comment" : "History day group title for an older day. The argument is the date.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        }
+      }
+    },
+    "history.group.today" : {
+      "comment" : "History day group title for today's runs.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今日"
+          }
+        }
+      }
+    },
+    "history.group.yesterday" : {
+      "comment" : "History day group title for yesterday's runs.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yesterday"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "昨日"
+          }
+        }
+      }
+    },
+    "history.jobFilter.deleted" : {
+      "comment" : "History job filter option for a deleted job. The argument is its name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (deleted)"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@（削除済み）"
+          }
+        }
+      }
+    },
+    "history.jobFilter.job" : {
+      "comment" : "History job filter option for an existing job. The argument is its name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        }
+      }
+    },
+    "history.outcomeFilter.all" : {
+      "comment" : "History outcome filter: every run.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すべて"
+          }
+        }
+      }
+    },
+    "history.outcomeFilter.failures" : {
+      "comment" : "History outcome filter: failed, timed out, and skipped runs.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failures"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "失敗"
+          }
+        }
+      }
+    },
+    "history.outcomeFilter.skipped" : {
+      "comment" : "History outcome filter: runs that never started.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skipped"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スキップ"
+          }
+        }
+      }
+    },
+    "history.outcomeFilter.succeeded" : {
+      "comment" : "History outcome filter: runs that succeeded.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Succeeded"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "成功"
+          }
+        }
+      }
+    },
+    "history.trigger.catchUp" : {
+      "comment" : "History detail: the run made up a time missed while the Mac slept.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Catch-up"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "追い付き実行"
+          }
+        }
+      }
+    },
+    "history.trigger.manual" : {
+      "comment" : "History detail: the run was started by the user with Run Now.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Run Now"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今すぐ実行"
+          }
+        }
+      }
+    },
+    "history.trigger.scheduled" : {
+      "comment" : "History detail: the run was started by its schedule.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scheduled"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スケジュール"
+          }
+        }
+      }
+    },
     "jobDelete.message" : {
       "comment" : "Message of the alert that confirms deleting a job that is not running.",
       "localizations" : {
