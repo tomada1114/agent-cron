@@ -73,6 +73,11 @@ Do:
    MEASURE. A change under Packages/AgentCronKit/Sources/AgentCronPlatform/ also runs
    `just test-local` and reports its output under VERIFY -- CI and `just test`
    report those tests as skipped.
+   Never run a check that takes over the user's Mac -- `just run`, `just uitest`,
+   `just smoke`, launching the app, a screenshot, driving a window, anything that
+   raises a TCC prompt -- even if an earlier message seemed to allow it. List each
+   one you would have run under TEST-PLAN as `owed: <exact steps>`; the parent
+   batches them and asks the user first (`AGENTS.md` › Checks that take over the Mac).
 5. If the change is user-facing, add an entry to CHANGELOG.md under
    [Unreleased], in the section (Added / Changed / Fixed / ...) that fits.
 6. Commit in coherent increments, and push as soon as the first coherent
