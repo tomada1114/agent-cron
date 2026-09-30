@@ -4,7 +4,8 @@
   rules, state handling, validation timing, motion, accessibility targets) lives in
   `docs/design/ux-guidelines.md` and is cited, not restated.
 - **Platform:** macOS menu-bar agent (`LSUIElement`, `MenuBarExtra` window style) with one
-  main window. No Dock icon; the app's menu bar appears while the main window is key.
+  main window. No Dock icon while only the status item is up; while the main window is
+  open the app becomes a regular app (Dock icon, main menu) — ADR-0001.
 
 ## 1. Screen inventory
 

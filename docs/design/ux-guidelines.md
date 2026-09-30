@@ -35,8 +35,9 @@
 
 - **macOS:** every command is in the app menu with its shortcut (`ux-flows.md` §4);
   toolbar buttons are shortcuts to menu items. Settings… (⌘,) opens the General section of
-  the main window. No Dock icon (`LSUIElement`); opening the window activates the app so
-  its menu bar appears. Standard controls (`Form`, `Toggle`, `Picker`, `TextEditor`) are
+  the main window. No Dock icon while only the status item is up (`LSUIElement`); while
+  the main window is open the app switches to a regular activation policy so its menu
+  bar and Dock icon appear (ADR-0001). Standard controls (`Form`, `Toggle`, `Picker`, `TextEditor`) are
   used wherever one exists, so system focus rings, VoiceOver, and Full Keyboard Access come
   free. Popover closes on focus loss and Esc.
 

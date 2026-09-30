@@ -270,3 +270,74 @@ Add it only if you need that exact pre-Ventura look.
 
 Before adding any dependency, apply the checklist in `.claude/rules/project.md`
 (maintenance, license, transitive weight) and commit `Package.resolved` with it.
+
+## AgentCron on these layers
+
+The sections above are the template's ground; this one is AgentCron's own map onto it.
+The reasoning behind each choice is in the ADR it links.
+
+### Principles
+
+- **The app is the scheduler** — nothing runs while it is quit; no launchd, no daemon
+  ([ADR-0003](architecture/adr/0003-in-app-scheduler.md)). Rules out background
+  helpers and plists.
+- **A run is a hand-run `claude -p`** — same binary, same login-shell environment, same
+  flags ([ADR-0004](architecture/adr/0004-agent-runner-port-and-claude-code-invocation.md)).
+  Rules out bundling or wrapping the agent, and the App Sandbox
+  ([ADR-0002](architecture/adr/0002-app-sandbox-off.md)).
+- **Agent-neutral above one adapter** — only `ClaudeCodeCommand` and
+  `ClaudeCodeResultParser` know Claude Code; jobs store an `AgentKind`. Rules out
+  `claude`-specific fields on `Job` or in the scheduler.
+- **Nothing runs that was not saved** — a run uses the last saved job and records a
+  snapshot of it. Rules out live-applied edits to a job.
+- **Decisions in Core, translation in Platform** — schedule math, dispatch, catch-up,
+  keep-awake policy, notification policy are Core with injected time; adapters only
+  launch, observe, and post.
+
+### Shape
+
+| Domain | Layer | Module path (planned) | Port |
+|---|---|---|---|
+| Jobs, schedules, next-fire math | Core | `AgentCronCore/Jobs/`, `Scheduling/` | — |
+| Dispatcher, catch-up, overlap | Core | `AgentCronCore/Scheduling/` | `SystemEventsProviding` (timer ticks, sleep/wake, clock and time-zone change) |
+| Run execution | Core builds argv and parses the result; Platform launches | `AgentCronCore/Agents/`; `AgentCronPlatform/ProcessAgentRunner.swift` | `AgentRunning` |
+| Persistence | Core (Foundation file I/O) | `AgentCronCore/Storage/` | `JobStoring`, `RunStoring` |
+| Keep-awake | Core policy; Platform IOKit | `AgentCronCore/KeepAwake/`; `AgentCronPlatform/PowerAssertionSleepPreventer.swift` | `SleepPreventing` |
+| Notifications | Core policy; Platform UserNotifications | `AgentCronCore/Notifications/`; `AgentCronPlatform/UserNotificationPoster.swift` | `RunNotifying` |
+| Launch at login, activation policy | Platform | `AgentCronPlatform/` | `LoginItemControlling`, `ActivationPolicyControlling` |
+| Popover, main window, editor, history | UI over Core view models | `AgentCronUI/` | — |
+| Scenes, menus, wiring | `App/` | `App/AgentCronApp.swift` | — |
+
+### Data
+
+`Job` (id, name, agent, directory, prompt, schedule, model, effort, permission mode,
+timeout, notify policy, enabled) and `Run` (id, job id + name snapshot, prompt and
+option snapshot, trigger, scheduled time, start/end, outcome + reason, exit code,
+cost, session id, result text), stored as versioned JSON in Application Support and
+kept 90 days ([ADR-0005](architecture/adr/0005-json-files-in-application-support.md)).
+
+### Core flows
+
+- **Scheduled run:** timer tick → dispatcher (Core) picks due jobs → pre-flight → hold
+  keep-awake → `AgentRunning` launches `zsh -l -c` → result parsed (Core) → `Run`
+  written → keep-awake released if idle → notification per policy → popover and
+  history update.
+- **Wake or launch:** sleep/wake event → dispatcher computes missed times since
+  `lastCheckedAt` → one catch-up within 60 min, the rest recorded as skipped.
+- **Edit a job:** editor (UI) → view model validates → Save writes `jobs.json` → next
+  fire date recomputed and the timer re-armed.
+
+### Quality targets
+
+| Target | Check |
+|---|---|
+| Next-fire, catch-up, overlap, and DST rules are exact | Core tests with a fake clock (`just test`, coverage floor) |
+| A run matches a hand-run `claude -p` in the same directory | parity run recorded in the runner issue's PR (`just test-local` + `just run`) |
+| A bad `jobs.json` is never overwritten | Core store test decoding a corrupt sample |
+| Previous file format still decodes | migration test from a checked-in v1 sample |
+| Keep-awake assertion released when no job runs and no manual hold | Core controller tests; `pmset -g assertions` in the adapter's local test |
+| The status item appears at launch | `just uitest`, `just smoke` |
+
+### Decisions
+
+The ADR index is [`architecture/README.md`](architecture/README.md).
