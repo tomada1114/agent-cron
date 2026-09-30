@@ -9,6 +9,12 @@
             "state" : "translated",
             "value" : "Open AgentCron…"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AgentCron を開く…"
+          }
         }
       }
     },
@@ -20,6 +26,12 @@
             "state" : "translated",
             "value" : "Jobs, history, and settings will appear here."
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ジョブ、履歴、設定がここに表示されます。"
+          }
         }
       }
     },
@@ -27,6 +39,12 @@
       "comment" : "Title of the main window. The app's name.",
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AgentCron"
+          }
+        },
+        "ja" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "AgentCron"
@@ -63,6 +81,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Scheduled runs will appear here."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "予定された実行がここに表示されます。"
           }
         }
       }
