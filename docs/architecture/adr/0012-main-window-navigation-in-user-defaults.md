@@ -48,6 +48,16 @@ A value that cannot be read back restores as its "absent" state. A stored job or
 that no longer exists is cleared once the screen that loads jobs or runs reports what
 exists (`knownJobsChanged(to:)`, `knownRunsChanged(to:)`).
 
+The same domain holds one more contract key, written by `AppLifecycleModel` (issue #17)
+and read the same way, through an injected `UserDefaults`:
+
+| Key | Value | Absent means |
+|---|---|---|
+| `didRegisterLoginItemOnFirstLaunch` | `Bool`, `true` once the first launch has tried to register launch at login, whether or not the OS allowed it | the first launch has not happened: register, then set it |
+
+Once it is set the app never registers on its own again, so a user who turned launch
+at login off stays off (requirements §3.7).
+
 Option 2 keeps the state in the view, where no Core test reaches it, and the menu
 commands would need it from outside the window's scene. Option 3 couples a UI preference
 to the scheduler's document, whose writes and schema version exist for jobs.
@@ -64,6 +74,8 @@ to the scheduler's document, whose writes and schema version exist for jobs.
 
 - Renaming a `MainSection` case or a key resets the user's saved navigation unless Core
   migrates the old value.
+- Renaming or removing `didRegisterLoginItemOnFirstLaunch` makes the next launch
+  register launch at login again, overriding a user who had turned it off.
 
 ### Follow-ups
 
