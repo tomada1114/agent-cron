@@ -45,7 +45,7 @@ public enum NotificationPolicy {
         }
         // A catch-up or skipped run is recorded after the time it was for; that time is
         // the one the user scheduled, and so the one that names the run.
-        let time = run.scheduledAt ?? run.startedAt
+        let time = scheduledTime(of: run)
         let clock = String(
             format: "%02d:%02d",
             calendar.component(.hour, from: time),
@@ -56,6 +56,42 @@ public enum NotificationPolicy {
             title: resolved(title, in: locale),
             subtitle: resolved(subtitle(time: clock), in: locale),
             body: body(of: run),
+        )
+    }
+
+    /// The one notification for the times of one job a single check recorded missed, or
+    /// `nil` when there are none (issue #50). One missed time reads like any skipped run;
+    /// several read "Missed 14 runs of Nightly review", told at and answering the latest.
+    /// Whether it posts is ``shouldNotify(for:)``'s, asked of the runs themselves.
+    public static func missedContent(
+        for runs: [Run],
+        locale: Locale,
+        calendar: Calendar,
+    ) -> NotificationContent? {
+        guard let latest = runs.max(by: { scheduledTime(of: $0) < scheduledTime(of: $1) }),
+              let single = content(for: latest, locale: locale, calendar: calendar)
+        else {
+            return nil
+        }
+        guard runs.count > 1 else {
+            return single
+        }
+        return NotificationContent(
+            runID: single.runID,
+            title: resolved(missedTitle(count: runs.count, jobName: latest.jobName), in: locale),
+            subtitle: single.subtitle,
+            body: single.body,
+        )
+    }
+
+    /// The title for `count` missed runs of `jobName`, plural in the catalog. `package` so
+    /// the localization tests can reach its key.
+    package static func missedTitle(count: Int, jobName: String) -> LocalizedStringResource {
+        LocalizedStringResource(
+            "notification.title.missed",
+            defaultValue: "Missed \(count) runs of \(jobName)",
+            bundle: .module,
+            comment: "Notification title for several missed times of one job. Arguments: the count, the job's name.",
         )
     }
 
@@ -133,6 +169,10 @@ public enum NotificationPolicy {
         let firstLine = text.prefix { !$0.isNewline }
             .trimmingCharacters(in: .whitespaces)
         return String(firstLine.prefix(maximumBodyLength))
+    }
+
+    private static func scheduledTime(of run: Run) -> Date {
+        run.scheduledAt ?? run.startedAt
     }
 
     private static func resolved(_ resource: LocalizedStringResource, in locale: Locale) -> String {

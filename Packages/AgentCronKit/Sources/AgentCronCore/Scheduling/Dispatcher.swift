@@ -97,6 +97,11 @@ public final class Dispatcher {
     /// decides about.
     @ObservationIgnored public var onRunFinished: (@MainActor (Run) -> Void)?
 
+    /// Called once per job per check with the times that check recorded missed, after each
+    /// has also gone to ``onRunFinished``: what ``RunNotificationController/runsMissed(_:)``
+    /// turns into one notification, so a week away is not dozens of them (issue #50).
+    @ObservationIgnored public var onRunsMissed: (@MainActor ([Run]) -> Void)?
+
     @ObservationIgnored private var tasks: [UUID: Task<Void, Never>] = [:]
 
     private let jobStore: any JobStoring
@@ -214,9 +219,12 @@ public final class Dispatcher {
     private func dispatchDue(_ job: Job, since previous: Date, now: Date) {
         let schedule = ScheduleCalendar(schedule: job.schedule, calendar: environment.calendar)
         let plan = schedule.catchUpPlan(lastChecked: max(previous, job.updatedAt), now: now)
-        for missed in plan.skipped {
+        let missedRuns = plan.skipped.map { missed in
             let run = newRun(of: job, trigger: .catchUp, scheduledAt: missed, at: now)
-            recordSkipped(run.skipped(.missed, at: now))
+            return recordSkipped(run.skipped(.missed, at: now))
+        }
+        if !missedRuns.isEmpty {
+            onRunsMissed?(missedRuns)
         }
         guard let due = plan.runOnce else {
             return

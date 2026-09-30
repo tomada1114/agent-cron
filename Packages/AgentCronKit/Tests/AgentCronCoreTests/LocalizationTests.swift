@@ -34,7 +34,27 @@ private struct CatalogLocalization: Decodable {
         let value: String
     }
 
+    struct Form: Decodable {
+        let stringUnit: StringUnit
+    }
+
+    struct Variations: Decodable {
+        let plural: [String: Form]
+    }
+
     let stringUnit: StringUnit?
+    let variations: Variations?
+
+    /// The single string, or a plural entry's `other` form — the one every count Core
+    /// renders from its `defaultValue` reads as.
+    var value: String? {
+        stringUnit?.value ?? variations?.plural["other"]?.stringUnit.value
+    }
+
+    /// A plural entry's form for `category` (`one`, `other`), or `nil` for a single string.
+    func pluralValue(_ category: String) -> String? {
+        variations?.plural[category]?.stringUnit.value
+    }
 }
 
 /// The String Catalog plumbing (`Sources/AgentCronCore/Resources/Localizable.xcstrings`).
@@ -177,12 +197,24 @@ struct LocalizationTests {
         for testCase in Self.everyCase() {
             let key = testCase.resource.key
             let english = try #require(
-                catalog.strings[key]?.localizations[catalog.sourceLanguage]?.stringUnit?.value,
+                catalog.strings[key]?.localizations[catalog.sourceLanguage]?.value,
                 "\(key) has no English value",
             )
             let formatted = String(format: english, arguments: testCase.arguments)
             #expect(formatted == testCase.resource.resolved(in: .english), "\(key)")
         }
+    }
+
+    @Test
+    func `the missed-runs title's English is plural, one run and many`() throws {
+        let catalog = try Self.catalog()
+        let english = try #require(
+            catalog.strings["notification.title.missed"]?.localizations[catalog.sourceLanguage],
+        )
+        let one = try #require(english.pluralValue("one"))
+        let other = try #require(english.pluralValue("other"))
+        #expect(String(format: one, 1, "Nightly review") == "Missed 1 run of Nightly review")
+        #expect(String(format: other, 14, "Nightly review") == "Missed 14 runs of Nightly review")
     }
 
     @Test
