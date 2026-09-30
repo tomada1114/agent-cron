@@ -138,6 +138,10 @@ is the worked example; copy its shape.
 4. `just run`, then a screenshot per `running-the-app` in both appearances and at the
    minimum window size — the pull request's evidence of what the view shows.
 
+Steps 3 and 4 take over the user's Mac, so they follow `AGENTS.md` › Checks that take
+over the Mac: a sub-agent lists them as owed, and the session that talks to the user
+announces the batch and runs it only after a yes.
+
 ## Sources
 
 All checked 2026-09-28.

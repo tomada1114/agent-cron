@@ -176,6 +176,278 @@
         }
       }
     },
+    "history.duration.minutesSeconds" : {
+      "comment" : "A run's duration. The arguments are minutes and seconds.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lldm %llds"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld分%lld秒"
+          }
+        }
+      }
+    },
+    "history.duration.seconds" : {
+      "comment" : "A run's duration under a minute. The argument is seconds.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%llds"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld秒"
+          }
+        }
+      }
+    },
+    "history.empty.noMatches" : {
+      "comment" : "History list placeholder when the filters hide every run.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No runs match these filters."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このフィルタに一致する実行はありません。"
+          }
+        }
+      }
+    },
+    "history.empty.noRuns" : {
+      "comment" : "History list placeholder when no run was ever recorded.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No runs yet. Runs appear here after a job runs."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "まだ実行履歴はありません。ジョブが実行されるとここに表示されます。"
+          }
+        }
+      }
+    },
+    "history.group.date" : {
+      "comment" : "History day group title for an older day. The argument is the date.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        }
+      }
+    },
+    "history.group.today" : {
+      "comment" : "History day group title for today's runs.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今日"
+          }
+        }
+      }
+    },
+    "history.group.yesterday" : {
+      "comment" : "History day group title for yesterday's runs.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yesterday"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "昨日"
+          }
+        }
+      }
+    },
+    "history.jobFilter.deleted" : {
+      "comment" : "History job filter option for a deleted job. The argument is its name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (deleted)"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@（削除済み）"
+          }
+        }
+      }
+    },
+    "history.jobFilter.job" : {
+      "comment" : "History job filter option for an existing job. The argument is its name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        }
+      }
+    },
+    "history.outcomeFilter.all" : {
+      "comment" : "History outcome filter: every run.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すべて"
+          }
+        }
+      }
+    },
+    "history.outcomeFilter.failures" : {
+      "comment" : "History outcome filter: failed, timed out, and skipped runs.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failures"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "失敗"
+          }
+        }
+      }
+    },
+    "history.outcomeFilter.skipped" : {
+      "comment" : "History outcome filter: runs that never started.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skipped"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スキップ"
+          }
+        }
+      }
+    },
+    "history.outcomeFilter.succeeded" : {
+      "comment" : "History outcome filter: runs that succeeded.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Succeeded"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "成功"
+          }
+        }
+      }
+    },
+    "history.trigger.catchUp" : {
+      "comment" : "History detail: the run made up a time missed while the Mac slept.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Catch-up"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "追い付き実行"
+          }
+        }
+      }
+    },
+    "history.trigger.manual" : {
+      "comment" : "History detail: the run was started by the user with Run Now.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Run Now"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今すぐ実行"
+          }
+        }
+      }
+    },
+    "history.trigger.scheduled" : {
+      "comment" : "History detail: the run was started by its schedule.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scheduled"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スケジュール"
+          }
+        }
+      }
+    },
     "jobBypass.confirm" : {
       "comment" : "Destructive button of the alert that confirms Bypass Permissions for a job.",
       "localizations" : {
@@ -1196,6 +1468,78 @@
         }
       }
     },
+    "keepAwake.mode.fourHours" : {
+      "comment" : "Keep-awake menu choice in the menu-bar popover: keep awake for four hours.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4 hours"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4時間"
+          }
+        }
+      }
+    },
+    "keepAwake.mode.off" : {
+      "comment" : "Keep-awake menu choice in the menu-bar popover: no manual hold.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Off"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "オフ"
+          }
+        }
+      }
+    },
+    "keepAwake.mode.oneHour" : {
+      "comment" : "Keep-awake menu choice in the menu-bar popover: keep awake for one hour.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 hour"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1時間"
+          }
+        }
+      }
+    },
+    "keepAwake.mode.untilTurnedOff" : {
+      "comment" : "Keep-awake menu choice in the menu-bar popover: keep awake with no end time.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Until turned off"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "オフにするまで"
+          }
+        }
+      }
+    },
     "mainMenu.delete" : {
       "comment" : "Job menu item that asks to delete the selected job.",
       "localizations" : {
@@ -1906,6 +2250,96 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "計画のみ"
+          }
+        }
+      }
+    },
+    "popover.banner.agentNotFound" : {
+      "comment" : "Menu-bar popover banner when the claude CLI does not resolve in the login shell.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "claude was not found in your login shell."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログインシェルで claude が見つかりませんでした。"
+          }
+        }
+      }
+    },
+    "popover.day.tomorrow" : {
+      "comment" : "Day label of the menu-bar popover's next run when it is tomorrow.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tomorrow"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "明日"
+          }
+        }
+      }
+    },
+    "popover.empty.allPaused" : {
+      "comment" : "Menu-bar popover empty state when every job is paused.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All jobs are paused."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すべてのジョブが一時停止中です。"
+          }
+        }
+      }
+    },
+    "popover.empty.noJobs" : {
+      "comment" : "Menu-bar popover empty state when no job is saved.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No jobs yet"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ジョブはまだありません"
+          }
+        }
+      }
+    },
+    "popover.empty.nothingToday" : {
+      "comment" : "Menu-bar popover empty state; arguments: the next run's day, time, and job name.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing scheduled today. Next: %1$@ %2$@ %3$@."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今日の予定はありません。次回：%1$@ %2$@ %3$@"
           }
         }
       }

@@ -42,6 +42,10 @@ public enum AppLog {
     /// adapter behind it.
     public static let keepAwake = Logger(subsystem: subsystem, category: "keep-awake")
 
+    /// The app-lifecycle concern: ``AppLifecycleModel`` and the ``LoginItemControlling``
+    /// and ``ActivationPolicyControlling`` adapters behind it.
+    public static let lifecycle = Logger(subsystem: subsystem, category: "app-lifecycle")
+
     /// The main window's navigation concern: ``MainNavigationModel`` and the menu
     /// commands that act on it.
     public static let navigation = Logger(subsystem: subsystem, category: "navigation")
@@ -49,6 +53,10 @@ public enum AppLog {
     /// The notifications concern: ``RunNotificationController`` and the ``RunNotifying``
     /// adapter behind it.
     public static let notifications = Logger(subsystem: subsystem, category: "notifications")
+
+    /// The scheduler concern: ``Dispatcher`` deciding which jobs run, skip, or catch up,
+    /// and recording each run.
+    public static let scheduler = Logger(subsystem: subsystem, category: "scheduler")
 
     /// The storage concern: ``FileJobStore`` and ``FileRunStore`` reading and writing
     /// the files in Application Support.
