@@ -21,8 +21,8 @@ struct AgentCommandBuildingTests {
             permissionMode: .plan,
         )
         #expect(AgentKind.claudeCode.commandBuilder.arguments(for: request) == [
-            "claude", "-p", "Review PRs", "--output-format", "json",
-            "--permission-mode", "plan", "--model", "haiku",
+            "claude", "-p", "--output-format", "json", "--permission-mode", "plan",
+            "--model", "haiku", "--", "Review PRs",
         ])
     }
 

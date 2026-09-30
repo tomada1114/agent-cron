@@ -1,6 +1,5 @@
-/// Claude Code's command line: `claude -p <prompt> --output-format json
-/// --permission-mode <mode> [--model <alias>] [--effort <level>]` (ADR-0004,
-/// requirements §3.3).
+/// Claude Code's command line: `claude -p --output-format json --permission-mode <mode>
+/// [--model <alias>] [--effort <level>] -- <prompt>` (ADR-0004, requirements §3.3).
 ///
 /// The same flags a user would type, so a scheduled run matches a hand-run one. A model
 /// or effort left at its default passes no flag at all, so Claude Code's own setting
@@ -18,11 +17,12 @@ public struct ClaudeCodeCommand: AgentCommandBuilding {
 
     /// The `claude -p` command line for `request`. The prompt is one element however
     /// many lines, quotes, or `$` it holds; the runner never lets a shell re-parse it.
+    /// It comes last, after `--`, because Claude Code rejects a bare prompt that starts
+    /// with `-` (such as a Markdown bullet) as an unknown option.
     public func arguments(for request: RunRequest) -> [String] {
         var argv = [
             agent.executableName,
             "-p",
-            request.prompt,
             "--output-format",
             "json",
             "--permission-mode",
@@ -34,7 +34,7 @@ public struct ClaudeCodeCommand: AgentCommandBuilding {
         if let level = flagValue(for: request.effort) {
             argv += ["--effort", level]
         }
-        return argv
+        return argv + ["--", request.prompt]
     }
 
     /// Claude Code's JSON result, read by ``ClaudeCodeResultParser``.
