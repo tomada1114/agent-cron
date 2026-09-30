@@ -57,22 +57,22 @@ Apple-only frameworks such as Combine stay allowed, and so does Foundation — a
 
 Code that talks to the OS — `NSWorkspace`, accessibility, a Carbon hotkey, an event tap,
 an `NSPanel` overlay, a login item — lives in `AgentCronPlatform`, never in Core, a view, or
-the shell. It is always the same five pieces, and the template ships one worked example
-of them to copy:
+the shell. It is always the same five pieces, and the keep-awake port is the worked
+example of them to copy (ADR-0006):
 
 1. **The port**, in Core — a `Sendable` protocol taking and returning value types Core
-   owns: `FrontmostAppProviding` in
-   `Packages/AgentCronKit/Sources/AgentCronCore/FrontmostAppProviding.swift`.
+   owns: `SleepPreventing` in
+   `Packages/AgentCronKit/Sources/AgentCronCore/KeepAwake/SleepPreventing.swift`.
 2. **The adapter**, in Platform — the OS framework import, translating the OS type into
-   the Core value and doing nothing else: `WorkspaceFrontmostAppProvider` in
-   `Packages/AgentCronKit/Sources/AgentCronPlatform/WorkspaceFrontmostAppProvider.swift`.
+   the Core value and doing nothing else: `PowerAssertionSleepPreventer` in
+   `Packages/AgentCronKit/Sources/AgentCronPlatform/PowerAssertionSleepPreventer.swift`.
 3. **The fake**, in `AgentCronTestSupport` — a real implementation answering from data the
    test hands it, used by the Core tests of whatever consumes the port
-   (`.claude/rules/testing.md` › Fakes, not mocks): `FakeFrontmostAppProvider` in
-   `Packages/AgentCronKit/Tests/AgentCronTestSupport/FakeFrontmostAppProvider.swift`.
+   (`.claude/rules/testing.md` › Fakes, not mocks): `FakeSleepPreventer` in
+   `Packages/AgentCronKit/Tests/AgentCronTestSupport/FakeSleepPreventer.swift`.
 4. **The local-machine test**, in `Packages/AgentCronKit/Tests/AgentCronPlatformTests` — the
    adapter against the *real* OS, which the fake by construction cannot check:
-   `WorkspaceFrontmostAppProviderTests` asks the live `NSWorkspace`. Every suite there
+   `PowerAssertionSleepPreventerTests` holds and releases a real IOKit power assertion. Every suite there
    carries the `.requiresLocalMachine` trait, so it runs only with
    `RUN_LOCAL_MACHINE_TESTS=1` — what `just test-local` sets — and is reported as
    *skipped* under `just test` and in CI. It has to be: a runner has no logged-in GUI
@@ -82,10 +82,10 @@ of them to copy:
    request (`.claude/rules/testing.md` › Where a Test Goes).
 5. **The contract suite**, in `AgentCronTestSupport` — one function over the protocol that
    checks every promise the port's `///` states, so the fake cannot quietly promise
-   something the adapter does not: `FrontmostAppProvidingContract` in
-   `Packages/AgentCronKit/Tests/AgentCronTestSupport/FrontmostAppProvidingContract.swift`.
-   `FrontmostAppProvidingContractTests` in `AgentCronCoreTests` runs it against the fake on
-   every `just test` and in CI, and `WorkspaceFrontmostAppProviderTests` runs the same
+   something the adapter does not: `SleepPreventingContract` in
+   `Packages/AgentCronKit/Tests/AgentCronTestSupport/SleepPreventingContract.swift`.
+   `SleepPreventingContractTests` in `AgentCronCoreTests` runs it against the fake on
+   every `just test` and in CI, and `PowerAssertionSleepPreventerTests` runs the same
    function against the adapter under `.requiresLocalMachine` (`just test-local`)
    (`.claude/rules/testing.md` › One Contract Suite per Port).
 
@@ -125,9 +125,9 @@ through the same loggers, which they already see by importing `AgentCronCore`, s
 The conventions that go with it — one category per concern, a privacy annotation on
 anything user-derived, and never `print`/`debugPrint`/`NSLog` under `Sources/` or `App/`
 (`.swiftlint.yml`'s `no_print_in_sources` rejects them) — are in
-`.claude/rules/swift.md` › Logging. `FrontmostAppViewModel.refresh()` is the worked
-example: it logs that a refresh happened `.public` and the other application's name
-`.private`.
+`.claude/rules/swift.md` › Logging. `KeepAwakeController` is the worked example: it
+logs its app-chosen hold reason and a refused hold's `IOReturn` `.public`, since
+neither carries user data; a value that does is logged `.private`.
 
 ## Where new code goes
 

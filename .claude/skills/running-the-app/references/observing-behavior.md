@@ -68,8 +68,8 @@ status item, the popover, or the window before it goes near a pull request.
   `Clock`, the symbol's name, not "AgentCron"). `click()` on it opens the popover.
 - **The popover's content is invisible** to XCUITest — a `.window`-style `MenuBarExtra`
   exposes nothing to the app's accessibility tree, so its identifiers
-  (`openMainWindowButton`, `frontmostAppLabel` in
-  `Packages/AgentCronKit/Sources/AgentCronUI/ContentView.swift`) cannot be queried or
+  (`openMainWindowButton`, `popoverKeepAwake`, and the rest under
+  `Packages/AgentCronKit/Sources/AgentCronUI/Popover/`) cannot be queried or
   clicked. A keyboard shortcut still reaches it: ⌘, while the popover is open presses
   **Open AgentCron…**. See it with `XCUIScreen.main.screenshot()`.
 - **The main window** is `app.windows.firstMatch` once it is open; `app.windows` is empty

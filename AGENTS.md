@@ -187,7 +187,7 @@ Config/Debug.xcconfig       # Debug-only build settings project.yml cannot expre
   declares; a Core test substitutes a fake for that port, and `App/` picks the real one.
   Adapters translate and never decide — a decision belongs in Core, which is why
   Platform stays outside the coverage floor (`scripts/coverage.sh` measures Core only).
-  The worked example is `FrontmostAppProviding` / `WorkspaceFrontmostAppProvider`
+  The worked example is `SleepPreventing` / `PowerAssertionSleepPreventer`
   (`docs/architecture.md` › Ports and adapters)
 - The translation an adapter does *is* checked, just not by a gate: `Tests/AgentCronPlatformTests`
   runs it against the real OS behind the `.requiresLocalMachine` opt-in, so a human runs

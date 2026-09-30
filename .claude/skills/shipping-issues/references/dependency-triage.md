@@ -61,7 +61,7 @@ dependency phrasings (`Depends on #N`, the spelling `triaging-issues` asks for).
   issues that implement it.
 - **Config-before-feature** -- a settings/validation issue precedes features
   that read those settings.
-- **Port-before-adapter** -- a Core port (`FrontmostAppProviding`-style protocol)
+- **Port-before-adapter** -- a Core port (`SleepPreventing`-style protocol)
   lands before the `AgentCronPlatform` adapter and the `App/` wiring that use it.
 - **Append-target collision** -- a changelog, release-notes file, decision log,
   or generated index that every PR appends to conflicts both-added even when

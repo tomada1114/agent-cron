@@ -21,7 +21,7 @@ Logging); the error-path test rule (`.claude/rules/testing.md` › What to Test)
 ## Where an error type lives
 
 - Declare every error a caller can observe in `AgentCronCore`, next to the port or model
-  that throws it — `FrontmostAppProviding.swift` would hold a `FrontmostAppError`.
+  that throws it — `KeepAwake/SleepPreventing.swift` holds `SleepPreventionError`.
   `AgentCronUI` and `App/` switch on it, and a Core test's fake throws it, so it cannot
   live in `AgentCronPlatform` (Core never imports Platform).
 - One `enum` per failure domain, `Error, Equatable, Sendable`. Cases name what went
@@ -32,19 +32,22 @@ Logging); the error-path test rule (`.claude/rules/testing.md` › What to Test)
   the adapter's mechanism into Core.
 
 ```swift
-/// Why the frontmost application could not be read — a caller shows a different
-/// recovery for each case, which is why this is an enum and not a message string.
-public enum FrontmostAppError: Error, Equatable, Sendable {
-    /// Accessibility is not granted; the UI offers to open System Settings.
-    case permissionDenied
+/// Why idle sleep could not be held off — the OS refused the assertion.
+///
+/// An enum rather than a message so a caller can switch over it; the payload is the
+/// OS status code (an `IOReturn`), which is safe to log and carries no user data.
+public enum SleepPreventionError: Error, Equatable, Sendable {
     /// The OS reported a failure the app has no recovery for; `code` is for logs.
     case systemFailure(code: Int32)
 }
 ```
 
+A domain with a recovery per case grows cases, not strings: a port behind a TCC grant
+would add `.permissionDenied`, for which the UI offers to open System Settings.
+
 ## Typed throws or plain throws
 
-Typed throws (`throws(FrontmostAppError)`, SE-0413) needs Swift 6; this package is
+Typed throws (`throws(SleepPreventionError)`, SE-0413) needs Swift 6; this package is
 `swift-tools-version: 6.2` in Swift 6 language mode, so it is available everywhere.
 
 - **Use `throws(E)`** when the caller switches over `E`'s cases: a port method, a
@@ -58,25 +61,25 @@ Typed throws (`throws(FrontmostAppError)`, SE-0413) needs Swift 6; this package 
   `.unknown(any Error)` to make a typed throw compile — map to a real case instead.
 
 ```swift
-public protocol FrontmostAppProviding: Sendable {
-    func currentFrontmostApp() throws(FrontmostAppError) -> FrontmostApp?
+public protocol SleepPreventing: Sendable {
+    func hold(reason: String) throws(SleepPreventionError) -> SleepPreventionToken
+    func release(_ token: SleepPreventionToken)
 }
 
-// In a view model: the switch is exhaustive over FrontmostAppError.
+// In KeepAwakeController: the switch is exhaustive over SleepPreventionError.
 do {
-    app = try provider.currentFrontmostApp()
+    token = try preventer.hold(reason: reason)
 } catch {
     switch error {
-    case .permissionDenied: state = .needsPermission
     case let .systemFailure(code):
-        AppLog.frontmostApp.error("frontmost app read failed: \(code, privacy: .public)")
-        state = .unavailable
+        AppLog.keepAwake.error("could not hold idle sleep: IOReturn \(code, privacy: .public)")
     }
 }
 ```
 
-`nil` stays the answer for "there is none" (no frontmost app is not a failure); an
-error is for "could not find out". Do not turn an expected absence into a throw.
+An expected outcome stays a plain return: releasing a stale or foreign token does
+nothing rather than throwing. An error is for "could not do it"; do not turn an
+expected absence into a throw.
 
 ## No user data in errors or logs
 
@@ -105,7 +108,7 @@ do {
 } catch let error as CancellationError {
     throw error  // cancellation is not a failure: never log or map it
 } catch {
-    AppLog.frontmostApp.error("refresh failed")
+    AppLog.keepAwake.error("refresh failed")
 }
 ```
 
@@ -134,17 +137,19 @@ error to a Core case is translation; choosing what the app does about it is Core
 - Log the raw code in the adapter only if Core cannot, and with `privacy: .public`.
 
 ```swift
-import ApplicationServices
 import AgentCronCore
+import IOKit.pwr_mgt
 
-extension FrontmostAppError {
-    /// Translation only: which Core case an Accessibility result means.
-    init(_ result: AXError) {
-        switch result {
-        case .apiDisabled: self = .permissionDenied
-        default: self = .systemFailure(code: result.rawValue)
-        }
-    }
+// PowerAssertionSleepPreventer.hold(reason:) — translation only: a failing IOReturn
+// becomes the Core case, carrying just the code.
+let result = IOPMAssertionCreateWithName(
+    kIOPMAssertionTypePreventUserIdleSystemSleep as CFString,
+    IOPMAssertionLevel(kIOPMAssertionLevelOn),
+    reason as CFString,
+    &id,
+)
+guard result == kIOReturnSuccess else {
+    throw .systemFailure(code: result)
 }
 ```
 

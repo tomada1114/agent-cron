@@ -163,8 +163,7 @@ secrets — no workflow edits. See docs/distribution.md.
    `CODE_OF_CONDUCT.md` for your app (the conduct-reporting contact stays
    `tmasuyama1114@gmail.com` if `--email` was omitted, so check it), and review
    `LICENSE`'s copyright line (`CHANGELOG.md` is reset automatically)
-7. Replace or remove the example code — the `FrontmostApp`
-   port/adapter — following the checklist in
+7. Replace or remove the example code, following
    [docs/getting-started.md › Removing the example code](docs/getting-started.md#removing-the-example-code);
    keep the Core/UI split and the tests
 8. For signed releases, add the secrets listed in docs/distribution.md
