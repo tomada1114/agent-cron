@@ -78,9 +78,10 @@ struct LocalizationTests {
         return [
             Case(resource: answered.label, arguments: ["Finder"]),
             Case(resource: unanswered.label, arguments: []),
-            Case(resource: CounterViewModel.resetTitle, arguments: []),
-            Case(resource: CounterViewModel.decrementLabel, arguments: []),
-            Case(resource: CounterViewModel.incrementLabel, arguments: []),
+            Case(resource: AppWindow.main.title, arguments: []),
+            Case(resource: AppWindow.main.openCommandTitle, arguments: []),
+            Case(resource: AppWindow.main.placeholder, arguments: []),
+            Case(resource: MenuBarPopover.placeholder, arguments: []),
         ]
     }
 
@@ -173,8 +174,9 @@ struct LocalizationTests {
     @Test
     func `the catalog and Core's bundle both declare English as the development language`() throws {
         #expect(try Self.catalog().sourceLanguage == "en")
-        guard case let .atURL(url) = CounterViewModel.resetTitle.bundle else {
-            Issue.record("resetTitle is not looked up in Core's bundle")
+        let resource = try #require(Self.everyCase().first).resource
+        guard case let .atURL(url) = resource.bundle else {
+            Issue.record("\(resource.key) is not looked up in Core's bundle")
             return
         }
         #expect(Bundle(url: url)?.developmentLocalization == "en")

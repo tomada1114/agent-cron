@@ -38,6 +38,9 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: io.github.tomada1114.AgentCron
         GENERATE_INFOPLIST_FILE: YES
+        # A menu-bar agent (ADR-0001): no Dock tile or app-switcher entry; the status
+        # item is the app's resident surface.
+        INFOPLIST_KEY_LSUIElement: YES
         ENABLE_HARDENED_RUNTIME: YES
         CODE_SIGN_ENTITLEMENTS: App/AgentCron.entitlements
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
