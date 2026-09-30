@@ -93,7 +93,7 @@ struct LocalizationTests {
             Case(resource: AppWindow.main.openCommandTitle, arguments: []),
             Case(resource: AppWindow.main.placeholder, arguments: []),
             Case(resource: MenuBarPopover.placeholder, arguments: []),
-        ]
+        ] + OutcomeBadgeKind.allCases.map { Case(resource: $0.label, arguments: []) }
     }
 
     /// `Sources/AgentCronCore/Resources/Localizable.xcstrings`.
