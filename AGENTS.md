@@ -91,6 +91,8 @@ Without Just: run the underlying commands listed in each `justfile` recipe
 Run the narrowest check that can fail, then `just check` before you open a PR.
 `just lint` runs `scripts/lint.sh`, the same script the pre-commit hook and CI's lint
 job call.
+A row below that runs the app or drives its UI (`just run`, `just uitest`, `just smoke`)
+needs the user's yes first — see [Checks that take over the Mac](#checks-that-take-over-the-mac).
 
 | What you changed | The narrowest check that can fail |
 |---|---|
@@ -118,6 +120,26 @@ job call.
 | `mise.toml` | `mise install`, then `just check` |
 | `.github/labels.yml`, or an issue form under `.github/ISSUE_TEMPLATE/` | `just lint` (its `typos` spell-check), then `just check-harness` (every applied label declared, once); `scripts/tests/sync-labels_test.sh` for `scripts/sync-labels.sh` itself |
 | `.github/rulesets/main.json`, or `scripts/apply-ruleset.sh` | `scripts/tests/apply-ruleset_test.sh`; `just check-harness` for `main.json` (`scripts/checks/ruleset-contexts.sh` reads it) |
+
+### Checks that take over the Mac
+
+Some checks drive the user's own Mac rather than a process in the background: `just run`,
+`just uitest`, `just smoke`, `just reset-permissions`, launching the built app,
+screenshotting or clicking a window, and anything that raises a TCC prompt or moves
+focus. While one runs, the user loses their screen, keyboard, or focus. So:
+
+- **Cover behavior with tests first.** Put the logic in `AgentCronCore` and check it
+  with a unit test against a fake port (`just test`); that is the default evidence,
+  not a manual run.
+- **Leave what CI runs to CI.** CI's `app` job runs `just uitest` and `just smoke` on
+  every pull request, so an agent does not run them locally just to see them pass.
+- **Ask before the rest, and batch it.** When a change genuinely needs one of these
+  checks, ask the user first and wait for a yes; collect every such check a task or a
+  run owes and do them together, once, rather than one per change. A sub-agent never
+  runs them: it reports the check as owed, and the session that talks to the user
+  batches and asks.
+- `just test-local` stays on the local loop only for adapters that show no UI and
+  raise no prompt; an adapter test that does either falls under the rule above.
 
 ## Architecture
 
