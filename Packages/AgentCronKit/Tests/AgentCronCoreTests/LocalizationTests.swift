@@ -76,6 +76,17 @@ struct LocalizationTests {
         answered.refresh()
         let unanswered = FrontmostAppViewModel(provider: FakeFrontmostAppProvider(answering: [nil]))
         return [
+            Case(resource: JobValidationError.nameEmpty.message, arguments: []),
+            Case(
+                resource: JobValidationError.nameTooLong(characterCount: 61).message,
+                arguments: [],
+            ),
+            Case(resource: JobValidationError.directoryNotLocal.message, arguments: []),
+            Case(resource: JobValidationError.promptEmpty.message, arguments: []),
+            Case(resource: JobValidationError.noWeekdays.message, arguments: []),
+            Case(resource: JobValidationError.noTimes.message, arguments: []),
+            Case(resource: JobValidationError.duplicateTimes([]).message, arguments: []),
+            Case(resource: JobValidationError.timeoutOutOfRange(minutes: 0).message, arguments: []),
             Case(resource: answered.label, arguments: ["Finder"]),
             Case(resource: unanswered.label, arguments: []),
             Case(resource: AppWindow.main.title, arguments: []),
