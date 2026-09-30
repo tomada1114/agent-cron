@@ -19,8 +19,8 @@ struct ClaudeCodeCommandTests {
     func `default model and effort add no flag to the base command line`() {
         let argv = ClaudeCodeCommand().arguments(for: Self.request())
         #expect(argv == [
-            "claude", "-p", "Summarize README.md", "--output-format", "json",
-            "--permission-mode", "auto",
+            "claude", "-p", "--output-format", "json", "--permission-mode", "auto",
+            "--", "Summarize README.md",
         ])
     }
 
@@ -30,8 +30,8 @@ struct ClaudeCodeCommandTests {
             for: Self.request(model: .opus, effort: .high, permissionMode: .acceptEdits),
         )
         #expect(argv == [
-            "claude", "-p", "Summarize README.md", "--output-format", "json",
-            "--permission-mode", "acceptEdits", "--model", "opus", "--effort", "high",
+            "claude", "-p", "--output-format", "json", "--permission-mode", "acceptEdits",
+            "--model", "opus", "--effort", "high", "--", "Summarize README.md",
         ])
     }
 
@@ -48,7 +48,7 @@ struct ClaudeCodeCommandTests {
         flagValue: String,
     ) {
         let argv = ClaudeCodeCommand().arguments(for: Self.request(permissionMode: mode))
-        #expect(Array(argv.suffix(2)) == ["--permission-mode", flagValue])
+        #expect(Array(argv.dropFirst(4).prefix(2)) == ["--permission-mode", flagValue])
     }
 
     @Test(arguments: [
@@ -62,7 +62,7 @@ struct ClaudeCodeCommandTests {
         alias: String,
     ) {
         let argv = ClaudeCodeCommand().arguments(for: Self.request(model: model))
-        #expect(Array(argv.dropFirst(7)) == ["--model", alias])
+        #expect(Array(argv.dropFirst(6)) == ["--model", alias, "--", "Summarize README.md"])
     }
 
     @Test(arguments: [
@@ -77,7 +77,7 @@ struct ClaudeCodeCommandTests {
         level: String,
     ) {
         let argv = ClaudeCodeCommand().arguments(for: Self.request(effort: effort))
-        #expect(Array(argv.dropFirst(7)) == ["--effort", level])
+        #expect(Array(argv.dropFirst(6)) == ["--effort", level, "--", "Summarize README.md"])
     }
 
     @Test
@@ -97,8 +97,17 @@ struct ClaudeCodeCommandTests {
 
         """
         let argv = ClaudeCodeCommand().arguments(for: Self.request(prompt: prompt))
-        #expect(argv.count == 7)
-        #expect(argv[2] == prompt)
+        #expect(argv.count == 8)
+        #expect(argv.last == prompt)
+    }
+
+    /// Claude Code rejects `claude -p "- hello"` with `error: unknown option '- hello'`
+    /// (checked by hand for issue #42); after `--` the same prompt reaches it as text.
+    @Test(arguments: ["- review open Dependabot PRs", "--", "-p", "--model opus"])
+    func `a prompt that looks like an option follows the end-of-options marker`(prompt: String) {
+        let argv = ClaudeCodeCommand().arguments(for: Self.request(prompt: prompt))
+        #expect(Array(argv.suffix(2)) == ["--", prompt])
+        #expect(argv.firstIndex(of: "--") == argv.count - 2)
     }
 
     @Test

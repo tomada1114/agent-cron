@@ -93,11 +93,8 @@ struct DispatcherTests {
         await fixture.dispatcher.waitForRuns()
 
         let launch = fixture.runner.requests.last
-        #expect(launch?.argv.prefix(3) == [
-            "claude",
-            "-p",
-            "Summarize today's feeds into news.html.",
-        ])
+        #expect(launch?.argv.first == "claude")
+        #expect(launch?.argv.suffix(2) == ["--", "Summarize today's feeds into news.html."])
         #expect(launch?.directory == fixture.directory)
         #expect(launch?.timeout == .seconds(2_700))
     }

@@ -92,8 +92,8 @@ removes it.
 
 - Launched through the user's login shell (`zsh -l -c …`) so PATH, `gh`, `mise`, and
   other user tools match the terminal.
-- Command shape: `claude -p <prompt> --output-format json --permission-mode <mode>
-  [--model …] [--effort …]`, working directory = the job's directory.
+- Command shape: `claude -p --output-format json --permission-mode <mode>
+  [--model …] [--effort …] -- <prompt>`, working directory = the job's directory.
 - Timeout: the process is terminated at the job's timeout and the run recorded as timed
   out.
 - Stop: the user can stop a running job; recorded as stopped.
