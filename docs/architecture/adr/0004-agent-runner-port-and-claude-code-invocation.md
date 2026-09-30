@@ -1,7 +1,7 @@
 # ADR-0004: An agent-runner port, with Claude Code as its first adapter
 
 - **Status:** Accepted 2026-09-29: the Claude Code invocation (login shell, flags,
-  per-job options, timeout). Proposed: the port's exact shape.
+  per-job options, timeout). Accepted 2026-09-30: the port's shape.
 - **Date:** 2026-09-29
 - **Deciders:** the owner
 

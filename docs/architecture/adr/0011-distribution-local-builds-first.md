@@ -1,6 +1,6 @@
 # ADR-0011: Distribution — local builds first, Developer ID later
 
-- **Status:** Proposed
+- **Status:** Accepted 2026-09-30
 - **Date:** 2026-09-29
 - **Deciders:** the owner
 

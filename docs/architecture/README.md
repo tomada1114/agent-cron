@@ -61,11 +61,11 @@ changes it.
 | [0001](adr/0001-menu-bar-agent-with-a-main-window.md) | A menu-bar agent with one main window | Accepted 2026-09-29 |
 | [0002](adr/0002-app-sandbox-off.md) | Turn the App Sandbox off | Proposed |
 | [0003](adr/0003-in-app-scheduler.md) | The app is the scheduler | Accepted 2026-09-29 |
-| [0004](adr/0004-agent-runner-port-and-claude-code-invocation.md) | An agent-runner port, with Claude Code as its first adapter | Accepted 2026-09-29 (invocation); Proposed (port shape) |
-| [0005](adr/0005-json-files-in-application-support.md) | Keep jobs and runs as versioned JSON files in Application Support | Proposed |
+| [0004](adr/0004-agent-runner-port-and-claude-code-invocation.md) | An agent-runner port, with Claude Code as its first adapter | Accepted 2026-09-29 (invocation); Accepted 2026-09-30 (port shape) |
+| [0005](adr/0005-json-files-in-application-support.md) | Keep jobs and runs as versioned JSON files in Application Support | Accepted 2026-09-30 |
 | [0006](adr/0006-keep-awake-with-an-idle-sleep-assertion.md) | Keep the Mac awake with an idle-sleep power assertion | Accepted 2026-09-29 |
 | [0007](adr/0007-local-notifications.md) | Local notifications for run outcomes | Accepted 2026-09-29 |
 | [0008](adr/0008-english-and-japanese-ui.md) | Ship English and Japanese | Accepted 2026-09-29 |
 | [0009](adr/0009-design-lock.md) | Design lock — a precise instrument panel | Accepted 2026-09-29 |
-| [0010](adr/0010-markdown-results-without-a-dependency.md) | Render run results as Markdown without a dependency | Proposed |
-| [0011](adr/0011-distribution-local-builds-first.md) | Distribution — local builds first, Developer ID later | Proposed |
+| [0010](adr/0010-markdown-results-without-a-dependency.md) | Render run results as Markdown without a dependency | Accepted 2026-09-30 |
+| [0011](adr/0011-distribution-local-builds-first.md) | Distribution — local builds first, Developer ID later | Accepted 2026-09-30 |
