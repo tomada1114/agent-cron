@@ -51,7 +51,7 @@ paths:
   test's timeouts likewise (`LaunchTests.swift`'s `Timeout`)
 - A number someone might tune (a delay, a threshold, a limit): Core's one `Tuning` type
   (the `designing-core-logic` skill); a domain invariant is a parameter or a `static`
-  on its type (`Counter`'s default `range`), not a `Tuning` entry
+  on its type (a schedule's allowed weekdays), not a `Tuning` entry
 - User-visible wording Core decides: a `static let` on the view model
   (`FrontmostAppViewModel.unavailableDisplayName`); the logging subsystem: `AppLog`, once
 - A type holding only `static` members is a caseless `enum` (SwiftLint's

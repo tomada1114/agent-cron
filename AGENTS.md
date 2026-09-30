@@ -66,7 +66,7 @@ just verify-hooks  # Verify the git hooks are installed and executable (scripts/
 just test-scripts  # Run the plain-bash tests for scripts/ and the skills' Python suites (scripts/tests/run.sh)
 just check-harness # Re-assert the harness's claims about itself (scripts/checks/run-all.sh)
 just test      # Run tests with the 80% line / 75% function coverage floors on AgentCronCore
-just test-fast CounterTests  # Run only the matching tests, no coverage floor (iteration only)
+just test-fast LocalizationTests  # Run only the matching tests, no coverage floor (iteration only)
 just test-local    # Run the local-machine adapter tests (AgentCronPlatformTests) CI cannot run
 just build     # Build the app (Debug)
 just run       # Build (Debug), quit any running instance, and launch the fresh build
@@ -104,7 +104,7 @@ needs the user's yes first — see [Checks that take over the Mac](#checks-that-
 | A fake or a port contract under `Packages/AgentCronKit/Tests/AgentCronTestSupport/` | `just test` (the contract against the fake); then `just test-local` (the contract against the real adapter) |
 | Formatting or style of any Swift file | `just lint` |
 | A SwiftLint or SwiftFormat violation that may be auto-fixable | `just fix` (formats, runs `swiftlint --fix`, then `just lint` reports what still needs a hand edit) |
-| One Core suite, while iterating | `just test-fast <filter>` (e.g. `just test-fast CounterTests`) — no coverage floor, so finish with `just test` |
+| One Core suite, while iterating | `just test-fast <filter>` (e.g. `just test-fast LocalizationTests`) — no coverage floor, so finish with `just test` |
 | `Packages/AgentCronKit/Sources/AgentCronCore/Resources/Localizable.xcstrings`, or a `LocalizedStringResource` in Core | `just test` (`LocalizationTests` scans Core's `LocalizedStringResource(…)` calls and holds their keys and English to the catalog); `just build` to compile the catalog into the app |
 | `project.yml`, or `Config/Debug.xcconfig` | `just generate && just build` |
 | A test under `LaunchUITests/`, or launch behavior | `just uitest` |
@@ -145,6 +145,8 @@ focus. While one runs, the user loses their screen, keyboard, or focus. So:
 
 ```
 App/                        # Thin shell: @main entry point + resources, NO logic.
+                            #   A menu-bar agent (ADR-0001): a MenuBarExtra status
+                            #   item and one Window(id: "main") scene, no Dock icon.
                             #   The composition root: builds AgentCronPlatform adapters
                             #   and hands them to Core view models
 Packages/AgentCronKit/
@@ -166,7 +168,8 @@ Packages/AgentCronKit/
 └── Tests/AgentCronPlatformTests/
                             # Adapter tests against the real OS — opt-in and human-run
                             #   (`just test-local`), reported as skipped everywhere else
-LaunchUITests/              # XCUITest launch guarantee (XCTest by necessity)
+LaunchUITests/              # XCUITest launch guarantee: the status item appears
+                            #   (XCTest by necessity)
 Config/Debug.xcconfig       # Debug-only build settings project.yml cannot express:
                             #   the optional `#include?` of a gitignored
                             #   Config/Local.xcconfig (a local signing identity)
@@ -262,7 +265,7 @@ tool that sees the generated copy rather than the authored one:
 | `updating-docs` | deciding whether a change owes a documentation update and which surface it lands on: `README.md`, `AGENTS.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `docs/*.md`, a skill, or a `///` comment |
 | `recording-architecture-decisions` | the ADR tree under `docs/architecture/`: whether a change owes an ADR (a target or port, app shape, sandbox posture, persistence, a dependency, distribution, `deploymentTarget`, a TCC permission), an ADR's statuses, amending versus superseding, and fact discipline — every external claim with a URL and a checked date |
 | `writing-repo-scripts` | writing or testing a shell script under `scripts/`, `.githooks/pre-commit`, or `scripts/tests/`: why bash, refusing or skipping outside a git checkout, the stderr contract by example, and `scripts/tests/lib.sh` |
-| `running-the-app` | seeing a change work in the real app: `just run` and confirming the running process is the fresh build, reading `just logs`, screenshotting a window, a throwaway XCUITest, the human hand-off for a TCC prompt, and the evidence a PR then carries |
+| `running-the-app` | seeing a change work in the real app: `just run` and confirming the running process is the fresh build, reading `just logs`, finding the status item, popover, and main window, screenshotting them, a throwaway XCUITest, the human hand-off for a TCC prompt, and the evidence a PR then carries |
 | `integrating-system-apis` | calling a macOS system API from `AgentCronPlatform`: choosing the mechanism (`CGEventTap`, `AXObserver`, a Carbon hotkey), a C callback's refcon and teardown under Swift 6 strict concurrency, TCC-gated permissions (Accessibility, Input Monitoring, Screen Recording), and what can be tested where |
 | `designing-core-logic` | shaping logic in `AgentCronCore`: injecting time (`Clock`, a `() -> Date`), `Locale`, and a `RandomNumberGenerator`; one `Tuning` type for tunables; action-shaped `@Observable` view models; and the patterns deliberately not adopted |
 | `designing-ui` | how a screen looks: HIG-based craft rules (system text styles, semantic and accent colors, light and dark, contrast, SF Symbols, window sizing, menu commands and shortcuts, motion, copy) and the app's design lock, recorded as an ADR under `docs/architecture/` |

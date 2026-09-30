@@ -50,19 +50,31 @@ so it belongs in the single up-front ask. A denied grant is worse than an error:
 capture still succeeds and still writes a PNG, showing the desktop where the windows
 should be. Look at the file you wrote before believing it.
 
-A menu-bar-only app (`LSUIElement`, `MenuBarExtra` — **BACKGROUND:** `starting-an-app`)
-has no ordinary window to capture until its menu is open, and opening that menu is a
-click only a human or an accessibility grant can make. Prefer a log line or a Core test
-for such a build, and fall back to a full-screen capture with the menu already open.
+This app is a menu-bar agent (`LSUIElement`, `MenuBarExtra` — ADR-0001; **BACKGROUND:**
+`starting-an-app`), so right after launch the snippet above prints nothing: the process
+owns no window until the popover or the main window is open, and the status item itself
+is not in its window list. Opening either is a click only a human or an accessibility
+grant can make, which is what the XCUITest below does. A full-screen capture shows the
+status item in the menu bar, and everything else on the screen with it — crop it to the
+status item, the popover, or the window before it goes near a pull request.
 
 ## Drive a flow with a throwaway XCUITest
 
 `LaunchUITests/` is the only XCTest target (`project.yml`'s `AgentCronLaunchUITests`, whose
 `sources: [LaunchUITests]` takes the whole directory), so a probe is one file plus
-`just generate`. The app already carries accessibility identifiers for every control —
-`counterValue`, `incrementButton`, `decrementButton`, `resetButton`, `frontmostAppLabel`
-(`Packages/AgentCronKit/Sources/AgentCronUI/ContentView.swift`) — and a new control needs one
-before it can be driven at all.
+`just generate`. What XCUITest can reach in this app is narrow, and measured:
+
+- **The status item** is `app.menuBars.statusItems.firstMatch` (its `title` reads
+  `Clock`, the symbol's name, not "AgentCron"). `click()` on it opens the popover.
+- **The popover's content is invisible** to XCUITest — a `.window`-style `MenuBarExtra`
+  exposes nothing to the app's accessibility tree, so its identifiers
+  (`openMainWindowButton`, `frontmostAppLabel` in
+  `Packages/AgentCronKit/Sources/AgentCronUI/ContentView.swift`) cannot be queried or
+  clicked. A keyboard shortcut still reaches it: ⌘, while the popover is open presses
+  **Open AgentCron…**. See it with `XCUIScreen.main.screenshot()`.
+- **The main window** is `app.windows.firstMatch` once it is open; `app.windows` is empty
+  before that. A new control there needs an accessibility identifier before a probe can
+  drive it.
 
 ```swift
 // LaunchUITests/ScratchProbeTests.swift — throwaway, never committed
@@ -72,22 +84,24 @@ final class ScratchProbeTests: XCTestCase {
     @MainActor
     func testProbe() {
         let app = XCUIApplication()
-        app.launchArguments += ["-counterStart", "5"]
+        app.launchArguments += ["-probeValue", "5"]
         app.launchEnvironment["PROBE_STATE"] = "known-state"
         app.launch()
-        app.buttons["incrementButton"].click()
-        app.buttons["incrementButton"].click()
-        let shot = XCTAttachment(screenshot: app.screenshot())
-        shot.name = "after-two-increments"
+        let statusItem = app.menuBars.statusItems.firstMatch
+        XCTAssertTrue(statusItem.waitForExistence(timeout: 10))
+        statusItem.click()
+        sleep(2) // the popover animates in; nothing in the tree says when it has
+        let popover = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
+        popover.name = "popover-open"
+        popover.lifetime = .keepAlways
+        add(popover)
+        app.typeKey(",", modifierFlags: .command) // the popover's Open AgentCron…
+        let window = app.windows.firstMatch
+        XCTAssertTrue(window.waitForExistence(timeout: 5))
+        let shot = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
+        shot.name = "main-window-open"
         shot.lifetime = .keepAlways
         add(shot)
-        // macOS exposes a SwiftUI Text's string as `value` (sometimes `label`) and
-        // updates it asynchronously — wait on a predicate covering both, exactly as
-        // LaunchUITests/LaunchTests.swift does, instead of reading `.value` right away.
-        let counter = app.staticTexts["counterValue"]
-        let showsTwo = NSPredicate(format: "label == '2' OR value == '2'")
-        let updated = XCTNSPredicateExpectation(predicate: showsTwo, object: counter)
-        XCTAssertEqual(XCTWaiter.wait(for: [updated], timeout: 5), .completed)
     }
 }
 ```
@@ -103,7 +117,7 @@ xcrun xcresulttool export attachments --path build/Probe.xcresult --output-path 
 ```
 
 The export writes each attachment under a UUID file name plus a `manifest.json` that
-maps it back to `suggestedHumanReadableName` ("after-two-increments_0_….png") and the
+maps it back to `suggestedHumanReadableName` ("main-window-open_0_….png") and the
 test it came from — read the manifest, then look at the PNG. `just uitest` runs the whole
 scheme (the launch guarantee included) and writes `build/LaunchUITests.xcresult`; use it
 when you want both, `-only-testing:` while iterating.
@@ -120,13 +134,12 @@ Two rules about the probe:
 
 ## Start the app in a known state
 
-Nothing in this template reads a launch argument or an environment variable today:
-`CounterViewModel` always starts at zero, and no `App/` or `AgentCronCore` code consults
-`UserDefaults` or `ProcessInfo`. The two snippets above pass `-counterStart 5` and
-`PROBE_STATE` to prove the plumbing, not because the app answers them. **Do not add such
-a hook to the app just to observe it** — a state you only need to *look at* is a state a
-Core test can construct directly, by handing `ContentView` a view model, exactly as its
-`#Preview("At the upper bound")` does.
+Nothing in this app reads a launch argument or an environment variable today: no `App/`
+or `AgentCronCore` code consults `UserDefaults` or `ProcessInfo`. The two snippets here
+pass `-probeValue 5` and `PROBE_STATE` to prove the plumbing, not because the app answers
+them. **Do not add such a hook to the app just to observe it** — a state you only need to
+*look at* is a state a Core test can construct directly, and a `#Preview` can show by
+handing the view a view model already in that state.
 
 When a hook is genuinely warranted — a state that is expensive or impossible to reach by
 hand, wanted from both a UI probe and by hand — this is the mechanism, verified against a
@@ -134,7 +147,7 @@ running build:
 
 ```bash
 open --env PROBE_STATE=known-state -n \
-  build/dev-derived-data/Build/Products/Debug/AgentCron.app --args -counterStart 5
+  build/dev-derived-data/Build/Products/Debug/AgentCron.app --args -probeValue 5
 ps -o command= -p "$(pgrep -f 'Debug/AgentCron.app/Contents/MacOS/AgentCron' | head -1)"
 ```
 

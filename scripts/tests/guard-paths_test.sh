@@ -96,7 +96,7 @@ case_other_xcconfigs_allowed() {
 case_public_and_ordinary_files_allowed() {
     expect_allowed App/AgentCron.entitlements cert.cer Signing/Request.certSigningRequest \
         Slides.key Package.resolved README.md cert.pem \
-        Packages/AgentCronKit/Sources/AgentCronCore/CounterViewModel.swift
+        Packages/AgentCronKit/Sources/AgentCronCore/AppLog.swift
 }
 
 run_case "every .env and .env.* is blocked" case_env_files_blocked

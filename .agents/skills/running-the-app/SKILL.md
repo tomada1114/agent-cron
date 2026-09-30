@@ -3,8 +3,9 @@ name: running-the-app
 description: >
   Covers running this app to see a change working: just run to launch the fresh Debug
   build, confirming the running process really is that build, reading its unified-log
-  output with just logs and log show, taking a screenshot of the app window or the whole
-  screen with screencapture, driving a flow with a throwaway XCUITest under just uitest,
+  output with just logs and log show, finding the menu-bar agent's status item, popover,
+  and main window, taking a screenshot of a window or the whole screen with
+  screencapture, driving a flow with a throwaway XCUITest under just uitest,
   putting the app in a known state with launch arguments or environment variables, and
   just test-local and just reset-permissions. Use when asked to run the app, to launch
   or start it, or to screenshot it, when a change has to be verified in the real app
@@ -44,6 +45,16 @@ process, so you would be watching the previous build with no signal that anythin
 wrong. A survivor of the SIGTERM is reported, never force-killed — the failure names the
 pid and leaves the decision to you.
 
+AgentCron is a menu-bar agent (ADR-0001): a fresh launch shows the `clock` status item
+and nothing else — no Dock icon, no window, and no main menu, so `open` returning and a
+pid appearing is all the terminal will show. Click the status item for its
+`.window`-style popover; the popover's **Open AgentCron…** button (⌘, while the popover
+is open) opens the main window, the `Window(id: "main")` scene in `App/AgentCronApp.swift`.
+Closing that window leaves the app running with only the status item. There is no Quit
+command yet, so quitting is the `kill -TERM` below. `lsappinfo info -only
+ApplicationType "$pid"` answers `type="UIElement"` for this shape — the check that no
+Dock icon will appear.
+
 Confirm the process really is the build you just made, before trusting anything you see:
 
 ```bash
@@ -59,7 +70,7 @@ binary's mtime. `lsappinfo info -only bundlepath "$pid"` answers the same first 
 from Launch Services if you prefer it.
 
 Quit it when you are done — leaving a build running behind you is how the next run ends
-up watching a stale window:
+up watching a stale status item:
 
 ```bash
 kill -TERM "$pid"    # the pid you verified above — never pkill -f on the path
@@ -107,9 +118,9 @@ Four things cost time if you guess them:
 ## See it without a human at the keyboard
 
 [references/observing-behavior.md](references/observing-behavior.md) has the verified
-recipes: `screencapture` of the app window or the whole screen, a throwaway XCUITest
-that drives a flow and attaches a screenshot, and putting the app into a known state
-with launch arguments or environment variables.
+recipes: `screencapture` of a window or the whole screen, a throwaway XCUITest that
+clicks the status item, opens the main window, and attaches screenshots, and putting the
+app into a known state with launch arguments or environment variables.
 
 ## Where a human is unavoidable — ask once, up front
 
@@ -146,8 +157,8 @@ you ran, not a paraphrase, and paste:
   absent.
 - **A log excerpt** (a few lines of the stream, with the predicate you used above them)
   for behavior whose only observable is a log line.
-- **A screenshot** for anything a person looks at — window-level, after the interaction,
-  showing the state the change produces.
+- **A screenshot** for anything a person looks at — the popover or the main window,
+  cropped to it, after the interaction, showing the state the change produces.
 
 Never paste a Team ID, a signing identity, a certificate common name, or a personal
 name: a pull request here, or in a repository cut from this template, may be public,
