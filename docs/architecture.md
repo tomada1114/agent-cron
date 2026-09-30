@@ -318,6 +318,22 @@ option snapshot, trigger, scheduled time, start/end, outcome + reason, exit code
 cost, session id, result text), stored as versioned JSON in Application Support and
 kept 90 days ([ADR-0005](architecture/adr/0005-json-files-in-application-support.md)).
 
+The file format is contract, and version 1 is fixed by the checked-in samples in
+`Packages/AgentCronKit/Tests/AgentCronCoreTests/Fixtures/` — the stores must decode them
+and write them byte for byte. Under
+`~/Library/Application Support/io.github.tomada1114.AgentCron/` (`StorageLocation`),
+`jobs.json` holds `schemaVersion`, `jobs`, and `lastCheckedAt` (left out until the
+scheduler first checks), and each run is
+`runs/<YYYY-MM>/<start to the second>Z-<run id>.json` — its UTC month and start — holding
+the run's fields beside `schemaVersion`. Keys are the Swift property names, sorted and
+pretty-printed; enum values are the snake_case raw values; dates are ISO-8601 in UTC
+with milliseconds. `FileJobStore` throws `StorageError.corruptJobs` for a `jobs.json` it
+cannot decode and `.newerJobsVersion` for one a newer build wrote, leaving the file as
+it is, and the app stops rather than saving over it; `FileRunStore` skips such a run
+file and logs its month and reason to `AppLog.storage`. A format change bumps
+`StorageFormat.currentSchemaVersion`, keeps decoding the version-1 sample, and adds a
+sample of its own.
+
 ### Core flows
 
 - **Scheduled run:** timer tick → dispatcher (Core) picks due jobs → pre-flight → hold

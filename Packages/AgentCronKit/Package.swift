@@ -54,9 +54,12 @@ let package = Package(
             path: "Tests/AgentCronTestSupport",
             swiftSettings: strictSettings,
         ),
+        // The checked-in samples of each file format the app writes (`Fixtures/`), copied
+        // as they are so a test decodes exactly the bytes a user's disk would hold.
         .testTarget(
             name: "AgentCronCoreTests",
             dependencies: ["AgentCronCore", "AgentCronTestSupport"],
+            resources: [.copy("Fixtures")],
             swiftSettings: strictSettings,
         ),
         // Local-machine tests for the adapters: they talk to the real OS, which a CI
