@@ -1,0 +1,26 @@
+{
+  "costUSD" : 0.1234,
+  "endedAt" : "2026-10-05T09:02:03.750Z",
+  "exitCode" : 1,
+  "failureReason" : "error_max_turns",
+  "id" : "66666666-7777-8888-9999-AAAAAAAAAAAA",
+  "jobID" : "22222222-3333-4444-5555-666666666666",
+  "jobName" : "Dependabot merges",
+  "outcome" : "failed",
+  "resultText" : "## Result\nMerged 2 PRs; skipped 1 (major bump).",
+  "scheduledAt" : "2026-10-05T09:00:00.000Z",
+  "schemaVersion" : 1,
+  "sessionID" : "5f2c9a1e-0000-4000-8000-000000000001",
+  "snapshot" : {
+    "agent" : "claude_code",
+    "directory" : "file:///Users/example/My%20Projects/app/",
+    "effort" : "high",
+    "model" : "opus",
+    "notify" : "every_run",
+    "permissionMode" : "accept_edits",
+    "prompt" : "Review open Dependabot PRs and merge the safe ones.",
+    "timeoutMinutes" : 90
+  },
+  "startedAt" : "2026-10-05T09:00:02.500Z",
+  "trigger" : "scheduled"
+}
