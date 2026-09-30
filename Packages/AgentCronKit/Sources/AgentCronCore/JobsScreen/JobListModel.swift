@@ -51,6 +51,11 @@ public final class JobListModel {
     /// ``unsavedChangesDiscarded()``, or ``unsavedChangesCancelled()`` answers it.
     public private(set) var pendingSelection: JobListTarget?
 
+    /// Whether ``jobs`` is what the store holds. False after a failed read, when the saved
+    /// jobs are unknown rather than gone, so a remembered selection must not be cleared
+    /// on their account.
+    public private(set) var areJobsKnown = true
+
     /// The delete alert waiting for the user's answer (`docs/product/ux-flows.md` S5),
     /// or `nil` when none shows.
     public private(set) var pendingDeletion: JobDeleteConfirmation?
@@ -62,7 +67,8 @@ public final class JobListModel {
     let now: @Sendable () -> Date
     private let directoryExists: @Sendable (URL) -> Bool
 
-    /// The identifiers of the saved jobs, for ``MainNavigationModel/knownJobsChanged(to:)``.
+    /// The identifiers of the saved jobs, for ``MainNavigationModel/knownJobsChanged(to:)``
+    /// while ``areJobsKnown``.
     public var jobIDs: Set<UUID> {
         Set(jobs.map(\.id))
     }
@@ -118,17 +124,23 @@ public final class JobListModel {
         self.directoryExists = directoryExists
     }
 
-    /// Reads the saved jobs. On failure the list is empty and nothing is selected, since
-    /// what was shown may no longer match the file; ``storageError`` says why.
+    /// Reads the saved jobs. On failure the list is empty, since what was shown may no
+    /// longer match the file, and ``storageError`` says why; nothing stays selected
+    /// unless the editor holds unsaved edits, which a failed read never throws away.
     public func load() {
         do {
             jobs = try store.load().jobs
             storageError = nil
+            areJobsKnown = true
         } catch {
             jobs = []
             storageError = error
+            areJobsKnown = false
             AppLog.storage
                 .error("job list load failed: \(String(describing: error), privacy: .public)")
+            if editor?.isEdited == true {
+                return
+            }
         }
         if let selectedJobID, !jobs.contains(where: { $0.id == selectedJobID }) {
             select(jobID: nil)
@@ -202,6 +214,7 @@ public final class JobListModel {
         do {
             jobs = try store.updateJobs { $0.removeAll { $0.id == jobID } }.jobs
             storageError = nil
+            areJobsKnown = true
         } catch {
             storageError = error
             AppLog.storage
@@ -362,6 +375,7 @@ public final class JobListModel {
     private func editorSaved(_ document: JobsDocument, jobID: UUID) {
         jobs = document.jobs
         storageError = nil
+        areJobsKnown = true
         selectedJobID = jobID
     }
 }

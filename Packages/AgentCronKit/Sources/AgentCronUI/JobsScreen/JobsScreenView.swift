@@ -54,7 +54,10 @@ struct JobsScreenView: View {
             navigation.select(jobID: jobID)
         }
         .onChange(of: list.jobIDs) { _, jobIDs in
-            navigation.knownJobsChanged(to: jobIDs)
+            // After a failed read the jobs are unknown, not gone.
+            if list.areJobsKnown {
+                navigation.knownJobsChanged(to: jobIDs)
+            }
         }
         .alert(
             Text(list.pendingDeletion?.title ?? JobsScreenText.deleteJob),
@@ -101,7 +104,9 @@ struct JobsScreenView: View {
 
     private func appeared() {
         list.screenAppeared(restoringSelection: navigation.selectedJobID)
-        navigation.knownJobsChanged(to: list.jobIDs)
+        if list.areJobsKnown {
+            navigation.knownJobsChanged(to: list.jobIDs)
+        }
         handle(navigation.pendingJobsScreenRequest)
     }
 

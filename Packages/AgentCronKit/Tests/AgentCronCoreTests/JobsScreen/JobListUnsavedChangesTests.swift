@@ -214,4 +214,36 @@ struct JobListUnsavedChangesTests {
         #expect(list.editor == nil)
         #expect(list.jobIDs == [Self.digest.id])
     }
+
+    // MARK: - A failed read
+
+    @Test
+    func `a failed read keeps an edited draft and its selection`() throws {
+        let opened = try editing([Self.digest, Self.review], selected: Self.digest)
+        opened.editor.nameChanged(to: "Renamed")
+        opened.store.loadsFail(with: .readFailed(code: 257))
+        opened.list.screenAppeared(restoringSelection: Self.digest.id)
+        #expect(opened.list.storageError == .readFailed(code: 257))
+        #expect(opened.list.selectedJobID == Self.digest.id)
+        #expect(opened.list.editor === opened.editor)
+        #expect(opened.editor.draft.name == "Renamed")
+        #expect(opened.list.pendingSelection == nil)
+        #expect(opened.list.jobs.isEmpty)
+        #expect(!opened.list.areJobsKnown)
+    }
+
+    @Test
+    func `a failed read drops an unedited editor, and a later read is known again`() throws {
+        let opened = try editing([Self.digest], selected: Self.digest)
+        opened.store.loadsFail(with: .corruptJobs)
+        opened.list.load()
+        #expect(opened.list.selectedJobID == nil)
+        #expect(opened.list.editor == nil)
+        #expect(!opened.list.areJobsKnown)
+        opened.store.loadsFail(with: nil)
+        opened.list.load()
+        #expect(opened.list.storageError == nil)
+        #expect(opened.list.areJobsKnown)
+        #expect(opened.list.jobIDs == [Self.digest.id])
+    }
 }
