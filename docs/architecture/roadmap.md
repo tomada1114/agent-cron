@@ -28,16 +28,16 @@ The outcomes being worked on, one to three of them. Each has its issues filed.
 
 - **A saved job runs on schedule and leaves a record** — the core interaction in
   `AGENTS.md` › Product; nothing else matters until a scheduled `claude -p` run happens
-  and its result can be read afterwards. Issues: (filled when the backlog is created).
+  and its result can be read afterwards. Issues: tracking #2 (#5–#14, #17–#25, #28, #30).
   Done when: a job saved in the main window fires at its next weekday time under
   `just run`, its run appears in History with the result text, and a hand-run
   `claude -p` in the same directory produces the same outcome.
 - **The menu bar tells you what runs next and what went wrong** — the glance half of the
-  core interaction. Issues: (filled when the backlog is created). Done when: the popover
+  core interaction. Issues: tracking #3 (#16, #26, #27). Done when: the popover
   shows today's timeline with outcomes, a running job can be stopped from it, and a
   failed run raises the banner and (per job) a notification.
 - **The Mac stays awake for runs and on demand** — runs die if the Mac idles to sleep.
-  Issues: (filled when the backlog is created). Done when: `pmset -g assertions` shows
+  Issues: tracking #4 (#15). Done when: `pmset -g assertions` shows
   AgentCron's assertion exactly while a job runs or a manual hold is active.
 
 ## Next
