@@ -9,7 +9,7 @@ distribution, macOS floor, and permissions — is recorded as ADRs under
 
 ```
 ┌───────────────────────────────────────────────────┐
-│ App/                                  (app shell) │  @main, WindowGroup — wiring
+│ App/                                  (app shell) │  @main, scenes — wiring
 │                                                   │  only; composition root
 ├─────────────────────────┬─────────────────────────┤
 │ AgentCronUI     (SwiftUI)   │ AgentCronPlatform     (OS)  │  siblings — neither one
@@ -141,9 +141,11 @@ example: it logs that a refresh happened `.public` and the other application's n
 
 That last row carries one decision the table cannot: the app's *shape*. The template
 ships a regular windowed app — `WindowGroup`, a Dock tile, a launch test that waits for
-a window. A menu-bar agent (`LSUIElement`, `MenuBarExtra`, a launch test that waits for
-a status item) changes `project.yml`, `App/AgentCronApp.swift`, and
-`LaunchUITests/LaunchTests.swift`, and nothing below them.
+a window. AgentCron is a menu-bar agent instead (ADR-0001): `LSUIElement`, a
+`MenuBarExtra` status item with a `.window`-style popover, one `Window(id: "main")`
+scene, and a launch test that waits for the status item. That shape lives in
+`project.yml`, `App/AgentCronApp.swift`, and `LaunchUITests/LaunchTests.swift`, and
+nothing below them.
 `.agents/skills/starting-an-app/references/app-shapes.md` gives both shapes as proven
 code, including where an `NSApplicationDelegateAdaptor`'s delegate lives when
 `MenuBarExtra` is not enough (`AgentCronPlatform`, never `App/`).
