@@ -33,4 +33,8 @@ public enum AppLog {
     /// `log stream --predicate 'category == "frontmost-app"'` narrows the stream to one
     /// story. A new concern adds a `Logger` here instead of building one inline.
     public static let frontmostApp = Logger(subsystem: subsystem, category: "frontmost-app")
+
+    /// The keep-awake concern: ``KeepAwakeController`` and the ``SleepPreventing``
+    /// adapter behind it.
+    public static let keepAwake = Logger(subsystem: subsystem, category: "keep-awake")
 }
