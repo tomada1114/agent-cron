@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Initial project scaffold from [macos-app-template](https://github.com/tomada1114/macos-app-template)
+- The main window has a sidebar with Jobs, History, and General (⌘1–⌘3), each a
+  placeholder for now, and reopens on the section you last left it on. The main menu
+  gains Settings… (⌘,, opens General), New Job (⌘N), a Job menu (Run Now ⌘R, Stop ⌘.,
+  Enable / Disable ⌘E, Delete… ⌘⌫), and Toggle Sidebar (⌃⌘S).
 
 ### Changed
 

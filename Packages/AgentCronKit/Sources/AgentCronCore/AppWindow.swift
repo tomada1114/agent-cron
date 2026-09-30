@@ -41,17 +41,4 @@ public enum AppWindow: String, CaseIterable, Sendable {
             )
         }
     }
-
-    /// What the window shows until its real content replaces the placeholder.
-    public var placeholder: LocalizedStringResource {
-        switch self {
-        case .main:
-            LocalizedStringResource(
-                "appWindow.main.placeholder",
-                defaultValue: "Jobs, history, and settings will appear here.",
-                bundle: .module,
-                comment: "Placeholder text in the main window before its screens exist.",
-            )
-        }
-    }
 }

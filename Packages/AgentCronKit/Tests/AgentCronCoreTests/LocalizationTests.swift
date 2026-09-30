@@ -75,7 +75,7 @@ struct LocalizationTests {
         )
         answered.refresh()
         let unanswered = FrontmostAppViewModel(provider: FakeFrontmostAppProvider(answering: [nil]))
-        return jobsScreenCases() + [
+        return jobsScreenCases() + navigationCases() + [
             Case(resource: JobValidationError.nameEmpty.message, arguments: []),
             Case(
                 resource: JobValidationError.nameTooLong(characterCount: 61).message,
@@ -91,7 +91,6 @@ struct LocalizationTests {
             Case(resource: unanswered.label, arguments: []),
             Case(resource: AppWindow.main.title, arguments: []),
             Case(resource: AppWindow.main.openCommandTitle, arguments: []),
-            Case(resource: AppWindow.main.placeholder, arguments: []),
             Case(resource: MenuBarPopover.placeholder, arguments: []),
         ] + OutcomeBadgeKind.allCases.map { Case(resource: $0.label, arguments: []) }
     }
