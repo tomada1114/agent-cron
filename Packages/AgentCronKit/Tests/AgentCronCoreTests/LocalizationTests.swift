@@ -75,24 +75,28 @@ struct LocalizationTests {
         )
         answered.refresh()
         let unanswered = FrontmostAppViewModel(provider: FakeFrontmostAppProvider(answering: [nil]))
-        return jobsScreenCases() + navigationCases() + notificationCases() + popoverCases() + [
-            Case(resource: JobValidationError.nameEmpty.message, arguments: []),
-            Case(
-                resource: JobValidationError.nameTooLong(characterCount: 61).message,
-                arguments: [],
-            ),
-            Case(resource: JobValidationError.directoryNotLocal.message, arguments: []),
-            Case(resource: JobValidationError.promptEmpty.message, arguments: []),
-            Case(resource: JobValidationError.noWeekdays.message, arguments: []),
-            Case(resource: JobValidationError.noTimes.message, arguments: []),
-            Case(resource: JobValidationError.duplicateTimes([]).message, arguments: []),
-            Case(resource: JobValidationError.timeoutOutOfRange(minutes: 0).message, arguments: []),
-            Case(resource: answered.label, arguments: ["Finder"]),
-            Case(resource: unanswered.label, arguments: []),
-            Case(resource: AppWindow.main.title, arguments: []),
-            Case(resource: AppWindow.main.openCommandTitle, arguments: []),
-            Case(resource: MenuBarPopover.placeholder, arguments: []),
-        ] + OutcomeBadgeKind.allCases.map { Case(resource: $0.label, arguments: []) }
+        return jobsScreenCases() + historyScreenCases() + navigationCases() + notificationCases() +
+            popoverCases() + [
+                Case(resource: JobValidationError.nameEmpty.message, arguments: []),
+                Case(
+                    resource: JobValidationError.nameTooLong(characterCount: 61).message,
+                    arguments: [],
+                ),
+                Case(resource: JobValidationError.directoryNotLocal.message, arguments: []),
+                Case(resource: JobValidationError.promptEmpty.message, arguments: []),
+                Case(resource: JobValidationError.noWeekdays.message, arguments: []),
+                Case(resource: JobValidationError.noTimes.message, arguments: []),
+                Case(resource: JobValidationError.duplicateTimes([]).message, arguments: []),
+                Case(
+                    resource: JobValidationError.timeoutOutOfRange(minutes: 0).message,
+                    arguments: [],
+                ),
+                Case(resource: answered.label, arguments: ["Finder"]),
+                Case(resource: unanswered.label, arguments: []),
+                Case(resource: AppWindow.main.title, arguments: []),
+                Case(resource: AppWindow.main.openCommandTitle, arguments: []),
+                Case(resource: MenuBarPopover.placeholder, arguments: []),
+            ] + OutcomeBadgeKind.allCases.map { Case(resource: $0.label, arguments: []) }
     }
 
     /// `Sources/AgentCronCore/Resources/Localizable.xcstrings`.
