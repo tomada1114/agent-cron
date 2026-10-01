@@ -30,6 +30,9 @@ extension AppEnvironment {
         jobList.onJobsSaved = { [weak self] jobs in
             self?.jobsSaved(jobs)
         }
+        general.onAgentChecked = { [weak self] agent in
+            self?.popover.agentAvailabilityChanged(agent)
+        }
         navigation.onRunNow = { [weak self] jobID in
             self?.runNow(jobID: jobID)
         }

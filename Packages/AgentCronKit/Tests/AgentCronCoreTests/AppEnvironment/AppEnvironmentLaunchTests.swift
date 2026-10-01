@@ -82,6 +82,26 @@ struct AppEnvironmentLaunchTests {
     }
 
     @Test
+    func `a Check Again in General updates the popover's agent banner`() async {
+        let found = AppEnvironmentFixture()
+        await found.launch()
+        found.environment.popover.agentAvailabilityChanged(.notFound)
+        await found.environment.general.checkAgain()
+        #expect(!found.environment.popover.isAgentMissing)
+        await found.cleanUp()
+
+        let missing = AppEnvironmentFixture(AppScenario(resolve: DispatcherFixture.notResolved))
+        await missing.launch()
+        missing.environment.popover.agentAvailabilityChanged(.available(
+            path: DispatcherFixture.claudePath,
+            version: "2.1.0",
+        ))
+        await missing.environment.general.checkAgain()
+        #expect(missing.environment.popover.isAgentMissing)
+        await missing.cleanUp()
+    }
+
+    @Test
     func `launch recovers a run an earlier session left running, and History shows it`() async {
         let interrupted = Run(
             job: Fixture.job(),
