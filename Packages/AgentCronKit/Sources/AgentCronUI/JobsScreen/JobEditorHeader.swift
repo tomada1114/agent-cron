@@ -1,13 +1,15 @@
 import AgentCronCore
 import SwiftUI
 
-/// The editor's header: the job's name, its status, the running note, the Enabled
-/// switch, and Edited / Revert / Save (`docs/design/ux-guidelines.md` › Feedback and
+/// The editor's header: the job's name, its status, the running note, Run Now / Stop,
+/// the Enabled switch, and Edited / Revert / Save (`docs/design/ux-guidelines.md` › Feedback and
 /// loading).
 struct JobEditorHeader: View {
     let editor: JobEditorModel
     let status: LocalizedStringResource?
     let save: () -> Void
+    let runNow: () -> Void
+    let stop: () -> Void
 
     var body: some View {
         HStack(alignment: .firstTextBaseline, spacing: DesignLock.spacingM) {
@@ -71,6 +73,7 @@ struct JobEditorHeader: View {
                     .foregroundStyle(.secondary)
                     .accessibilityIdentifier("jobEditedLabel")
             }
+            runButton
             Button {
                 editor.revert()
             } label: {
@@ -87,6 +90,23 @@ struct JobEditorHeader: View {
             .accessibilityIdentifier("saveButton")
             enabledSwitch
         }
+    }
+
+    /// No key equivalent: the Job menu owns ⌘R and ⌘., which reach the same actions.
+    private var runButton: some View {
+        let command = editor.runControl
+        return Button {
+            command == .stop ? stop() : runNow()
+        } label: {
+            Label {
+                Text(command.title)
+            } icon: {
+                Image(systemName: command == .stop ? "stop.fill" : "play.fill")
+            }
+        }
+        .disabled(!editor.canUseRunControl)
+        .help(Text(command.title))
+        .accessibilityIdentifier(command == .stop ? "stopButton" : "runNowButton")
     }
 
     /// The switch alone, as in ux-flows S2's header; its label is what VoiceOver and the
