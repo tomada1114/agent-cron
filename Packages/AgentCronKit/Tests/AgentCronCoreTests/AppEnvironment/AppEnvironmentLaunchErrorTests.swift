@@ -122,4 +122,16 @@ struct AppEnvironmentLaunchErrorTests {
         #expect(FileManager.default.fileExists(atPath: root.appending(path: "jobs.json").path))
         await fixture.cleanUp()
     }
+
+    @Test
+    func `the app's configuration keeps jobs and runs together in the data root`() {
+        let root = DispatcherFixture.makeDirectory()
+        defer { try? FileManager.default.removeItem(at: root) }
+
+        let configuration = AppConfiguration.files(at: root)
+
+        #expect((configuration.jobStore as? FileJobStore)?.root == root)
+        #expect((configuration.runStore as? FileRunStore)?.root == root)
+        #expect(configuration.defaults == .standard)
+    }
 }
