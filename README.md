@@ -1,33 +1,84 @@
-# agent-cron
+# AgentCron
 
 [![CI](https://github.com/tomada1114/agent-cron/actions/workflows/ci.yml/badge.svg)](https://github.com/tomada1114/agent-cron/actions/workflows/ci.yml)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/tomada1114/agent-cron/badge)](https://scorecard.dev/viewer/?uri=github.com/tomada1114/agent-cron)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-A strict, supply-chain-hardened GitHub template for open-source macOS apps.
-It ships as a working app: XcodeGen project, thin app shell over a
-local Swift package, Swift Testing suite with an enforced coverage floor, an
-XCUITest launch guarantee, and hardened CI — all from the first commit.
+AgentCron is a macOS menu-bar app that runs a coding-agent CLI — Claude Code
+(`claude -p`) today — in one-shot headless mode on a schedule: a stored prompt, in a
+chosen directory, on chosen weekdays and times. It is for a single developer on their
+own Mac who wants recurring agent chores (summarizing RSS news into an HTML page in a
+repository, reviewing and merging safe Dependabot PRs) to happen without opening a
+terminal, and who needs to see afterwards that each run happened and what it decided.
+It also keeps the Mac from idle sleep while jobs run, or on demand.
 
-Most popular OSS macOS apps ship without CI-gated tests, SECURITY.md,
-Dependabot, or pinned actions. This template starts with all of them.
+Define a job (directory + prompt + weekdays and times + agent options), then glance at
+the menu bar to see what runs next and whether recent runs succeeded. A scheduled run
+produces the same result as running the same prompt by hand with `claude -p` in that
+directory.
 
-**Starting your own app from this template?** Jump to
-[Using This Template](#using-this-template).
+> **Screenshots:** coming soon — they will be added once the screens are final.
 
-## Quickstart
+## Requirements
 
-Prerequisites: Xcode 26.5+, [mise](https://mise.jdx.dev/), and
-[Just](https://just.systems) (`brew install mise just`).
+- macOS 14 or later
+- [Claude Code](https://docs.claude.com/en/docs/claude-code/overview) installed, with
+  `claude` on your `PATH`, and logged in
+- To build from source: Xcode 26.5+, [mise](https://mise.jdx.dev/), and
+  [Just](https://just.systems) (`brew install mise just`)
+
+## Install from Source
 
 ```bash
 git clone https://github.com/tomada1114/agent-cron.git
 cd agent-cron
 mise trust     # approve mise.toml once — mise refuses untrusted configs
-just install   # pinned tools via mise + git hooks + xcodegen generate
-just check     # verify-hooks → fmt → lint → test-scripts → check-harness → test → build
-open AgentCron.xcodeproj
+just install && just run
 ```
+
+`just install` installs the pinned tools, the git hooks, and generates the Xcode
+project; `just run` builds the Debug app and launches it. AgentCron appears in the menu
+bar, not the Dock.
+
+## Product and Design Docs
+
+- [Requirements](docs/product/requirements.md) and [UX flows](docs/product/ux-flows.md)
+  (`docs/product/`) — scope, features, non-goals, and the decision log
+- [Architecture Decisions](docs/architecture/README.md) — the ADR index
+- [Roadmap](docs/architecture/roadmap.md)
+
+## Development
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for full setup instructions.
+
+```bash
+just install
+just check     # verify-hooks → fmt → lint → test-scripts → check-harness → test → build
+```
+
+The first local `just uitest` run may prompt for Accessibility permission
+(System Settings → Privacy & Security); CI runners are pre-provisioned and
+run it on every push. If the app itself asks for such a permission, see
+[Keeping Permission Grants Across Rebuilds](docs/getting-started.md#keeping-permission-grants-across-rebuilds) —
+ad-hoc-signed Debug builds lose the grant on every rebuild.
+
+## Documentation
+
+- [Getting Started](docs/getting-started.md)
+- [Architecture](docs/architecture.md)
+- [Architecture Decisions](docs/architecture/README.md)
+- [Distribution & Signing](docs/distribution.md)
+- [Adding iOS Later](docs/adding-ios.md)
+
+## Template Origin
+
+AgentCron was cut from
+[macos-app-template](https://github.com/tomada1114/macos-app-template), a strict,
+supply-chain-hardened GitHub template for open-source macOS apps: an XcodeGen project,
+a thin app shell over a local Swift package, a Swift Testing suite with an enforced
+coverage floor, an XCUITest launch guarantee, and hardened CI. The sections below are
+kept from it — the reasoning behind those choices, how an app is cut from the template,
+and how to pull later template changes into this repository.
 
 ## Design Philosophy
 
@@ -163,8 +214,7 @@ secrets — no workflow edits. See docs/distribution.md.
    `CODE_OF_CONDUCT.md` for your app (the conduct-reporting contact stays
    `tmasuyama1114@gmail.com` if `--email` was omitted, so check it), and review
    `LICENSE`'s copyright line (`CHANGELOG.md` is reset automatically)
-7. Replace or remove the example code — the `FrontmostApp`
-   port/adapter — following the checklist in
+7. Replace or remove the example code, following
    [docs/getting-started.md › Removing the example code](docs/getting-started.md#removing-the-example-code);
    keep the Core/UI split and the tests
 8. For signed releases, add the secrets listed in docs/distribution.md
@@ -214,30 +264,3 @@ Cherry-picking narrowly scoped commits is usually cleaner than a full merge:
 the bootstrap rename means most template commits touch files whose names and
 contents differ in your repository. Treat the template as a starting point,
 not a dependency — adopt the changes that earn their place.
-
-## Development
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for full setup instructions.
-
-```bash
-just install
-just check
-```
-
-The first local `just uitest` run may prompt for Accessibility permission
-(System Settings → Privacy & Security); CI runners are pre-provisioned and
-run it on every push. If your app itself asks for such a permission, see
-[Keeping Permission Grants Across Rebuilds](docs/getting-started.md#keeping-permission-grants-across-rebuilds) —
-ad-hoc-signed Debug builds lose the grant on every rebuild.
-
-## Documentation
-
-- [Getting Started](docs/getting-started.md)
-- [Architecture](docs/architecture.md)
-- [Architecture Decisions](docs/architecture/README.md)
-- [Distribution & Signing](docs/distribution.md)
-- [Adding iOS Later](docs/adding-ios.md)
-
-## License
-
-[MIT](LICENSE)

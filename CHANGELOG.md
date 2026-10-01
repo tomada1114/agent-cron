@@ -57,8 +57,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   first launch turns on launch at login.
 - The app's accent color is now deep teal (the design lock, ADR-0009), in light and dark.
 
+### Fixed
+
+- A job whose prompt starts with `-`, such as a Markdown bullet, now reaches Claude Code
+  as its prompt instead of failing with an unknown-option error.
+
 ### Removed
 
 - The template's counter example screen
+- The template's `FrontmostApp` ports-and-adapters example and the unused placeholder
+  popover view; `SleepPreventing` / `PowerAssertionSleepPreventer` is now the worked
+  example
 
 [Unreleased]: https://github.com/tomada1114/agent-cron/commits/main

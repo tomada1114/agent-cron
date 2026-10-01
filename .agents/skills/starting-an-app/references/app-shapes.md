@@ -73,8 +73,9 @@ import SwiftUI
 struct AgentCronApp: App {
     var body: some Scene {
         MenuBarExtra("AgentCron", systemImage: "number.circle") {
-            ContentView(
-                frontmostApp: FrontmostAppViewModel(provider: WorkspaceFrontmostAppProvider()),
+            // The panel view, over a Core model built with its Platform adapter.
+            PanelView(
+                model: KeepAwakeController(preventer: PowerAssertionSleepPreventer()),
             )
         }
         .menuBarExtraStyle(.window)
@@ -83,8 +84,8 @@ struct AgentCronApp: App {
 ```
 
 The shell still only wires: the scene type and the composition root line are the whole
-diff from the windowed entry point. The panel's content is a `AgentCronUI` view — here the
-template's own `ContentView`, swapped for the app's real view later — and every
+diff from the windowed entry point. The panel's content is a `AgentCronUI` view — here a
+sketch `PanelView`; AgentCron's is `PopoverView` over `PopoverModel` — and every
 decision it renders stays in `AgentCronCore`.
 
 ### 3. `LaunchUITests/LaunchTests.swift` — the replacement assertion

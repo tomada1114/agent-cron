@@ -47,13 +47,13 @@ paths:
 ## Constants
 
 - A view's layout numbers (spacing, font size, minimum window size): a `private enum
-  Layout` at the top of that view's file — `ContentView.swift` is the worked example; a
+  Layout` at the top of that view's file — `JobsScreenView.swift` is the worked example; a
   test's timeouts likewise (`LaunchTests.swift`'s `Timeout`)
 - A number someone might tune (a delay, a threshold, a limit): Core's one `Tuning` type
   (the `designing-core-logic` skill); a domain invariant is a parameter or a `static`
   on its type (a schedule's allowed weekdays), not a `Tuning` entry
 - User-visible wording Core decides: a `static let` on the view model
-  (`FrontmostAppViewModel.unavailableDisplayName`); the logging subsystem: `AppLog`, once
+  (`KeepAwakeController.manualReason`); the logging subsystem: `AppLog`, once
 - A type holding only `static` members is a caseless `enum` (SwiftLint's
   `convenience_type`). No global `let`, and no `Constants.swift` grab bag: a constant
   lives beside the one concern that uses it
@@ -84,7 +84,7 @@ paths:
   you mean rather than relying on the default
 - Level by intent: `.debug` for the development stream `just logs` shows, `.info` for a
   milestone worth keeping, `.error`/`.fault` for something that went wrong. See
-  `FrontmostAppViewModel.refresh()` for the worked example
+  `KeepAwakeController` for the worked example
 
 ## Concurrency
 

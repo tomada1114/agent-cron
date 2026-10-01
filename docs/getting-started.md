@@ -90,48 +90,13 @@ That drops your own grants for it, so the next launch prompts from scratch.
 
 ## Removing the example code
 
-The template shipped two examples, and both are illustrations for a new app to
-replace or delete — example code in a skill or a doc is likewise a sketch of
-the pattern, never something the app must keep. AgentCron already removed the other
-one, the template's single example screen, when it became a menu-bar agent (ADR-0001). Work through
-this list for the one that is left, then run `just check`.
-
-**The `FrontmostApp` example** (the worked ports-and-adapters example — keep it
-until your first real port exists if you want a pattern to copy):
-
-- [ ] The port: `Packages/AgentCronKit/Sources/AgentCronCore/FrontmostAppProviding.swift`
-- [ ] Its view model: `Packages/AgentCronKit/Sources/AgentCronCore/FrontmostAppViewModel.swift`
-- [ ] The adapter: `Packages/AgentCronKit/Sources/AgentCronPlatform/WorkspaceFrontmostAppProvider.swift`
-- [ ] The Core tests: `Packages/AgentCronKit/Tests/AgentCronCoreTests/FrontmostAppViewModelTests.swift`,
-      `FrontmostAppProvidingContractTests.swift` beside it, and the `FakeFrontmostAppProvider`
-      cases in `everyCase()` in `LocalizationTests.swift`
-- [ ] The fake and the contract: `FakeFrontmostAppProvider.swift` and
-      `FrontmostAppProvidingContract.swift` in `Packages/AgentCronKit/Tests/AgentCronTestSupport`
-      (keep the target for your own port's fake and contract, or remove it from
-      `Package.swift` and both test targets' dependencies once nothing is left in it)
-- [ ] The local-machine test:
-      `Packages/AgentCronKit/Tests/AgentCronPlatformTests/WorkspaceFrontmostAppProviderTests.swift`
-      (if it was the last test there, keep the target with a test of your own
-      adapter, or remove the target from `Package.swift` together with its
-      `just test-local` references)
-- [ ] `AppLog.frontmostApp` in `Packages/AgentCronKit/Sources/AgentCronCore/AppLog.swift`,
-      plus the doc comment there that points at `FrontmostAppViewModel/refresh()`
-      — add a `Logger` for your own concern instead
-- [ ] The `ContentView` row: the `frontmostApp` property, its `init` parameter,
-      the `Frontmost:` label (`frontmostAppLabel`), and the `scenePhase`
-      refresh in `Packages/AgentCronKit/Sources/AgentCronUI/ContentView.swift`
-- [ ] The composition root: the `FrontmostAppViewModel(provider:
-      WorkspaceFrontmostAppProvider())` argument in `App/AgentCronApp.swift`
-- [ ] The mentions that cite it as the worked example: `AGENTS.md` ›
-      Architecture ("The worked example is `FrontmostAppProviding` /
-      `WorkspaceFrontmostAppProvider`"), `docs/architecture.md` › Ports and
-      adapters and › Logging, `.claude/rules/testing.md` › Fakes, not mocks and
-      › One Contract Suite per Port, and the skills `integrating-system-apis`,
-      `running-the-app`, and `starting-an-app/references/app-shapes.md` — point
-      them at your own port, or reword them (skills are edited under
-      `.agents/skills/`, then `just agents-sync`)
-
-`rg -i frontmost` then lists anything left.
+The template shipped two examples, both illustrations for a new app to replace or
+delete — example code in a skill or a doc is likewise a sketch of the pattern, never
+something the app must keep. AgentCron has removed both: the template's single example
+screen when it became a menu-bar agent (ADR-0001), and the template's ports-and-adapters
+example once the app's own ports existed. The worked ports-and-adapters example is now
+`SleepPreventing` / `PowerAssertionSleepPreventer` (`docs/architecture.md` › Ports and
+adapters), so there is nothing left on this list.
 
 ## Open in Xcode
 

@@ -154,28 +154,6 @@
         }
       }
     },
-    "frontmostApp.label" : {
-      "comment" : "Footnote naming the application that is frontmost. The argument is that application's name.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Frontmost: %@"
-          }
-        }
-      }
-    },
-    "frontmostApp.unavailable" : {
-      "comment" : "Footnote shown when no application is frontmost, or before the app has asked.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Frontmost: —"
-          }
-        }
-      }
-    },
     "generalScreen.agent.checkAgain" : {
       "comment" : "Button that checks again whether claude resolves.",
       "extractionState" : "manual",
@@ -2386,23 +2364,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ジョブ"
-          }
-        }
-      }
-    },
-    "menuBarPopover.placeholder" : {
-      "comment" : "Placeholder text in the menu-bar popover before the run timeline exists.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scheduled runs will appear here."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "予定された実行がここに表示されます。"
           }
         }
       }

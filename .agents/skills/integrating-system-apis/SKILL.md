@@ -29,11 +29,11 @@ copy — `docs/architecture.md` › "Ports and adapters" is the full description
 
 | Piece | Where | Worked example |
 |---|---|---|
-| Port: a `Sendable` protocol, value types in and out | `Packages/AgentCronKit/Sources/AgentCronCore/` | `FrontmostAppProviding.swift` |
-| Adapter: the OS framework import, translation only | `Packages/AgentCronKit/Sources/AgentCronPlatform/` | `WorkspaceFrontmostAppProvider.swift` |
-| Fake: a real implementation answering from test data | `Tests/AgentCronTestSupport/` | `FakeFrontmostAppProvider.swift` |
-| Local-machine test: the adapter against the real OS | `Tests/AgentCronPlatformTests/` | `WorkspaceFrontmostAppProviderTests.swift` |
-| Contract: the port's promises, run against the fake and the adapter | `Tests/AgentCronTestSupport/` | `FrontmostAppProvidingContract.swift` |
+| Port: a `Sendable` protocol, value types in and out | `Packages/AgentCronKit/Sources/AgentCronCore/` | `KeepAwake/SleepPreventing.swift` |
+| Adapter: the OS framework import, translation only | `Packages/AgentCronKit/Sources/AgentCronPlatform/` | `PowerAssertionSleepPreventer.swift` |
+| Fake: a real implementation answering from test data | `Tests/AgentCronTestSupport/` | `FakeSleepPreventer.swift` |
+| Local-machine test: the adapter against the real OS | `Tests/AgentCronPlatformTests/` | `PowerAssertionSleepPreventerTests.swift` |
+| Contract: the port's promises, run against the fake and the adapter | `Tests/AgentCronTestSupport/` | `SleepPreventingContract.swift` |
 
 Write the port first. Its signature is where you decide what the OS type collapses into,
 and an adapter written before its port almost always leaks one: `CGEvent`, `AXUIElement`,

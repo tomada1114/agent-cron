@@ -1,5 +1,4 @@
 import AgentCronCore
-import AgentCronTestSupport
 import Foundation
 import Testing
 
@@ -90,12 +89,7 @@ struct LocalizationTests {
     /// arguments its English takes. Adding a key to Core means adding it here: the
     /// source-scan tests fail until this list names every key Core's sources declare.
     static func everyCase() -> [Case] {
-        let answered = FrontmostAppViewModel(
-            provider: FakeFrontmostAppProvider(answering: [FrontmostApp(name: "Finder")]),
-        )
-        answered.refresh()
-        let unanswered = FrontmostAppViewModel(provider: FakeFrontmostAppProvider(answering: [nil]))
-        return jobsScreenCases() + jobsScreenViewCases() + historyScreenCases() +
+        jobsScreenCases() + jobsScreenViewCases() + historyScreenCases() +
             navigationCases() +
             notificationCases() + popoverCases() + generalScreenCases() + appEnvironmentCases() + [
                 Case(resource: JobValidationError.nameEmpty.message, arguments: []),
@@ -112,11 +106,8 @@ struct LocalizationTests {
                     resource: JobValidationError.timeoutOutOfRange(minutes: 0).message,
                     arguments: [],
                 ),
-                Case(resource: answered.label, arguments: ["Finder"]),
-                Case(resource: unanswered.label, arguments: []),
                 Case(resource: AppWindow.main.title, arguments: []),
                 Case(resource: AppWindow.main.openCommandTitle, arguments: []),
-                Case(resource: MenuBarPopover.placeholder, arguments: []),
             ] + OutcomeBadgeKind.allCases.map { Case(resource: $0.label, arguments: []) }
     }
 
