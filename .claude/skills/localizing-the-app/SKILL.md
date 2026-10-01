@@ -35,14 +35,14 @@ English-only rule and its one exception (`AGENTS.md`'s "Important Reminders").
 
 ## Declaring a string
 
-`FrontmostAppViewModel.label` is the worked example:
+`PopoverText.stop(jobName:)` is the worked example:
 
 ```swift
 LocalizedStringResource(
-    "frontmostApp.label",
-    defaultValue: "Frontmost: \(name)",
+    "popover.row.stop",
+    defaultValue: "Stop \(jobName)",
     bundle: .module,
-    comment: "Footnote naming the application that is frontmost. The argument is that application's name.",
+    comment: "Accessibility label of the Stop button on a running row. The argument is the job's name.",
 )
 ```
 
@@ -54,15 +54,16 @@ Every part is there for a reason:
 - **`defaultValue`.** `swift test` (`just test`) builds with SwiftPM's native build
   system, which copies the `.xcstrings` into Core's bundle uncompiled, so the English a
   test sees comes from here. Without it a test would see the key.
-- **An explicit key**, `feature.purpose` (`appWindow.main.open`, `frontmostApp.unavailable`),
+- **An explicit key**, `feature.purpose` (`appWindow.main.open`, `keepAwake.mode.off`),
   not the English text: the English can be polished without re-keying every translation,
   and a key is something a test and a search can name.
 - **`comment`** is a translator's only context: where the text appears and what each
   argument is.
-- **One whole sentence per state**, with arguments interpolated (`\(name)` becomes `%@`,
+- **One whole sentence per state**, with arguments interpolated (`\(jobName)` becomes `%@`,
   an `Int` becomes `%lld`), never a fixed prefix glued to a swapped-in fragment: a
   translation must be free to reorder the sentence around its arguments.
-- **A computed property**, as `label` and `AppWindow.openCommandTitle` are: the
+- **A computed property or a function**, as `KeepAwakeMode.label` and
+  `AppWindow.openCommandTitle` are: the
   initializer's `locale` defaults to `.current` when the resource is built, so each read
   builds it afresh.
 - **No generated symbols.** `xcodebuild` runs `GenerateStringSymbols` over the catalog, but
@@ -74,12 +75,12 @@ Every part is there for a reason:
 - A view has no localizable literal. `Text("…")` and `Button("…")` take a
   `LocalizedStringKey` that is looked up in the app's main bundle, not the package's, and
   `-exportLocalizations` exports it under a `AgentCronUI` strings file that has nowhere to
-  ship. Render a Core resource instead: `Text(frontmostApp.label)`,
+  ship. Render a Core resource instead: `Text(mode.label)`,
   `Button(AppWindow.main.openCommandTitle) { openWindow(id: AppWindow.main.id) }`.
 - What is not language is `Text(verbatim:)`: a number (formatted in Core with an injected
   `Locale` when formatting matters), a glyph such as a "−" or "+" button label (whose
   `.accessibilityLabel` is still a Core resource), a proper noun such as the app's name
-  in `ContentView`'s heading, and a preview's note to the developer.
+  in `StatusItemLabel`'s accessibility label, and a preview's note to the developer.
 - Accessibility identifiers are never localized (`building-swiftui-screens`).
 
 ## Keeping the catalog in step

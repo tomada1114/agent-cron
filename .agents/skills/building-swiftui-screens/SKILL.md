@@ -28,7 +28,7 @@ A view renders Core state and forwards user intent to a Core action; it decides 
 only, because SwiftUI layout is not what `swift test` can assert — so any branch that
 lives in a view is a branch no gate tests.
 Keeping it in the view model is what makes the 80% floor on `AgentCronCore` honest
-(`docs/architecture.md` › "Where new code goes"). `ContentView` over `FrontmostAppViewModel`
+(`docs/architecture.md` › "Where new code goes"). `PopoverView` over `PopoverModel`
 is the worked example; copy its shape.
 
 - A view is a `struct` in `AgentCronUI` importing `SwiftUI` and `AgentCronCore`, and never
@@ -45,8 +45,9 @@ is the worked example; copy its shape.
   default argument is only for a model that needs no port.
 - **A model that needs a port** cannot be built in `AgentCronUI`: its adapter lives in
   `AgentCronPlatform`, which this module must not import. `App/`, the composition root,
-  builds it and passes it down — `ContentView`'s optional
-  `frontmostApp: FrontmostAppViewModel?`, which previews simply leave out.
+  builds it and passes it down — `PopoverView(model:)` takes a `PopoverModel` whose
+  `KeepAwakeController` holds a `SleepPreventing` adapter, and its previews build the
+  model over an in-file preview preventer instead (`Popover/PopoverPreview.swift`).
 - **A subview that only reads** takes the model as a plain `let` property. With
   `@Observable`, SwiftUI re-renders a view when a property its `body` read changes, with
   no property wrapper needed.
@@ -68,7 +69,7 @@ is the worked example; copy its shape.
 | Layout, modifiers, and the order things appear in | Whether an action is allowed now (`canRunNow`) |
 | `if let` on an optional model or value, to show or omit a part | Any rule, clamp, threshold, or comparison on domain values |
 | Calling an action from a `Button`, `.onSubmit`, a menu command | What the action does, and the state it leaves behind |
-| *When* to ask again — `.onChange(of: scenePhase)`, `.task` — as `ContentView` refreshes `frontmostApp` on activation | *What* asking again means (`refresh()`) |
+| *When* to ask again — `.onChange(of: scenePhase)`, `.task` | *What* asking again means (`refresh()`) |
 | `Text(verbatim:)` for a glyph or an already-formatted number | Every word a person reads, as a `LocalizedStringResource` (`openCommandTitle`, `label`) — `localizing-the-app` |
 | `.disabled(!model.canRunNow)` | Formatting numbers and dates with an injected `Locale` |
 
@@ -106,7 +107,7 @@ is the worked example; copy its shape.
   never localized, never shown to a person. Renaming one breaks `just uitest`, so rename
   the test in the same change. Content inside the `.window`-style `MenuBarExtra`
   popover is invisible to XCUITest (`starting-an-app/references/app-shapes.md`), so its
-  identifiers (`openMainWindowButton`, `frontmostAppLabel`) serve Accessibility
+  identifiers (`openMainWindowButton`, `popoverKeepAwake`) serve Accessibility
   Inspector, not a UI test; the main window's are reachable.
 - **Labels are what VoiceOver says**, and an identifier is not one. Give every control a
   text label from a Core `LocalizedStringResource` (`localizing-the-app`):

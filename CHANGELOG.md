@@ -58,5 +58,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 - The template's counter example screen
+- The template's `FrontmostApp` ports-and-adapters example and the unused placeholder
+  popover view; `SleepPreventing` / `PowerAssertionSleepPreventer` is now the worked
+  example
 
 [Unreleased]: https://github.com/tomada1114/agent-cron/commits/main
