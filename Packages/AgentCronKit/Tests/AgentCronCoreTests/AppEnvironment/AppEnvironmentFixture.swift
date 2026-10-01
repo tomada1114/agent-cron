@@ -52,6 +52,8 @@ final class AppEnvironmentFixture {
     let activation = FakeActivationPolicy()
     let wallClock: ManualClock
     let defaults: UserDefaults
+    /// The fakes, as the environment was handed them.
+    let ports: AppPorts
     let environment: AppEnvironment
     private let suiteName = "AgentCronTests-\(UUID().uuidString)"
 
@@ -88,14 +90,15 @@ final class AppEnvironmentFixture {
         if let seen = scenario.popoverSeenAt {
             defaults.set(seen, forKey: PopoverModel.lastPopoverOpenedAtKey)
         }
+        ports = AppPorts(
+            runner: runner,
+            systemEvents: events,
+            sleepPreventer: preventer,
+            notifier: notifier,
+            lifecycle: AppLifecyclePorts(loginItem: loginItem, activationPolicy: activation),
+        )
         environment = AppEnvironment(
-            ports: AppPorts(
-                runner: runner,
-                systemEvents: events,
-                sleepPreventer: preventer,
-                notifier: notifier,
-                lifecycle: AppLifecyclePorts(loginItem: loginItem, activationPolicy: activation),
-            ),
+            ports: ports,
             configuration: Self.configuration(
                 stores: (jobStore, runStore),
                 defaults: defaults,
