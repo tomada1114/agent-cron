@@ -66,6 +66,22 @@ extension AppEnvironment {
         systemEvents.armTimer(at: Self.timerDate(for: jobs, after: date, calendar: calendar))
     }
 
+    /// Reads History afresh, then puts back the runs going now: a run is first saved only
+    /// once its agent check has answered, so the store may not hold it yet.
+    func reloadHistory() {
+        history.reload()
+        for run in dispatcher.runningRuns {
+            history.runRecorded(run)
+        }
+    }
+
+    /// Reads the popover afresh, then puts back the runs going now, as ``reloadHistory()``
+    /// does.
+    func reloadPopover() {
+        popover.load()
+        popover.runningRunsChanged(to: dispatcher.runningRuns)
+    }
+
     // MARK: - Private
 
     private func handle(_ event: SystemEvent) {
@@ -120,7 +136,7 @@ extension AppEnvironment {
             dispatcher.stop(runID: run.id)
         }
         history.jobsChanged(to: jobs)
-        popover.load()
+        reloadPopover()
         systemEvents.armTimer(at: Self.timerDate(for: jobs, after: now(), calendar: calendar))
         perform { environment in
             await environment.notifications.jobsChanged(jobs)

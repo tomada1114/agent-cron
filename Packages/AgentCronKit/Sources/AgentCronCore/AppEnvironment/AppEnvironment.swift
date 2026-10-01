@@ -189,7 +189,7 @@ public final class AppEnvironment {
     /// have changed in System Settings.
     public func mainWindowOpened() {
         lifecycle.mainWindowOpened()
-        history.reload()
+        reloadHistory()
         perform { environment in
             await environment.notifications.refreshAuthorization()
         }

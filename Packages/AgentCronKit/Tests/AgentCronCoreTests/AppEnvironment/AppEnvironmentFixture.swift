@@ -51,6 +51,8 @@ final class AppEnvironmentFixture {
     let loginItem = FakeLoginItem()
     let activation = FakeActivationPolicy()
     let wallClock: ManualClock
+    /// What the fake runner waits out timeouts on, the agent check's included.
+    let runnerClock: ManualClock
     let defaults: UserDefaults
     /// The fakes, as the environment was handed them.
     let ports: AppPorts
@@ -75,13 +77,14 @@ final class AppEnvironmentFixture {
             lastCheckedAt: scenario.lastCheckedAt,
         ))
         runStore = FakeRunStore(runs: scenario.runs)
+        runnerClock = ManualClock(start: scenario.now)
         runner = FakeAgentRunner(
             behaviors: [
                 DispatcherFixture.resolveArgv: scenario.resolve,
                 DispatcherFixture.versionArgv: DispatcherFixture.exits(0, "2.1.0\n"),
             ],
             otherwise: scenario.agent,
-            clock: ManualClock(start: scenario.now),
+            clock: runnerClock,
         )
         events = FakeSystemEvents(now: scenario.now)
         notifier = FakeRunNotifier(authorization: scenario.authorization, promptAnswer: .authorized)

@@ -158,4 +158,33 @@ struct AppEnvironmentActionTests {
         #expect(fixture.environment.history.runs.map(\.id) == [Fixture.runID])
         await fixture.cleanUp()
     }
+
+    @Test
+    func `a run whose agent check has not answered stays listed through a reload`(
+    ) async throws {
+        // The check hangs until its timeout, so the run is going but not yet saved.
+        let fixture = AppEnvironmentFixture(AppScenario(resolve: .runsUntilTerminated))
+        fixture.environment.launch()
+        fixture.environment.runNow(jobID: Fixture.jobID)
+        let running = try #require(fixture.environment.dispatcher.runningRuns.first)
+        #expect(fixture.recorded.isEmpty)
+
+        fixture.environment.mainWindowOpened()
+        fixture.environment.jobList.load()
+        fixture.environment.jobList.select(jobID: Fixture.jobID)
+        fixture.environment.jobList.editor?.nameChanged(to: "Morning digest")
+        fixture.environment.jobList.editor?.save()
+
+        #expect(fixture.environment.history.runs.map(\.id) == [running.id])
+        #expect(fixture.environment.popover.runs.map(\.id) == [running.id])
+        #expect(fixture.environment.popover.runningJobIDs == [Fixture.jobID])
+        // Stops the run and lets General's hanging check time out, so nothing outlives
+        // the test; the check may not be waiting yet, so time moves until it answers.
+        fixture.environment.stop(runID: running.id)
+        _ = await fixture.until {
+            fixture.runnerClock.advance(by: .seconds(AppEnvironmentFixture.secondsPerHour))
+            return fixture.environment.general.agent != nil
+        }
+        await fixture.cleanUp()
+    }
 }
