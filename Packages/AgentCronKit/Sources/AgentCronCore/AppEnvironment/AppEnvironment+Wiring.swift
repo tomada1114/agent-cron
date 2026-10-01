@@ -30,6 +30,9 @@ extension AppEnvironment {
         jobList.onJobsSaved = { [weak self] jobs in
             self?.jobsSaved(jobs)
         }
+        general.onAgentChecked = { [weak self] agent in
+            self?.popover.agentAvailabilityChanged(agent)
+        }
         navigation.onRunNow = { [weak self] jobID in
             self?.runNow(jobID: jobID)
         }
@@ -75,11 +78,9 @@ extension AppEnvironment {
         }
     }
 
-    /// Reads the popover afresh, then puts back the runs going now, as ``reloadHistory()``
-    /// does.
+    /// Reads the popover afresh; the model keeps the runs it was last told are running.
     func reloadPopover() {
         popover.load()
-        popover.runningRunsChanged(to: dispatcher.runningRuns)
     }
 
     // MARK: - Private

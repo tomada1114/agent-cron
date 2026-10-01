@@ -35,6 +35,20 @@ struct PopoverModelStatusTests {
     }
 
     @Test
+    func `a run reported running but not yet stored survives a load`() throws {
+        try withScratchDefaults { defaults in
+            let model = Fix.model(jobs: [Fix.digest], now: Fix.tuesday(12, 0), defaults: defaults)
+            let running = Fix.run(of: Fix.digest, at: Fix.tuesday(12, 0))
+            model.runningRunsChanged(to: [running])
+
+            model.load()
+
+            #expect(model.runs.contains(running))
+            #expect(model.runningJobIDs == [Fix.digest.id])
+        }
+    }
+
+    @Test
     func `REQ-005 a chosen mode reaches the controller and its remaining time shows`() throws {
         try withScratchDefaults { defaults in
             let keepAwake = KeepAwakeFixture()

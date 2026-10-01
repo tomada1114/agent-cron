@@ -258,15 +258,8 @@ public final class AppEnvironment {
             await environment.notifications.refreshAuthorization()
         }
         perform { environment in
-            await environment.checkAgent()
+            await environment.general.checkAgain()
         }
         AppLog.scheduler.info("scheduler started")
-    }
-
-    private func checkAgent() async {
-        await general.checkAgain()
-        if let agent = general.agent {
-            popover.agentAvailabilityChanged(agent)
-        }
     }
 }
