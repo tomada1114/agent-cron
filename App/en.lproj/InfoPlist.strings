@@ -1,0 +1,4 @@
+/* ADR-0008: declares the app bundle's en localization so macOS picks it for the
+   UI, whose strings live in AgentCronCore's String Catalog. The name is a product
+   name and is not translated. */
+"CFBundleName" = "AgentCron";

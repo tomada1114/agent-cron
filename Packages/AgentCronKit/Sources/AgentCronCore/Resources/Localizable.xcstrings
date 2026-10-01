@@ -30,7 +30,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "AgentCron を開く…"
+            "value" : "AgentCronを開く…"
           }
         }
       }
@@ -163,6 +163,12 @@
             "state" : "translated",
             "value" : "Check Again"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再確認"
+          }
         }
       }
     },
@@ -174,6 +180,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Checking…"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "確認中…"
           }
         }
       }
@@ -187,6 +199,12 @@
             "state" : "translated",
             "value" : "Check failed: %@"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "確認に失敗しました: %@"
+          }
         }
       }
     },
@@ -198,6 +216,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "claude was not found in your login shell (zsh -l)"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログインシェル（zsh -l）で claude が見つかりません"
           }
         }
       }
@@ -211,6 +235,12 @@
             "state" : "translated",
             "value" : "Install Claude Code, or add its folder to PATH in your shell profile, then check again."
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Claude Code をインストールするか、シェルプロファイルで PATH にそのフォルダを追加してから、もう一度確認してください。"
+          }
         }
       }
     },
@@ -223,6 +253,12 @@
             "state" : "translated",
             "value" : "resolved via login shell"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログインシェル経由で検出"
+          }
         }
       }
     },
@@ -231,6 +267,12 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Claude Code"
+          }
+        },
+        "ja" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Claude Code"
@@ -247,6 +289,12 @@
             "state" : "translated",
             "value" : "Agents"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "エージェント"
+          }
         }
       }
     },
@@ -258,6 +306,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "History"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "履歴"
           }
         }
       }
@@ -271,6 +325,12 @@
             "state" : "translated",
             "value" : "Runs are kept for 90 days."
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "実行は90日間保存されます。"
+          }
         }
       }
     },
@@ -282,6 +342,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Always on"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "常にオン"
           }
         }
       }
@@ -295,6 +361,12 @@
             "state" : "translated",
             "value" : "Keep awake"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スリープさせない"
+          }
         }
       }
     },
@@ -306,6 +378,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Keep awake while jobs run"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ジョブの実行中はスリープさせない"
           }
         }
       }
@@ -319,6 +397,12 @@
             "state" : "translated",
             "value" : "Startup"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起動"
+          }
         }
       }
     },
@@ -330,6 +414,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Launch at login"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログイン時に起動"
           }
         }
       }
@@ -343,6 +433,12 @@
             "state" : "translated",
             "value" : "macOS cannot find this copy of AgentCron. Move it to Applications and try again."
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS がこの AgentCron を見つけられません。アプリケーションフォルダに移動してから、もう一度お試しください。"
+          }
         }
       }
     },
@@ -354,6 +450,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Open Login Items"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログイン項目を開く"
           }
         }
       }
@@ -367,6 +469,12 @@
             "state" : "translated",
             "value" : "Allow AgentCron in System Settings › Login Items to open it at login."
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログイン時に開くには、システム設定 › ログイン項目で AgentCron を許可してください。"
+          }
         }
       }
     },
@@ -377,6 +485,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Clear Filters"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フィルタを解除"
           }
         }
       }
@@ -389,6 +503,12 @@
             "state" : "translated",
             "value" : "Copy"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コピー"
+          }
         }
       }
     },
@@ -399,6 +519,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "The agent reported no result."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "エージェントから結果は報告されませんでした。"
           }
         }
       }
@@ -411,6 +537,12 @@
             "state" : "translated",
             "value" : "Open Job"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ジョブを開く"
+          }
         }
       }
     },
@@ -422,6 +554,12 @@
             "state" : "translated",
             "value" : "Prompt"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プロンプト"
+          }
         }
       }
     },
@@ -429,6 +567,12 @@
       "comment" : "Toggle in the History detail that shows the result as raw monospaced text.",
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raw"
+          }
+        },
+        "ja" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Raw"
@@ -444,6 +588,12 @@
             "state" : "translated",
             "value" : "Reason"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "理由"
+          }
         }
       }
     },
@@ -454,6 +604,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Result"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結果"
           }
         }
       }
@@ -466,6 +622,12 @@
             "state" : "translated",
             "value" : "Result appears when the run finishes"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結果は実行の終了後に表示されます"
+          }
         }
       }
     },
@@ -476,6 +638,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Stop"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止"
           }
         }
       }
@@ -543,7 +711,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "まだ実行履歴はありません。ジョブが実行されるとここに表示されます。"
+            "value" : "実行はまだありません。ジョブが実行されるとここに表示されます。"
           }
         }
       }
@@ -556,6 +724,12 @@
             "state" : "translated",
             "value" : "Cost"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コスト"
+          }
         }
       }
     },
@@ -566,6 +740,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Directory"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ディレクトリ"
           }
         }
       }
@@ -578,6 +758,12 @@
             "state" : "translated",
             "value" : "Duration"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所要時間"
+          }
         }
       }
     },
@@ -588,6 +774,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Effort"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "エフォート"
           }
         }
       }
@@ -600,6 +792,12 @@
             "state" : "translated",
             "value" : "Elapsed"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "経過時間"
+          }
         }
       }
     },
@@ -610,6 +808,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Exit Code"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "終了コード"
           }
         }
       }
@@ -622,6 +826,12 @@
             "state" : "translated",
             "value" : "Model"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "モデル"
+          }
         }
       }
     },
@@ -632,6 +842,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Permission"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "権限"
           }
         }
       }
@@ -644,6 +860,12 @@
             "state" : "translated",
             "value" : "Scheduled"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "予定時刻"
+          }
         }
       }
     },
@@ -654,6 +876,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Session"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "セッション"
           }
         }
       }
@@ -666,6 +894,12 @@
             "state" : "translated",
             "value" : "Started"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開始"
+          }
         }
       }
     },
@@ -676,6 +910,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Trigger"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "トリガー"
           }
         }
       }
@@ -739,6 +979,12 @@
             "state" : "translated",
             "value" : "All Jobs"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すべてのジョブ"
+          }
         }
       }
     },
@@ -784,6 +1030,12 @@
             "state" : "translated",
             "value" : "Job"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ジョブ"
+          }
         }
       }
     },
@@ -795,6 +1047,12 @@
             "state" : "translated",
             "value" : "Select a run"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "実行を選択してください"
+          }
         }
       }
     },
@@ -805,6 +1063,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Open Jobs"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ジョブを開く"
           }
         }
       }
@@ -851,6 +1115,12 @@
             "state" : "translated",
             "value" : "Outcome"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結果"
+          }
         }
       }
     },
@@ -896,6 +1166,12 @@
             "state" : "translated",
             "value" : "Agent not found"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "エージェントが見つかりません"
+          }
         }
       }
     },
@@ -906,6 +1182,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Folder missing"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フォルダがありません"
           }
         }
       }
@@ -918,6 +1200,12 @@
             "state" : "translated",
             "value" : "Missed beyond 60 min"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "60分を超えて遅延"
+          }
         }
       }
     },
@@ -928,6 +1216,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Still running"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "前回の実行中"
           }
         }
       }
@@ -944,7 +1238,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "追い付き実行"
+            "value" : "遅れて実行"
           }
         }
       }
@@ -1012,7 +1306,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "エージェントは、誰も見ていない間に、確認なしで任意のコマンドを実行し任意のファイルを変更できます。"
+            "value" : "誰も見ていない間に、エージェントは確認なしで任意のコマンドを実行し、任意のファイルを変更できます。"
           }
         }
       }
@@ -1029,7 +1323,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "権限チェックなし：エージェントは任意のコマンドを実行し、任意のファイルを変更できます。"
+            "value" : "権限チェックなし: エージェントは任意のコマンドを実行し、任意のファイルを変更できます。"
           }
         }
       }
@@ -1216,7 +1510,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@、%2$@"
+            "value" : "%@、%@"
           }
         }
       }
@@ -1522,7 +1816,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "変更は次回の実行から反映されます。"
+            "value" : "変更は次回の実行から適用されます。"
           }
         }
       }
@@ -1641,7 +1935,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "次回：%1$@ %2$@"
+            "value" : "次回: %@ %@"
           }
         }
       }
@@ -1658,7 +1952,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "次回：今日 %@"
+            "value" : "次回: 今日 %@"
           }
         }
       }
@@ -1675,7 +1969,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "次回：明日 %@"
+            "value" : "次回: 明日 %@"
           }
         }
       }
@@ -1709,7 +2003,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "一時停止中"
+            "value" : "一時停止"
           }
         }
       }
@@ -1777,7 +2071,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "このMac上のフォルダを選択してください。"
+            "value" : "この Mac 上のフォルダを選択してください。"
           }
         }
       }
@@ -1828,7 +2122,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "名前は60文字以内にしてください。"
+            "value" : "名前を60文字以内にしてください。"
           }
         }
       }
@@ -1930,7 +2224,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ジョブは、エージェントのプロンプトをフォルダ内でスケジュールどおりに実行します。"
+            "value" : "ジョブは、スケジュールに従ってフォルダ内でエージェントのプロンプトを実行します。"
           }
         }
       }
@@ -1998,7 +2292,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ジョブを保存できませんでした。変更内容はそのまま残っています。"
+            "value" : "ジョブを保存できませんでした。変更内容は残っています。"
           }
         }
       }
@@ -2084,6 +2378,12 @@
             "state" : "translated",
             "value" : "jobs.json is damaged and was left unchanged. Fix or restore it, then try again."
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "jobs.json が破損しているため、変更せずにそのままにしました。修正または復元してから、もう一度お試しください。"
+          }
         }
       }
     },
@@ -2095,6 +2395,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "jobs.json is from a newer AgentCron and was left unchanged. Update, then try again."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "jobs.json は新しいバージョンの AgentCron で作成されたため、変更せずにそのままにしました。アップデートしてから、もう一度お試しください。"
           }
         }
       }
@@ -2108,6 +2414,12 @@
             "state" : "translated",
             "value" : "jobs.json could not be read (error %lld). Check its permissions, then try again."
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "jobs.json を読み込めませんでした（エラー %lld）。アクセス権を確認してから、もう一度お試しください。"
+          }
         }
       }
     },
@@ -2119,6 +2431,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Quit"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "終了"
           }
         }
       }
@@ -2132,6 +2450,12 @@
             "state" : "translated",
             "value" : "AgentCron can’t read your jobs"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AgentCron がジョブを読み込めません"
+          }
         }
       }
     },
@@ -2143,6 +2467,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Try Again"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再試行"
           }
         }
       }
@@ -2261,7 +2591,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "有効 / 無効"
+            "value" : "有効／一時停止"
           }
         }
       }
@@ -2278,7 +2608,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "設定がここに表示されます。"
+            "value" : "ここに設定が表示されます。"
           }
         }
       }
@@ -2312,7 +2642,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ジョブが実行されると、ここに実行履歴が表示されます。"
+            "value" : "ジョブが実行されると、ここに実行が表示されます。"
           }
         }
       }
@@ -2346,7 +2676,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ジョブがここに表示されます。"
+            "value" : "ここにジョブが表示されます。"
           }
         }
       }
@@ -2482,7 +2812,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「%@」が失敗しました"
+            "value" : "%@ が失敗しました"
           }
         }
       }
@@ -2514,7 +2844,7 @@
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "「%2$@」の実行を%1$lld回逃しました"
+                  "value" : "%2$@ の実行を %1$lld 回逃しました"
                 }
               }
             }
@@ -2534,7 +2864,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「%@」はスキップされました"
+            "value" : "%@ はスキップされました"
           }
         }
       }
@@ -2551,7 +2881,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「%@」は停止されました"
+            "value" : "%@ は停止されました"
           }
         }
       }
@@ -2568,7 +2898,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「%@」が成功しました"
+            "value" : "%@ が成功しました"
           }
         }
       }
@@ -2585,7 +2915,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「%@」がタイムアウトしました"
+            "value" : "%@ がタイムアウトしました"
           }
         }
       }
@@ -2823,7 +3153,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "権限をバイパス"
+            "value" : "権限チェックをバイパス"
           }
         }
       }
@@ -2874,7 +3204,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "計画のみ"
+            "value" : "プラン"
           }
         }
       }
@@ -2892,7 +3222,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ログインシェルで claude が見つかりませんでした。"
+            "value" : "ログインシェルで claude が見つかりません。"
           }
         }
       }
@@ -2918,6 +3248,18 @@
               }
             }
           }
+        },
+        "ja" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "前回の確認以降、%lld 件の実行が失敗しました。"
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -2929,6 +3271,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Open General"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一般を開く"
           }
         }
       }
@@ -2942,6 +3290,12 @@
             "state" : "translated",
             "value" : "View"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "表示"
+          }
         }
       }
     },
@@ -2953,6 +3307,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Today"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今日"
           }
         }
       }
@@ -3002,6 +3362,12 @@
             "state" : "translated",
             "value" : "Create your first job"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最初のジョブを作成"
+          }
         }
       }
     },
@@ -3036,7 +3402,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "今日の予定はありません。次回：%1$@ %2$@ %3$@"
+            "value" : "今日の予定はありません。次回: %1$@ %2$@ %3$@。"
           }
         }
       }
@@ -3050,6 +3416,12 @@
             "state" : "translated",
             "value" : "Open Jobs"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ジョブを開く"
+          }
         }
       }
     },
@@ -3061,6 +3433,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "New Job"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新規ジョブ"
           }
         }
       }
@@ -3074,6 +3452,12 @@
             "state" : "translated",
             "value" : "Quit"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "終了"
+          }
         }
       }
     },
@@ -3085,6 +3469,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "(%@ left)"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "（残り %@）"
           }
         }
       }
@@ -3098,6 +3488,12 @@
             "state" : "translated",
             "value" : "Keep awake"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スリープさせない"
+          }
         }
       }
     },
@@ -3109,6 +3505,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Stop %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ を停止"
           }
         }
       }
@@ -3176,7 +3578,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ %2$@"
+            "value" : "%@ %@"
           }
         }
       }
@@ -3193,7 +3595,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ %2$@ +%3$lld"
+            "value" : "%@ %@ +%lld"
           }
         }
       }
@@ -3227,7 +3629,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ %2$@"
+            "value" : "%@ %@"
           }
         }
       }
