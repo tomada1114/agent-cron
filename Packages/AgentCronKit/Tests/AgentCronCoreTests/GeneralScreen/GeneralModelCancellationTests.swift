@@ -22,6 +22,8 @@ struct GeneralModelCancellationTests {
             ),
             clock: ManualClock(start: .now),
         )
+        var reported: [AgentAvailability] = []
+        model.onAgentChecked = { reported.append($0) }
         let check = Task { await model.checkAgain() }
         for _ in 0 ..< 20 {
             await Task.yield()
@@ -30,6 +32,7 @@ struct GeneralModelCancellationTests {
         check.cancel()
         await check.value
         #expect(model.agent == nil)
+        #expect(reported.isEmpty)
         #expect(!model.isChecking)
         #expect(!model.showsSpinner)
     }

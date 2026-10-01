@@ -32,6 +32,11 @@ public final class GeneralModel {
     /// Whether the Claude Code row shows its inline spinner.
     public private(set) var showsSpinner = false
 
+    /// Called with the answer of every check that finished — what keeps the popover's
+    /// agent banner in step. A cancelled check says nothing about the agent, so it does
+    /// not call it.
+    @ObservationIgnored public var onAgentChecked: (@MainActor (AgentAvailability) -> Void)?
+
     private let loginItem: any LoginItemControlling
     private let checker: AgentAvailabilityChecker
     private let clock: any Clock<Duration>
@@ -164,6 +169,7 @@ public final class GeneralModel {
         // nothing about the agent, so the last real answer stays.
         if !Task.isCancelled {
             agent = result
+            onAgentChecked?(result)
         }
         showsSpinner = false
         isChecking = false
