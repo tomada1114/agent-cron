@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- The UI is available in Japanese: every screen, menu, alert, and notification follows
+  the system language (English or Japanese), with no in-app language switch.
 - Initial project scaffold from [macos-app-template](https://github.com/tomada1114/macos-app-template)
 - The main window has a sidebar with Jobs, History, and General (⌘1–⌘3), and reopens on
   the section you last left it on. The main menu
@@ -61,6 +63,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - The popover keeps a just-started run's running row and Stop button when it
   opens before the run is first saved.
+- The popover's "claude was not found" banner now follows a Check Again in General,
+  instead of keeping the launch-time answer until the next launch.
 - A job whose prompt starts with `-`, such as a Markdown bullet, now reaches Claude Code
   as its prompt instead of failing with an unknown-option error.
 
