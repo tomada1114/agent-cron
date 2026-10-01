@@ -63,7 +63,7 @@ extension AppEnvironment {
                 "arming the timer without jobs: \(String(describing: error), privacy: .public)",
             )
         }
-        systemEvents.armTimer(at: Self.timerDate(for: jobs, after: date, calendar: calendar))
+        arm(for: jobs, after: date)
     }
 
     /// Reads History afresh, then puts back the runs going now: a run is first saved only
@@ -83,6 +83,14 @@ extension AppEnvironment {
     }
 
     // MARK: - Private
+
+    /// Arms the timer for `jobs` and logs the date, the evidence a run's timing is read
+    /// from (`just logs`). A date says nothing about a job's name or prompt.
+    private func arm(for jobs: [Job], after date: Date) {
+        let fireDate = Self.timerDate(for: jobs, after: date, calendar: calendar)
+        systemEvents.armTimer(at: fireDate)
+        AppLog.scheduler.info("timer armed for \(fireDate.ISO8601Format(), privacy: .public)")
+    }
 
     private func handle(_ event: SystemEvent) {
         let date = now()
@@ -137,7 +145,7 @@ extension AppEnvironment {
         }
         history.jobsChanged(to: jobs)
         reloadPopover()
-        systemEvents.armTimer(at: Self.timerDate(for: jobs, after: now(), calendar: calendar))
+        arm(for: jobs, after: now())
         perform { environment in
             await environment.notifications.jobsChanged(jobs)
         }
