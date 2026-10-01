@@ -59,6 +59,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- The popover keeps a just-started run's running row and Stop button when it
+  opens before the run is first saved.
 - A job whose prompt starts with `-`, such as a Markdown bullet, now reaches Claude Code
   as its prompt instead of failing with an unknown-option error.
 

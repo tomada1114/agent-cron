@@ -35,6 +35,10 @@ public final class PopoverModel {
     /// The jobs running now, from the runs last reported running.
     public private(set) var runningJobIDs: Set<UUID> = []
 
+    /// The runs last reported running, re-applied after a load: the dispatcher saves a
+    /// run only after its agent pre-check, so the store can lag a just-started run.
+    private var runningRuns: [Run] = []
+
     /// Whether the agent CLI was not found in the login shell, for the banner.
     public private(set) var isAgentMissing = false
 
@@ -113,7 +117,8 @@ public final class PopoverModel {
     }
 
     /// Reads the saved jobs, today's runs, and the runs since the popover was last opened.
-    /// A store that fails leaves its part empty; ``storageError`` says why.
+    /// A store that fails leaves its part empty; ``storageError`` says why. The runs last
+    /// reported running stay, whether or not the store has them yet.
     public func load() {
         let date = now()
         let startOfToday = calendar.startOfDay(for: date)
@@ -139,6 +144,7 @@ public final class PopoverModel {
             AppLog.storage
                 .error("popover run load failed: \(String(describing: error), privacy: .public)")
         }
+        upsert(runningRuns)
     }
 
     /// The user opened the popover: everything up to now is seen, so
@@ -153,8 +159,13 @@ public final class PopoverModel {
     /// The app saw the set of running runs change. Each run is upserted by identifier,
     /// so a run that started since the last ``load()`` shows at once.
     public func runningRunsChanged(to running: [Run]) {
+        runningRuns = running
         runningJobIDs = Set(running.map(\.jobID))
-        for run in running {
+        upsert(running)
+    }
+
+    private func upsert(_ upserted: [Run]) {
+        for run in upserted {
             runs.removeAll { $0.id == run.id }
             runs.append(run)
         }
