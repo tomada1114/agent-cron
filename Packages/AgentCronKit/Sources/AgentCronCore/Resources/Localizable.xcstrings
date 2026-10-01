@@ -149,7 +149,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "特高"
+            "value" : "超高"
           }
         }
       }
@@ -1068,7 +1068,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ジョブを開く"
+            "value" : "ジョブ画面を開く"
           }
         }
       }
@@ -3420,7 +3420,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ジョブを開く"
+            "value" : "ジョブ画面を開く"
           }
         }
       }
