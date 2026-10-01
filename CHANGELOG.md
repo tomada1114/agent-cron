@@ -61,6 +61,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- The popover keeps a just-started run's running row and Stop button when it
+  opens before the run is first saved.
 - The popover's "claude was not found" banner now follows a Check Again in General,
   instead of keeping the launch-time answer until the next launch.
 - A job whose prompt starts with `-`, such as a Markdown bullet, now reaches Claude Code
