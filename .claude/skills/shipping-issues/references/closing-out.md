@@ -30,7 +30,9 @@ it persists the answer so the next run's plan skips the probe.
 **Deferred approvals come last, all in one ask.** If `<runstate>/holding/` or
 `<runstate>/deferred.md` holds anything from this run, list it in the step 10
 report and make the approval-gated call (one `rm -rf` over this run's holding
-directories, plus anything deferred) as the run's **final tool call**, after the
+directories, plus anything deferred -- or `just clean-run-state` when the
+repository defines it, see [the final confirmation](#the-final-confirmation)) as
+the run's **final tool call**, after the
 report text -- so the report is already on screen while the prompt waits, and
 the user answers once instead of once per issue
 ([the final confirmation](#the-final-confirmation)).
@@ -88,6 +90,8 @@ The user's permission settings put some commands behind an approval prompt
 sometimes `wget` or a publish command). This skill runs unattended, so every
 such prompt raised mid-run parks the whole run until someone answers it, and
 several of them turn an unattended run into one the user has to sit through.
+A repository may define an allowed cleanup recipe (`just clean-run-state`)
+for the run state; prefer it over `rm -rf` wherever it covers the path.
 The rule is not "never need approval" -- it is **ask once, at the end, for
 everything that could wait**. Check each such command against three questions,
 in order:
@@ -135,6 +139,12 @@ After `cleanup_run.sh` and after the step 10 report text, as the run's last
 tool call: one command covering every holding directory this run filled plus
 anything in `deferred.md` -- e.g. `rm -rf <runstate>/holding/42
 <runstate>/holding/57` -- so the user answers one prompt, not one per issue.
+When the repository defines `just clean-run-state`, run that instead of the
+`rm -rf` for the holding directories: it clears `<runstate>/holding/` and
+orphaned worktree directories, needs no approval there, and never touches a
+registered worktree; preview it with `just clean-run-state --dry-run`. Its
+removal covers every holding entry, earlier runs' included -- the owner chose
+that when adding the recipe. Repositories without it keep the `rm -rf` above.
 List exactly what it covers in the report just above it (each held path with
 its original location, each deferred command with its reason), so the user
 approves something they can see. Delete only this run's holding directories,

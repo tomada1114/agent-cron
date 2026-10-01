@@ -111,6 +111,12 @@ agents-check:
 clean:
     rm -rf build Packages/AgentCronKit/.build AgentCron.xcodeproj
 
+# Clear this repository's disposable shipping-issues run state: holding/ contents and
+# orphaned worktree directories, never a registered worktree (pass --dry-run to preview)
+[doc("Clear shipping-issues holding/ and orphaned worktree dirs (--dry-run to preview)")]
+clean-run-state *args:
+    scripts/clean-run-state.sh {{args}}
+
 # Create or update this repository's GitHub labels from .github/labels.yml
 # (never deletes). Requires `gh`, authenticated against this repository: it is
 # not a mise tool (see mise.toml), so it comes from your own PATH, not `mise exec --`.
