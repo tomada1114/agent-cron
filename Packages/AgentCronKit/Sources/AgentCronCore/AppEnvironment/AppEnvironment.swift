@@ -138,7 +138,9 @@ public final class AppEnvironment {
 
     /// The user chose Try Again in the unreadable-jobs alert: the alert closes and the
     /// jobs are read again on the next turn, so a file still unreadable shows the alert
-    /// anew rather than leaving the old one in place.
+    /// anew rather than leaving the old one in place. Once they read, the Jobs screen —
+    /// already open behind the alert, and so not appearing again to load — reads them
+    /// too, replacing the error it showed.
     public func tryAgain() {
         guard launchError != nil else {
             return
@@ -146,6 +148,9 @@ public final class AppEnvironment {
         launchError = nil
         perform { environment in
             environment.startScheduler()
+            if environment.isSchedulerRunning {
+                environment.jobList.load()
+            }
         }
     }
 
