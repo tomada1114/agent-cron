@@ -2075,6 +2075,78 @@
         }
       }
     },
+    "launchError.message.corrupt" : {
+      "comment" : "Unreadable-jobs alert message: jobs.json is not a valid jobs document.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "jobs.json is damaged and was left unchanged. Fix or restore it, then try again."
+          }
+        }
+      }
+    },
+    "launchError.message.newerVersion" : {
+      "comment" : "Unreadable-jobs alert message: a newer app version wrote jobs.json.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "jobs.json is from a newer AgentCron and was left unchanged. Update, then try again."
+          }
+        }
+      }
+    },
+    "launchError.message.unreadable" : {
+      "comment" : "Unreadable-jobs alert message: the read was refused. The argument is an error code.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "jobs.json could not be read (error %lld). Check its permissions, then try again."
+          }
+        }
+      }
+    },
+    "launchError.quit" : {
+      "comment" : "Button in the unreadable-jobs alert that quits the app.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quit"
+          }
+        }
+      }
+    },
+    "launchError.title" : {
+      "comment" : "Title of the alert shown at launch when jobs.json cannot be read.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AgentCron can’t read your jobs"
+          }
+        }
+      }
+    },
+    "launchError.tryAgain" : {
+      "comment" : "Button in the unreadable-jobs alert that reads jobs.json again.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try Again"
+          }
+        }
+      }
+    },
     "mainMenu.delete" : {
       "comment" : "Job menu item that asks to delete the selected job.",
       "localizations" : {

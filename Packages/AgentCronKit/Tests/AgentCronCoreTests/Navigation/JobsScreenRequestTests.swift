@@ -118,7 +118,42 @@ struct JobsScreenRequestTests {
     }
 
     @Test
-    func `run Now and Stop stay stubs that ask the Jobs screen nothing`() throws {
+    func `run Now and Stop hand the selected job to whoever the app wired in`() throws {
+        try withScratchDefaults { defaults in
+            let model = MainNavigationModel(defaults: defaults)
+            var ranNow: [UUID] = []
+            var stopped: [UUID] = []
+            model.onRunNow = { ranNow.append($0) }
+            model.onStop = { stopped.append($0) }
+            model.select(jobID: Self.jobID)
+
+            model.runSelectedJobNow()
+            model.stopSelectedJob()
+
+            #expect(ranNow == [Self.jobID])
+            #expect(stopped == [Self.jobID])
+        }
+    }
+
+    @Test
+    func `run Now and Stop hand nothing on while no job can be acted on`() throws {
+        try withScratchDefaults { defaults in
+            let model = MainNavigationModel(defaults: defaults)
+            var calls = 0
+            model.onRunNow = { _ in calls += 1 }
+            model.onStop = { _ in calls += 1 }
+            model.select(jobID: Self.jobID)
+            model.select(section: .history)
+
+            model.runSelectedJobNow()
+            model.stopSelectedJob()
+
+            #expect(calls == 0)
+        }
+    }
+
+    @Test
+    func `run Now and Stop ask the Jobs screen nothing`() throws {
         try withScratchDefaults { defaults in
             let model = MainNavigationModel(defaults: defaults)
             model.select(jobID: Self.jobID)

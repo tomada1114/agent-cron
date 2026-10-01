@@ -40,6 +40,14 @@ public final class MainNavigationModel {
     /// by ``editorFocusChanged(isFocused:)``.
     public private(set) var isEditorFocused = false
 
+    /// Called with the selected job when the user chooses Run Now (⌘R); the composition
+    /// root hands it to the scheduler.
+    @ObservationIgnored public var onRunNow: (@MainActor (UUID) -> Void)?
+
+    /// Called with the selected job when the user chooses Stop (⌘.); the composition root
+    /// stops that job's run, if one is going.
+    @ObservationIgnored public var onStop: (@MainActor (UUID) -> Void)?
+
     private let defaults: UserDefaults
     private var requestCount = 0
 
@@ -129,16 +137,22 @@ public final class MainNavigationModel {
         request(.newJob)
     }
 
-    /// The user chose Run Now (⌘R). A stub until the runner is wired in (#28); it only
-    /// records the request.
+    /// The user chose Run Now (⌘R): the selected job runs now, through ``onRunNow``.
+    /// Ignored while ``canActOnSelectedJob`` is false.
     public func runSelectedJobNow() {
-        requestJobCommand("run now")
+        guard let jobID = jobForCommand("run now") else {
+            return
+        }
+        onRunNow?(jobID)
     }
 
-    /// The user chose Stop (⌘.). A stub until the runner is wired in (#28); it only
-    /// records the request.
+    /// The user chose Stop (⌘.): the selected job's run stops, through ``onStop``.
+    /// Ignored while ``canActOnSelectedJob`` is false.
     public func stopSelectedJob() {
-        requestJobCommand("stop")
+        guard let jobID = jobForCommand("stop") else {
+            return
+        }
+        onStop?(jobID)
     }
 
     /// The user chose Enable / Disable (⌘E): the Jobs screen flips the selected job's
@@ -189,15 +203,13 @@ public final class MainNavigationModel {
         pendingJobsScreenRequest = JobsScreenRequest(command: command, sequence: requestCount)
     }
 
-    private func requestJobCommand(_ command: String) {
-        guard canActOnSelectedJob else {
+    private func jobForCommand(_ command: String) -> UUID? {
+        guard canActOnSelectedJob, let selectedJobID else {
             AppLog.navigation
                 .debug("job command \(command, privacy: .public) ignored: no job selected")
-            return
+            return nil
         }
-        AppLog.navigation
-            .debug(
-                "job command \(command, privacy: .public) requested; the runner is not wired in yet",
-            )
+        AppLog.navigation.debug("job command \(command, privacy: .public) requested")
+        return selectedJobID
     }
 }

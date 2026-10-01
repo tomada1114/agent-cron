@@ -308,7 +308,8 @@ The reasoning behind each choice is in the ADR it links.
 | Notifications | Core policy; Platform UserNotifications | `AgentCronCore/Notifications/`; `AgentCronPlatform/UserNotificationPoster.swift` | `RunNotifying` |
 | Launch at login, activation policy | Platform | `AgentCronPlatform/` | `LoginItemControlling`, `ActivationPolicyControlling` |
 | Popover, main window, editor, history | UI over Core view models | `AgentCronUI/` | — |
-| Scenes, menus, wiring | `App/` | `App/AgentCronApp.swift` | — |
+| The object graph and how its parts talk | Core | `AgentCronCore/AppEnvironment/` | — |
+| Scenes, menus, building the adapters | `App/` | `App/AgentCronApp.swift` | — |
 
 ### Data
 
@@ -344,6 +345,11 @@ sample of its own.
   `lastCheckedAt` → one catch-up within 60 min, the rest recorded as skipped.
 - **Edit a job:** editor (UI) → view model validates → Save writes `jobs.json` → next
   fire date recomputed and the timer re-armed.
+
+`AppEnvironment` (Core) owns the graph these flows run through and every connection
+between its parts; `App/` only builds the `AgentCronPlatform` adapters, hands them in as
+`AppPorts`, and calls `launch()`. Its Core tests drive each flow above against the
+ports' fakes.
 
 ### Quality targets
 
