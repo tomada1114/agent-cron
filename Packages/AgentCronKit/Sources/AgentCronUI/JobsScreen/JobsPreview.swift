@@ -148,6 +148,10 @@ private enum JobsPreview {
     JobsPreview.screen(JobsPreview.list(JobsPreview.jobs, selecting: nil))
 }
 
+#Preview("Saved, idle") {
+    JobsPreview.screen(JobsPreview.list(JobsPreview.jobs, selecting: JobsPreview.digestID))
+}
+
 #Preview("Editing") {
     let list = JobsPreview.list(JobsPreview.jobs, selecting: JobsPreview.digestID)
     list.editor?.promptChanged(to: "Run /rss-digest and update news.html and feed.xml.")

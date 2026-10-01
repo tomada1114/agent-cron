@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- The Jobs editor header has a Run Now button that turns into Stop while the job runs;
+  it is off for a job that has not been saved yet.
 - The UI is available in Japanese: every screen, menu, alert, and notification follows
   the system language (English or Japanese), with no in-app language switch.
 - Initial project scaffold from [macos-app-template](https://github.com/tomada1114/macos-app-template)

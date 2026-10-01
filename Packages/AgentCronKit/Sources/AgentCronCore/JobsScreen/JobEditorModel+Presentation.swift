@@ -62,6 +62,18 @@ extension JobEditorModel {
         return path
     }
 
+    /// The header's run button: Run Now, turning into Stop while this job runs
+    /// (`docs/product/ux-flows.md` S2). It acts through the Job menu's command of the
+    /// same name, so its title is that command's.
+    public var runControl: MainMenuCommand {
+        isRunning ? .stop : .runNow
+    }
+
+    /// Whether the header's run button can act: only a saved job has anything to run.
+    public var canUseRunControl: Bool {
+        !isNew
+    }
+
     /// The name the editor's header shows: the draft's, trimmed; while that is blank, a
     /// saved job's saved name, or `nil` for a new job — whose header then reads New Job.
     public var headerName: String? {

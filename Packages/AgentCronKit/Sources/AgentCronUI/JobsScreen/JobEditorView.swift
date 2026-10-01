@@ -19,9 +19,15 @@ struct JobEditorView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            JobEditorHeader(editor: editor, status: status, save: save)
-                .padding(.horizontal, DesignLock.spacingL)
-                .padding(.vertical, DesignLock.spacingM)
+            JobEditorHeader(
+                editor: editor,
+                status: status,
+                save: save,
+                runNow: navigation.runSelectedJobNow,
+                stop: navigation.stopSelectedJob,
+            )
+            .padding(.horizontal, DesignLock.spacingL)
+            .padding(.vertical, DesignLock.spacingM)
             Divider()
             Form {
                 JobTaskSection(editor: editor, focus: $focusedField)
