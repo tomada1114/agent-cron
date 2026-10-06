@@ -63,6 +63,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- The menu bar icon now shows its red dot while a failed run is unseen; the dot was
+  never drawn before.
 - The popover keeps a just-started run's running row and Stop button when it
   opens before the run is first saved.
 - The popover's "claude was not found" banner now follows a Check Again in General,
