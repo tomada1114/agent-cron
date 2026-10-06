@@ -75,6 +75,13 @@ public final class AppLifecycleModel {
         activationPolicy.activate()
     }
 
+    /// The user asked for the main window (Open AgentCron…, New Job, a main-menu
+    /// command): the app comes to the front even when the window is already open behind
+    /// another app, where ``mainWindowOpened()`` is not reported again.
+    public func mainWindowRequested() {
+        activationPolicy.activate()
+    }
+
     /// The main window closed: the app is only a status item again. A close with no
     /// window open switches nothing.
     public func mainWindowClosed() {

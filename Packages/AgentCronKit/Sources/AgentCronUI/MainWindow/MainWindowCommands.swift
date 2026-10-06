@@ -11,6 +11,7 @@ import SwiftUI
 /// window is open.
 public struct MainWindowCommands: Commands {
     private let navigation: MainNavigationModel
+    private let mainWindowRequested: () -> Void
     @Environment(\.openWindow)
     private var openWindow
 
@@ -45,13 +46,16 @@ public struct MainWindowCommands: Commands {
         }
     }
 
-    /// Creates the commands over the same `navigation` the main window renders.
-    public init(navigation: MainNavigationModel) {
+    /// Creates the commands over the same `navigation` the main window renders;
+    /// `mainWindowRequested` brings the app to the front whenever a command opens it.
+    public init(navigation: MainNavigationModel, mainWindowRequested: @escaping () -> Void) {
         self.navigation = navigation
+        self.mainWindowRequested = mainWindowRequested
     }
 
     private func openMainWindow() {
         openWindow(id: AppWindow.main.id)
+        mainWindowRequested()
     }
 }
 

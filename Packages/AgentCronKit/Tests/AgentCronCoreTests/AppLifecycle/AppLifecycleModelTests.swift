@@ -187,28 +187,6 @@ struct AppLifecycleModelTests {
     }
 
     @Test
-    func `opening the main window brings the app to the front`() throws {
-        try withScratchDefaults { defaults in
-            let policy = FakeActivationPolicy()
-            let model = Self.model(FakeLoginItem(), policy, defaults)
-            model.mainWindowOpened()
-            #expect(policy.activateCalls == 1)
-        }
-    }
-
-    @Test
-    func `an open reported twice activates once, and a close never activates`() throws {
-        try withScratchDefaults { defaults in
-            let policy = FakeActivationPolicy()
-            let model = Self.model(FakeLoginItem(), policy, defaults)
-            model.mainWindowOpened()
-            model.mainWindowOpened()
-            model.mainWindowClosed()
-            #expect(policy.activateCalls == 1)
-        }
-    }
-
-    @Test
     func `closing the main window makes the app an accessory again`() throws {
         try withScratchDefaults { defaults in
             let policy = FakeActivationPolicy()
@@ -275,6 +253,58 @@ struct AppLifecycleModelTests {
             #expect(loginItem.registerCalls == 0)
             model.appLaunched()
             #expect(policy.calls == [.regular])
+        }
+    }
+}
+
+// MARK: - Activation (#78)
+
+extension AppLifecycleModelTests {
+    @Test
+    func `opening the main window brings the app to the front`() throws {
+        try withScratchDefaults { defaults in
+            let policy = FakeActivationPolicy()
+            let model = Self.model(FakeLoginItem(), policy, defaults)
+            model.mainWindowOpened()
+            #expect(policy.activateCalls == 1)
+        }
+    }
+
+    @Test
+    func `an open reported twice activates once, and a close never activates`() throws {
+        try withScratchDefaults { defaults in
+            let policy = FakeActivationPolicy()
+            let model = Self.model(FakeLoginItem(), policy, defaults)
+            model.mainWindowOpened()
+            model.mainWindowOpened()
+            model.mainWindowClosed()
+            #expect(policy.activateCalls == 1)
+        }
+    }
+
+    @Test
+    func `asking for the main window while it is open activates again`() throws {
+        try withScratchDefaults { defaults in
+            let policy = FakeActivationPolicy()
+            let model = Self.model(FakeLoginItem(), policy, defaults)
+            model.mainWindowOpened()
+            model.mainWindowRequested()
+            model.mainWindowRequested()
+            #expect(policy.activateCalls == 3)
+            #expect(policy.calls == [.regular])
+            #expect(model.isMainWindowOpen)
+        }
+    }
+
+    @Test
+    func `asking for the main window while it is closed activates and switches nothing`() throws {
+        try withScratchDefaults { defaults in
+            let policy = FakeActivationPolicy()
+            let model = Self.model(FakeLoginItem(), policy, defaults)
+            model.mainWindowRequested()
+            #expect(policy.activateCalls == 1)
+            #expect(policy.calls.isEmpty)
+            #expect(model.isMainWindowOpen == false)
         }
     }
 }
