@@ -71,6 +71,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   instead of keeping the launch-time answer until the next launch.
 - A job whose prompt starts with `-`, such as a Markdown bullet, now reaches Claude Code
   as its prompt instead of failing with an unknown-option error.
+- Launching with a saved job that notifies now asks for notification permission
+  when it was never asked, instead of waiting for the first job you save.
 
 ### Removed
 
