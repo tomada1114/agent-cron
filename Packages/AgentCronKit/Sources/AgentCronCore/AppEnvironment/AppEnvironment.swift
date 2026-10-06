@@ -203,6 +203,12 @@ public final class AppEnvironment {
         }
     }
 
+    /// The user asked for the main window: the app comes to the front, whether or not
+    /// the window is already open.
+    public func mainWindowRequested() {
+        lifecycle.mainWindowRequested()
+    }
+
     /// The main window closed: the app is only a status item again.
     public func mainWindowClosed() {
         lifecycle.mainWindowClosed()

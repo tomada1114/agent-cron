@@ -13,6 +13,7 @@ public struct PopoverView: View {
     private let navigation: MainNavigationModel
     private let stop: (UUID) -> Void
     private let quit: () -> Void
+    private let mainWindowRequested: () -> Void
 
     @Environment(\.openWindow)
     private var openWindow
@@ -30,6 +31,10 @@ public struct PopoverView: View {
         }
         .frame(width: DesignLock.popoverWidth)
         .frame(maxHeight: DesignLock.popoverMaxHeight)
+        // The timeline's ScrollView is greedy; without this the window keeps a cleared
+        // banner's height as a blank band. Ideal height is clamped by the frame above.
+        .fixedSize(horizontal: false, vertical: true)
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("popover")
         .onAppear {
             model.load()
@@ -64,19 +69,24 @@ public struct PopoverView: View {
     /// - Parameters:
     ///   - stop: Stops the running run of the job with this identifier, without asking.
     ///   - quit: Quits the app.
+    ///   - mainWindowRequested: Brings the app to the front when this view opens the
+    ///     main window, even if it is already open.
     public init(
         model: PopoverModel,
         navigation: MainNavigationModel,
         stop: @escaping (UUID) -> Void,
         quit: @escaping () -> Void,
+        mainWindowRequested: @escaping () -> Void,
     ) {
         self.model = model
         self.navigation = navigation
         self.stop = stop
         self.quit = quit
+        self.mainWindowRequested = mainWindowRequested
     }
 
     private func openMainWindow() {
         openWindow(id: AppWindow.main.id)
+        mainWindowRequested()
     }
 }

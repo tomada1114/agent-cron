@@ -19,6 +19,9 @@ package final class FakeActivationPolicy: ActivationPolicyControlling {
     /// ``setAccessory()``.
     package private(set) var calls: [ObservedActivationPolicy] = []
 
+    /// How many times ``activate()`` was called.
+    package private(set) var activateCalls = 0
+
     /// A fake app that starts as an accessory app, as AgentCron does (`LSUIElement`).
     package convenience init() {
         self.init(policy: .accessory)
@@ -37,5 +40,9 @@ package final class FakeActivationPolicy: ActivationPolicyControlling {
     package func setAccessory() {
         calls.append(.accessory)
         policy = .accessory
+    }
+
+    package func activate() {
+        activateCalls += 1
     }
 }

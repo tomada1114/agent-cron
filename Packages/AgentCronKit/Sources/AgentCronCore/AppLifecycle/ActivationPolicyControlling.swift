@@ -22,6 +22,9 @@
 /// 2. After ``setAccessory()`` returns, the app is an accessory app: no Dock icon and no
 ///    main menu, though its windows may still show.
 /// 3. Each setter is idempotent: calling it again leaves the same policy.
+///
+/// ``activate()`` asks for the app to come to the front. It promises no observable
+/// state — macOS may decline the request — so the contract holds it to no clause.
 public protocol ActivationPolicyControlling: Sendable {
     /// Makes the app a regular app, with a Dock icon and a main menu.
     @MainActor
@@ -30,4 +33,9 @@ public protocol ActivationPolicyControlling: Sendable {
     /// Makes the app an accessory app again: a status item, with no Dock icon.
     @MainActor
     func setAccessory()
+
+    /// Asks for the app to become the active, frontmost app, so a window or alert it
+    /// opened without a click on it does not stay behind another app's windows.
+    @MainActor
+    func activate()
 }

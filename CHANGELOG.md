@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- The popover's keep-awake time left, the job editor's name and running note, and the
+  agent path and version in General show in full instead of truncating, in English and
+  Japanese.
+
 ### Added
 
 - The Jobs editor header has a Run Now button that turns into Stop while the job runs;
@@ -63,6 +69,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Opening the main window without clicking it — the alert for an unreadable jobs file at
+  launch, or Open AgentCron… in the popover — brings AgentCron to the front instead of
+  leaving it behind the frontmost app.
+- The popover now shrinks back to its content after the failure banner clears,
+  instead of keeping a blank band above "Today".
+- Each popover control (the keep-awake menu, New Job, Open AgentCron…, Quit) now
+  reports its own accessibility identifier instead of the popover's.
+- The menu bar icon now shows its red dot while a failed run is unseen; the dot was
+  never drawn before.
+- The app no longer crashes when VoiceOver or another accessibility client reads the
+  job editor's folder path.
 - Try Again after an unreadable jobs file now reselects the job the Jobs screen had
   selected, instead of leaving "Select a job".
 - The popover keeps a just-started run's running row and Stop button when it
