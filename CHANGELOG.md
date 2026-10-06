@@ -63,6 +63,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Try Again after an unreadable jobs file now reselects the job the Jobs screen had
+  selected, instead of leaving "Select a job".
 - The popover keeps a just-started run's running row and Stop button when it
   opens before the run is first saved.
 - The popover's "claude was not found" banner now follows a Check Again in General,

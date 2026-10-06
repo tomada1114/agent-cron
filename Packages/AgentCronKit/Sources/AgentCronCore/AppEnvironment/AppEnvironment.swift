@@ -140,7 +140,8 @@ public final class AppEnvironment {
     /// jobs are read again on the next turn, so a file still unreadable shows the alert
     /// anew rather than leaving the old one in place. Once they read, the Jobs screen —
     /// already open behind the alert, and so not appearing again to load — reads them
-    /// too, replacing the error it showed.
+    /// too, replacing the error it showed, and goes back to the remembered selection the
+    /// failed read could not restore.
     public func tryAgain() {
         guard launchError != nil else {
             return
@@ -149,7 +150,9 @@ public final class AppEnvironment {
         perform { environment in
             environment.startScheduler()
             if environment.isSchedulerRunning {
-                environment.jobList.load()
+                environment.jobList.screenAppeared(
+                    restoringSelection: environment.navigation.selectedJobID,
+                )
             }
         }
     }
