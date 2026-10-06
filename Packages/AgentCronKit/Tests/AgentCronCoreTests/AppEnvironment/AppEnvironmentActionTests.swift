@@ -37,14 +37,16 @@ struct AppEnvironmentActionTests {
 
     @Test
     func `the first job that notifies asks for notification permission`() async throws {
-        let fixture = AppEnvironmentFixture(AppScenario(authorization: .notDetermined))
+        var scenario = AppScenario(authorization: .notDetermined)
+        scenario.edit = { $0.notify = .never }
+        let fixture = AppEnvironmentFixture(scenario)
         await fixture.launch()
         #expect(fixture.notifier.promptsShown == 0)
         fixture.environment.jobList.load()
         fixture.environment.jobList.select(jobID: Fixture.jobID)
         let editor = try #require(fixture.environment.jobList.editor)
 
-        editor.nameChanged(to: "Morning digest")
+        editor.notifyChosen(.failuresOnly)
         editor.save()
         await fixture.settle()
 

@@ -79,6 +79,26 @@ struct AppEnvironmentLaunchErrorTests {
     }
 
     @Test
+    func `try again restores the stored job selection once the jobs read`() async {
+        let fixture = AppEnvironmentFixture()
+        fixture.environment.navigation.select(jobID: Fixture.jobID)
+        fixture.jobStore.loadsFail(with: .corruptJobs)
+        await fixture.launch()
+        let navigation = fixture.environment.navigation
+        fixture.environment.jobList.screenAppeared(restoringSelection: navigation.selectedJobID)
+        #expect(fixture.environment.jobList.selectedJobID == nil)
+
+        fixture.jobStore.loadsFail(with: nil)
+        fixture.environment.tryAgain()
+        await fixture.environment.waitForPendingWork()
+
+        #expect(navigation.selectedJobID == Fixture.jobID)
+        #expect(fixture.environment.jobList.selectedJobID == navigation.selectedJobID)
+        #expect(fixture.environment.jobList.editor != nil)
+        await fixture.cleanUp()
+    }
+
+    @Test
     func `try again that still cannot read leaves the Jobs screen's error in place`() async {
         let fixture = AppEnvironmentFixture()
         fixture.jobStore.loadsFail(with: .corruptJobs)
