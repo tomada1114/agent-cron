@@ -63,6 +63,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- The popover now shrinks back to its content after the failure banner clears,
+  instead of keeping a blank band above "Today".
 - Try Again after an unreadable jobs file now reselects the job the Jobs screen had
   selected, instead of leaving "Select a job".
 - The popover keeps a just-started run's running row and Stop button when it
