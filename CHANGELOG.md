@@ -69,6 +69,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Opening the main window without clicking it — the alert for an unreadable jobs file at
+  launch, or Open AgentCron… in the popover — brings AgentCron to the front instead of
+  leaving it behind the frontmost app.
 - The popover now shrinks back to its content after the failure banner clears,
   instead of keeping a blank band above "Today".
 - Each popover control (the keep-awake menu, New Job, Open AgentCron…, Quit) now

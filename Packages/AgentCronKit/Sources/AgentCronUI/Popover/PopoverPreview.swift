@@ -146,6 +146,9 @@ private enum PopoverPreview {
             quit: {
                 // A preview does not quit.
             },
+            mainWindowRequested: {
+                // A preview activates nothing.
+            },
         )
     }
 }

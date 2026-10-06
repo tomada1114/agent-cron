@@ -30,6 +30,7 @@ struct AgentCronApp: App {
                     environment.stopJob(jobID: jobID)
                 },
                 quit: quit,
+                mainWindowRequested: environment.mainWindowRequested,
             )
         } label: {
             AppStatusItemLabel(environment: environment)
@@ -45,7 +46,10 @@ struct AgentCronApp: App {
         )
         .windowResizability(.contentMinSize)
         .commands {
-            MainWindowCommands(navigation: environment.navigation)
+            MainWindowCommands(
+                navigation: environment.navigation,
+                mainWindowRequested: environment.mainWindowRequested,
+            )
         }
     }
 

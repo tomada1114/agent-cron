@@ -13,6 +13,7 @@ public struct PopoverView: View {
     private let navigation: MainNavigationModel
     private let stop: (UUID) -> Void
     private let quit: () -> Void
+    private let mainWindowRequested: () -> Void
 
     @Environment(\.openWindow)
     private var openWindow
@@ -68,19 +69,24 @@ public struct PopoverView: View {
     /// - Parameters:
     ///   - stop: Stops the running run of the job with this identifier, without asking.
     ///   - quit: Quits the app.
+    ///   - mainWindowRequested: Brings the app to the front when this view opens the
+    ///     main window, even if it is already open.
     public init(
         model: PopoverModel,
         navigation: MainNavigationModel,
         stop: @escaping (UUID) -> Void,
         quit: @escaping () -> Void,
+        mainWindowRequested: @escaping () -> Void,
     ) {
         self.model = model
         self.navigation = navigation
         self.stop = stop
         self.quit = quit
+        self.mainWindowRequested = mainWindowRequested
     }
 
     private func openMainWindow() {
         openWindow(id: AppWindow.main.id)
+        mainWindowRequested()
     }
 }

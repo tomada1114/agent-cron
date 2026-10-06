@@ -139,6 +139,16 @@ struct AppEnvironmentActionTests {
     }
 
     @Test
+    func `asking for the main window brings the app to the front`() async {
+        let fixture = AppEnvironmentFixture()
+        await fixture.launch()
+
+        fixture.environment.mainWindowRequested()
+        #expect(fixture.activation.activateCalls == 1)
+        await fixture.cleanUp()
+    }
+
+    @Test
     func `opening the main window reads History and the notification permission again`(
     ) async {
         let fixture = AppEnvironmentFixture(AppScenario(authorization: .denied))
