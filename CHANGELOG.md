@@ -69,6 +69,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Each popover control (the keep-awake menu, New Job, Open AgentCron…, Quit) now
+  reports its own accessibility identifier instead of the popover's.
 - The menu bar icon now shows its red dot while a failed run is unseen; the dot was
   never drawn before.
 - The app no longer crashes when VoiceOver or another accessibility client reads the
