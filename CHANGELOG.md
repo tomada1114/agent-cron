@@ -65,12 +65,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - The menu bar icon now shows its red dot while a failed run is unseen; the dot was
   never drawn before.
+- The app no longer crashes when VoiceOver or another accessibility client reads the
+  job editor's folder path.
+- Try Again after an unreadable jobs file now reselects the job the Jobs screen had
+  selected, instead of leaving "Select a job".
 - The popover keeps a just-started run's running row and Stop button when it
   opens before the run is first saved.
 - The popover's "claude was not found" banner now follows a Check Again in General,
   instead of keeping the launch-time answer until the next launch.
 - A job whose prompt starts with `-`, such as a Markdown bullet, now reaches Claude Code
   as its prompt instead of failing with an unknown-option error.
+- Launching with a saved job that notifies now asks for notification permission
+  when it was never asked, instead of waiting for the first job you save.
 
 ### Removed
 
