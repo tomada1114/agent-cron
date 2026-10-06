@@ -63,6 +63,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- The menu bar icon now shows its red dot while a failed run is unseen; the dot was
+  never drawn before.
 - The app no longer crashes when VoiceOver or another accessibility client reads the
   job editor's folder path.
 - Try Again after an unreadable jobs file now reselects the job the Jobs screen had
