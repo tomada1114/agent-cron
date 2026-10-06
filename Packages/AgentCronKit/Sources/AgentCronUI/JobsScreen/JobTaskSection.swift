@@ -58,6 +58,8 @@ struct JobTaskSection: View {
                     // and crashed (#76); a container element owns the label instead.
                     .accessibilityElement(children: .ignore)
                     .accessibilityLabel(Text(editor.accessibilityLabel(for: .directory)))
+                    .accessibilityValue(directoryValue)
+                    .accessibilityAddTraits(.isStaticText)
                     .accessibilityIdentifier("jobDirectoryPath")
                 Spacer(minLength: DesignLock.spacingS)
                 Button {
@@ -87,6 +89,15 @@ struct JobTaskSection: View {
             case let .failure(error):
                 editor.directoryChoiceFailed(error)
             }
+        }
+    }
+
+    /// What the ignored `Text` would have read: the path, or that none is chosen.
+    private var directoryValue: Text {
+        if let path = editor.directoryPath {
+            Text(verbatim: path)
+        } else {
+            Text(JobsScreenText.noFolderChosen)
         }
     }
 
