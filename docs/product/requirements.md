@@ -150,9 +150,18 @@ skipped. Clicking a notification opens that run in the history.
 ## 6. Open questions
 
 - Whether `zsh -l -c` gives the same environment as the user's terminal (`.zshrc` is not
-  read by a non-interactive login shell) — settle with a parity run during implementation.
-- Whether Claude Code's `auto` mode lets a Dependabot job run `gh pr merge` unattended —
-  to verify with a real run during implementation.
+  read by a non-interactive login shell) — partly settled 2026-10-06 (#30): a hand-run
+  `claude -p … --output-format json --permission-mode auto` and the same prompt run by
+  AgentCron in the same repository both ended `success` with `is_error` false and listed
+  the same files with the same summary, and `zsh -l -c 'command -v claude gh mise'` found
+  all three. Kept open because the login shell resolved `claude` to mise's shim
+  (`~/.local/share/mise/shims/claude`) while the terminal resolved `~/.local/bin/claude`;
+  both were 2.1.291 that day, but the two can drift apart.
+- ~~Whether Claude Code's `auto` mode lets a Dependabot job run `gh pr merge`
+  unattended~~ — resolved 2026-10-06 (#30): yes. A scheduled-style job in a throwaway
+  repository, run by AgentCron with `--permission-mode auto`, ran `gh pr merge 2 --squash`
+  on a patch bump and the PR was merged, while it declined a minor bump the prompt
+  excluded.
 
 ## 7. Decision log
 
