@@ -33,6 +33,7 @@ public struct PopoverView: View {
         // The timeline's ScrollView is greedy; without this the window keeps a cleared
         // banner's height as a blank band. Ideal height is clamped by the frame above.
         .fixedSize(horizontal: false, vertical: true)
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("popover")
         .onAppear {
             model.load()
