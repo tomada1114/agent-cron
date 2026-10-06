@@ -7,11 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Fixed
-
-- Each popover control (the keep-awake menu, New Job, Open AgentCron…, Quit) now
-  reports its own accessibility identifier instead of the popover's.
-
 ### Added
 
 - The Jobs editor header has a Run Now button that turns into Stop while the job runs;
@@ -68,6 +63,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Each popover control (the keep-awake menu, New Job, Open AgentCron…, Quit) now
+  reports its own accessibility identifier instead of the popover's.
 - Try Again after an unreadable jobs file now reselects the job the Jobs screen had
   selected, instead of leaving "Select a job".
 - The popover keeps a just-started run's running row and Stop button when it
