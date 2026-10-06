@@ -14,6 +14,8 @@ import AppKit
 /// AppKit answers whether a switch took with a `Bool`; the port promises the switch
 /// rather than reporting it, so a refusal is logged here, the only place that sees it.
 public struct ActivationPolicyController: ActivationPolicyControlling {
+    private static let launchPollMilliseconds: Int64 = 50
+
     public init() {
         // Nothing to set up: the shared application is asked on every call.
     }
@@ -27,6 +29,16 @@ public struct ActivationPolicyController: ActivationPolicyControlling {
     }
 
     public func activate() {
+        // AppKit drops an activation asked for before launch finishes — which is when
+        // SwiftUI restores the main window or the launch-error alert opens it (#78) —
+        // so the request waits until the app has finished launching.
+        guard NSRunningApplication.current.isFinishedLaunching else {
+            Task { @MainActor in
+                try? await Task.sleep(for: .milliseconds(Self.launchPollMilliseconds))
+                activate()
+            }
+            return
+        }
         NSApplication.shared.activate()
     }
 
