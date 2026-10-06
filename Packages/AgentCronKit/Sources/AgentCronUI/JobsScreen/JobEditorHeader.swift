@@ -12,35 +12,50 @@ struct JobEditorHeader: View {
     let stop: () -> Void
 
     var body: some View {
-        HStack(alignment: .firstTextBaseline, spacing: DesignLock.spacingM) {
-            VStack(alignment: .leading, spacing: DesignLock.spacingXS) {
-                title
-                    .font(.title3.weight(.semibold))
-                    .lineLimit(1)
-                    .accessibilityIdentifier("jobEditorTitle")
-                statusLine
-                if let note = editor.runningNote {
-                    Text(note)
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                        .accessibilityIdentifier("jobRunningNote")
-                }
-                if editor.storageError != nil {
-                    Label {
-                        Text(JobsScreenText.saveFailed)
-                    } icon: {
-                        Image(systemName: "exclamationmark.triangle.fill")
-                    }
-                    .font(.footnote)
-                    .foregroundStyle(.red)
-                    .accessibilityIdentifier("jobSaveFailed")
+        // Name and controls side by side when the name and notes fit in full; otherwise
+        // the controls move to their own row, so nothing truncates or wraps word by word.
+        ViewThatFits(in: .horizontal) {
+            HStack(alignment: .firstTextBaseline, spacing: DesignLock.spacingM) {
+                details
+                    .fixedSize(horizontal: true, vertical: false)
+                Spacer(minLength: DesignLock.spacingS)
+                controls
+                    .fixedSize()
+            }
+            VStack(alignment: .leading, spacing: DesignLock.spacingS) {
+                details
+                    .fixedSize(horizontal: false, vertical: true)
+                HStack {
+                    Spacer(minLength: 0)
+                    controls
+                        .fixedSize()
                 }
             }
-            Spacer(minLength: DesignLock.spacingS)
-            // The buttons keep their full width; the name truncates instead.
-            controls
-                .fixedSize()
-                .layoutPriority(1)
+        }
+    }
+
+    private var details: some View {
+        VStack(alignment: .leading, spacing: DesignLock.spacingXS) {
+            title
+                .font(.title3.weight(.semibold))
+                .accessibilityIdentifier("jobEditorTitle")
+            statusLine
+            if let note = editor.runningNote {
+                Text(note)
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .accessibilityIdentifier("jobRunningNote")
+            }
+            if editor.storageError != nil {
+                Label {
+                    Text(JobsScreenText.saveFailed)
+                } icon: {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                }
+                .font(.footnote)
+                .foregroundStyle(.red)
+                .accessibilityIdentifier("jobSaveFailed")
+            }
         }
     }
 
