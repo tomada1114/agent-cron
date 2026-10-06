@@ -54,6 +54,9 @@ struct JobTaskSection: View {
                     .font(.body.monospaced())
                     .lineLimit(1)
                     .truncationMode(.middle)
+                    // A label set straight on a `Text` recursed inside AppKit's AX bridge
+                    // and crashed (#76); a container element owns the label instead.
+                    .accessibilityElement(children: .ignore)
                     .accessibilityLabel(Text(editor.accessibilityLabel(for: .directory)))
                     .accessibilityIdentifier("jobDirectoryPath")
                 Spacer(minLength: DesignLock.spacingS)
