@@ -187,6 +187,28 @@ struct AppLifecycleModelTests {
     }
 
     @Test
+    func `opening the main window brings the app to the front`() throws {
+        try withScratchDefaults { defaults in
+            let policy = FakeActivationPolicy()
+            let model = Self.model(FakeLoginItem(), policy, defaults)
+            model.mainWindowOpened()
+            #expect(policy.activateCalls == 1)
+        }
+    }
+
+    @Test
+    func `an open reported twice activates once, and a close never activates`() throws {
+        try withScratchDefaults { defaults in
+            let policy = FakeActivationPolicy()
+            let model = Self.model(FakeLoginItem(), policy, defaults)
+            model.mainWindowOpened()
+            model.mainWindowOpened()
+            model.mainWindowClosed()
+            #expect(policy.activateCalls == 1)
+        }
+    }
+
+    @Test
     func `closing the main window makes the app an accessory again`() throws {
         try withScratchDefaults { defaults in
             let policy = FakeActivationPolicy()

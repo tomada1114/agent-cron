@@ -26,6 +26,10 @@ public struct ActivationPolicyController: ActivationPolicyControlling {
         set(.accessory, named: "accessory")
     }
 
+    public func activate() {
+        NSApplication.shared.activate()
+    }
+
     @MainActor
     private func set(_ policy: NSApplication.ActivationPolicy, named name: String) {
         if !NSApplication.shared.setActivationPolicy(policy) {

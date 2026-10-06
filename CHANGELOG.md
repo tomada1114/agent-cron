@@ -63,6 +63,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Opening the main window without clicking it — the alert for an unreadable jobs file at
+  launch, or Open AgentCron… in the popover — brings AgentCron to the front instead of
+  leaving it behind the frontmost app.
 - The popover keeps a just-started run's running row and Stop button when it
   opens before the run is first saved.
 - The popover's "claude was not found" banner now follows a Check Again in General,

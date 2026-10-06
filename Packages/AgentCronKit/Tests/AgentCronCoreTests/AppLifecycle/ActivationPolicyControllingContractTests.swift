@@ -16,6 +16,10 @@ private final class NeverLeavingRegular: ActivationPolicyControlling {
     func setAccessory() {
         // Breaks clause 2.
     }
+
+    func activate() {
+        inner.activate()
+    }
 }
 
 /// Breaks clause 3: a second call in a row flips the policy instead of keeping it.
@@ -29,6 +33,10 @@ private final class Toggling: ActivationPolicyControlling {
 
     func setAccessory() {
         toggle()
+    }
+
+    func activate() {
+        inner.activate()
     }
 
     private func toggle() {

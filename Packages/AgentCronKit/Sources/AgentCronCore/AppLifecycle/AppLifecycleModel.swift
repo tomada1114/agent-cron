@@ -63,13 +63,16 @@ public final class AppLifecycleModel {
     }
 
     /// The main window opened: the app becomes a regular app, so its main menu, Dock
-    /// icon, and ⌘Tab entry appear. A repeated report switches nothing.
+    /// icon, and ⌘Tab entry appear, and comes to the front, so a window opened without a
+    /// click on it (the launch-error alert, "Open AgentCron…") is not left behind the
+    /// frontmost app. A repeated report switches nothing.
     public func mainWindowOpened() {
         guard !isMainWindowOpen else {
             return
         }
         isMainWindowOpen = true
         activationPolicy.setRegular()
+        activationPolicy.activate()
     }
 
     /// The main window closed: the app is only a status item again. A close with no
