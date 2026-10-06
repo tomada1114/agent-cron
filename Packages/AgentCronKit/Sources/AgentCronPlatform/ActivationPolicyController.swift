@@ -39,7 +39,16 @@ public struct ActivationPolicyController: ActivationPolicyControlling {
             }
             return
         }
-        NSApplication.shared.activate()
+        // A plain `NSApplication.activate()` is declined when no click on this app led
+        // here — a LaunchServices launch (Finder, a login item, `open`) restoring the
+        // window or showing the launch-error alert — so the request borrows the
+        // frontmost app's activation context instead.
+        let current = NSRunningApplication.current
+        if let frontmost = NSWorkspace.shared.frontmostApplication, frontmost != current {
+            if !current.activate(from: frontmost, options: []) {
+                AppLog.lifecycle.error("AppKit declined to activate the app")
+            }
+        }
     }
 
     @MainActor
