@@ -30,6 +30,7 @@ public struct PopoverView: View {
         }
         .frame(width: DesignLock.popoverWidth)
         .frame(maxHeight: DesignLock.popoverMaxHeight)
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("popover")
         .onAppear {
             model.load()

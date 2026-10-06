@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Each popover control (the keep-awake menu, New Job, Open AgentCron…, Quit) now
+  reports its own accessibility identifier instead of the popover's.
+
 ### Added
 
 - The Jobs editor header has a Run Now button that turns into Stop while the job runs;
