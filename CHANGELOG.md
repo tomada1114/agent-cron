@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- The popover's keep-awake time left, the job editor's name and running note, and the
+  agent path and version in General show in full instead of truncating, in English and
+  Japanese.
+
 ### Added
 
 - The Jobs editor header has a Run Now button that turns into Stop while the job runs;

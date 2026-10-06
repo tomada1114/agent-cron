@@ -71,7 +71,10 @@ struct GeneralScreenView: View {
         Section {
             LabeledContent {
                 HStack(alignment: .firstTextBaseline, spacing: DesignLock.spacingS) {
+                    // The status takes the width the row has free; the spacer only fills
+                    // what is left, so the path and version are not truncated.
                     agentStatus
+                        .layoutPriority(1)
                     Spacer(minLength: DesignLock.spacingS)
                     if model.showsSpinner {
                         ProgressView()
@@ -101,13 +104,7 @@ struct GeneralScreenView: View {
         VStack(alignment: .leading, spacing: DesignLock.spacingXS) {
             switch model.agent {
             case let .available(path, version):
-                Label {
-                    Text(verbatim: version.isEmpty ? path : "\(path)  \(version)")
-                        .textSelection(.enabled)
-                } icon: {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(.green)
-                }
+                availableLabel(path: path, version: version)
 
             case .notFound, .error:
                 if let headline = GeneralModel.agentHeadline(for: model.agent) {
@@ -127,6 +124,24 @@ struct GeneralScreenView: View {
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }
+        }
+    }
+
+    private func availableLabel(path: String, version: String) -> some View {
+        Label {
+            VStack(alignment: .leading, spacing: DesignLock.spacingXS) {
+                Text(verbatim: path)
+                    .fixedSize(horizontal: false, vertical: true)
+                if !version.isEmpty {
+                    Text(verbatim: version)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            .textSelection(.enabled)
+        } icon: {
+            Image(systemName: "checkmark.circle.fill")
+                .foregroundStyle(.green)
         }
     }
 }
