@@ -38,15 +38,33 @@ struct AppEnvironmentLaunchTests {
 
     @Test
     func `launch registers the login item once and reads the notification permission`() async {
-        let fixture = AppEnvironmentFixture()
+        var scenario = AppScenario()
+        scenario.edit = { $0.notify = .never }
+        let fixture = AppEnvironmentFixture(scenario)
 
         await fixture.launch()
 
         #expect(fixture.loginItem.registerCalls == 1)
         #expect(fixture.environment.lifecycle.loginItemStatus == .enabled)
         #expect(fixture.environment.notifications.authorizationState == .authorized)
-        // Never at launch: the prompt waits for the first job the user saves.
+        // No stored job notifies, so nothing asks yet.
         #expect(fixture.notifier.authorizationRequests == 0)
+        await fixture.cleanUp()
+    }
+
+    @Test
+    func `launch with a stored notifying job asks for notification permission once`() async {
+        var scenario = AppScenario()
+        scenario.authorization = .notDetermined
+        scenario.edit = { $0.notify = .everyRun }
+        let fixture = AppEnvironmentFixture(scenario)
+
+        await fixture.launch()
+
+        // Issue #83: the jobs loaded at launch take the same path as a save.
+        #expect(fixture.notifier.authorizationRequests == 1)
+        #expect(fixture.notifier.promptsShown == 1)
+        #expect(fixture.environment.notifications.authorizationState == .authorized)
         await fixture.cleanUp()
     }
 

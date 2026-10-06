@@ -256,6 +256,7 @@ public final class AppEnvironment {
         armTimer()
         perform { environment in
             await environment.notifications.refreshAuthorization()
+            await environment.notifications.jobsChanged(document.jobs)
         }
         perform { environment in
             await environment.general.checkAgain()
