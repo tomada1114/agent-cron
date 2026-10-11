@@ -3,6 +3,7 @@
 - **Status:** Signed off 2026-10-11
 - **Platform and stack:** macOS-only CLI, open source, installed from source with `cargo install`; built from `tomada1114/rust-template` (Rust)
 - **Command-line design:** [cli.md](cli.md)
+- **Design:** [design.md](design.md)
 
 ## 1. Overview
 
@@ -111,10 +112,10 @@
 
 | Item | Specification |
 |---|---|
-| Targets | Discord Webhook. Every target sits behind one notifier interface, so adding one (Slack first) adds a target value, its webhook variable, and its sender, and changes nothing a user or a `--json` consumer already relies on |
-| How URLs are supplied | The run-time environment variable takes precedence. Otherwise read from the tool's own env file (mode 600). If neither has it, diagnostics can report the missing setting (§3.7) |
+| Targets | Discord Webhook. Every target sits behind one notifier interface, so adding one (Slack first) adds a target value, a service for stored webhooks, and its sender, and changes nothing a user or a `--json` consumer already relies on |
+| How URLs are supplied | Only from the tool's own webhook store (a mode 600 file), where `agent-cron webhook` commands set, replace, list, and remove named URLs. No environment variable is read, so a scheduled run and a run from a terminal see the same URLs. When none is stored, diagnostics report the missing setting (§3.7) |
 | Global settings | Default: "every configured target, every time" |
-| Per-job override | Target (the global setting, a listed target, or none) and condition (every time / failures only) can be overridden. A job can also name a webhook for a different channel (named by environment variable; the URL itself is never written in the definition) |
+| Per-job override | Target (the global setting, a listed target, or none) and condition (every time / failures only) can be overridden. A job can also name a webhook for a different channel (by the name of a stored webhook; the URL itself is never written in the definition) |
 | Content | Success or failure, job name, folder, run date and time and duration, Claude Code's output (`result`), resume command |
 | Resume command | `cd '<folder>' && claude -r <session ID>` in a code block, ready to copy and paste |
 | Long output | Truncated within each service's limit, always keeping at the end "Full text: `agent-cron history <job> <n>`" and the resume command (1 run = 1 message) |

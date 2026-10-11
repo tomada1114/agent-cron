@@ -83,8 +83,9 @@ this in scope?". The owner writes each bullet (the `starting-an-app` skill says 
     run.
   - **Only jobs the tool created.** Tracking external crontabs or plists would make the
     tool responsible for state it does not own.
-  - The full requirements are in `docs/product/requirements.md`, and the command line
-    in `docs/product/cli.md`.
+  - The full requirements are in `docs/product/requirements.md`, the command line
+    in `docs/product/cli.md`, and the design still to be built in
+    `docs/product/design.md`.
 
 ## Quick Reference
 

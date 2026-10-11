@@ -32,7 +32,7 @@
 | `agent-cron run <job>` | Run once now, in the foreground, and notify. `--no-notify` suppresses the notification | 3.3 |
 | `agent-cron stop <job>` | Stop the job's current run | 3.3 |
 | `agent-cron history <job> [<n>]` | List the job's runs, or show one run in full | 3.4 |
-| `agent-cron webhook set\|unset\|list\|test` | Manage webhook URLs in the env file (mode 600) and send a test message | 3.5, 3.7 |
+| `agent-cron webhook set\|unset\|list\|test` | Manage the stored webhook URLs (mode 600) and send a test message | 3.5, 3.7 |
 | `agent-cron config [get <key>\|set <key> <value>]` | Global settings: default notification targets and condition, history size | 3.4, 3.5 |
 | `agent-cron doctor` | Check the scheduler agent, `claude`, the webhooks, and each job | 3.7 |
 | `agent-cron install` / `uninstall` | Load or remove the scheduler agent. Data is kept. `add` and `enable` install it when it is missing | 3.2, §5 |
@@ -58,7 +58,7 @@ The same flags work on `add` and `edit`. `edit` also takes `--name <new-name>`.
 | timeout | `--timeout <minutes>` | 30 | 1–1440 |
 | notification targets | `--notify <default\|discord\|none>` | `default` (the global setting) | One value per target (§9) |
 | notification condition | `--notify-on <default\|always\|failure>` | `default` | |
-| per-job webhook | `--discord-env <VAR>` | the global variable name | Takes a variable **name**, looked up in the environment and then the env file. A URL is never stored in a job |
+| per-job webhook | `--discord-webhook <name>` | `discord` | The **name** of a webhook stored with `agent-cron webhook set`. A URL is never stored in a job |
 | enabled | `--disabled` (on `add` only) | enabled | `enable` and `disable` change it later |
 
 Shared flags:
@@ -127,7 +127,7 @@ daily-review  weekdays 09:00, 18:00  next Mon 10-12 09:00  enabled
   notifications in that order. Choosing `bypassPermissions` shows its warning and asks
   "Run with all permission checks off?", defaulting to No. Notifications offers "Use the
   global setting" or "Customize". Customize asks for targets, then the condition, then
-  optional variable names.
+  an optional stored webhook name per target.
 - When no webhook is configured, the summary shows `notify  none configured`. After the
   job is created the tool prints
   `warning: no webhook is configured; runs will be recorded but not notified` and
@@ -253,15 +253,15 @@ and exits 1.
 ```
 ok    scheduler agent loaded (~/Library/LaunchAgents/<bundle-id>.plist → ~/.cargo/bin/agent-cron)
 ok    claude 2.1.296 at ~/.local/bin/claude (via /bin/zsh -l)
-ok    env file ~/…/agent-cron/env is mode 600
-ok    discord webhook AGENT_CRON_DISCORD_WEBHOOK_URL (env file)
+ok    webhooks.json is mode 600
+ok    discord webhook discord
 warn  job deps-audit runs with bypassPermissions
 fail  job deps-audit: folder ~/src/old-repo does not exist
 ok    3 jobs, next run daily-review Mon 10-12 09:00
 ```
 
 The tool exits 1 when any line is `fail`, and otherwise 0. A `warn` does not fail the
-check. A webhook value is never printed; only the variable name and where it was found.
+check. A webhook URL is never printed; only its name.
 
 ## 6. JSON output
 
@@ -326,7 +326,7 @@ The contract:
 - `reason` is `null`, or one of:
   - for `skipped`: `late` or `running`;
   - for `failed`: `folder_missing`, `claude_not_found`, `spawn_failed`, or
-    `exit_nonzero`.
+    `exit_nonzero`, or `interrupted` (the runner died before finishing the record).
 - A late skip that covers several times sets `missed_count`, and `scheduled_at` holds
   the latest of them.
 - `notification.status` is one of `sent`, `failed`, `not_configured`, `suppressed`
@@ -338,8 +338,8 @@ The contract:
 
 - `doctor` returns `{ "checks": [ { "id": "scheduler_agent", "level": "ok", "message":
   "…" } ], "ok": true }`.
-- `webhook list` returns `{ "webhooks": [ { "name": "AGENT_CRON_DISCORD_WEBHOOK_URL",
-  "service": "discord", "source": "env_file" } ] }`. A URL never appears.
+- `webhook list` returns `{ "webhooks": [ { "name": "discord", "service": "discord" }
+  ] }`. A URL never appears.
 - `config` returns `{ "notify": { "targets": "all", "on": "always" }, "history": {
   "limit": 100 } }`.
 
@@ -371,6 +371,7 @@ plain clap text with exit 2. It is reported before the tool knows `--json` was g
 | `scheduler_failed` | `launchctl` could not load or remove the agent | 1 |
 | `storage` / `data_too_new` | A job or history file could not be read or written, or comes from a newer version | 1 |
 | `webhook_invalid` / `webhook_not_found` / `notify_failed` | `webhook set` or `webhook test` | 1 |
+| `webhook_insecure` | The webhook file's mode is wider than 600; `webhook set` rewrites it | 1 |
 
 A message may name the job. It never contains a path, the prompt, a URL, or claude's
 output, so it can be pasted into a public issue. This is a deliberate narrowing of the
@@ -402,32 +403,27 @@ Resume:
 
 ## 9. Webhooks and configuration
 
-- `agent-cron webhook set discord [--name <VAR>]` reads the URL from a hidden prompt,
+- `agent-cron webhook set discord [--name <name>]` reads the URL from a hidden prompt,
   or from stdin when there is no terminal. It checks that the URL is a Discord webhook
-  (`discord.com` or `discordapp.com`, under `/api/webhooks/`), and writes `VAR=URL` to
-  the env file with mode 600. The default name is `AGENT_CRON_DISCORD_WEBHOOK_URL`.
-- `webhook unset <VAR>` removes a variable. `webhook list` shows names and where they
-  were found. `webhook test [discord] [--job <job>]` sends a test message, either
-  to the global targets or along a job's own routing.
-- Lookup order for a variable: the process environment, then the env file (§3.5).
+  (HTTPS on `discord.com` or `discordapp.com`, under `/api/webhooks/`) and stores it
+  under the name, `discord` by default, in `webhooks.json` with mode 600. Setting a
+  name that exists replaces its URL.
+- `webhook unset <name>` removes a stored webhook. `webhook list` shows each name and
+  its service. `webhook test [<name>] [--job <job>]` sends a test message, either to
+  the global targets, to one stored webhook, or along a job's own routing.
+- The stored webhooks are the only place a URL comes from. No environment variable is
+  read, so a scheduled run and a run from a terminal always use the same URLs (§3.5).
 - **Discord is the only target today, and the command line is shaped for more.** A
-  target is a value in `--notify`, `notify.targets`, and `webhook set|test`, with its
-  own `--<target>-env` flag, its own key under a job's `notify.webhooks`, and its own
-  default variable `AGENT_CRON_<TARGET>_WEBHOOK_URL`. Adding one, with Slack first,
-  adds those values and a sender behind the same notifier interface. No existing flag,
-  field, or default changes meaning, so it is not a breaking change for a script.
+  target is a value in `--notify`, `notify.targets`, and `webhook set`, with its own
+  `--<target>-webhook` flag, its own key under a job's `notify.webhooks`, and its own
+  default webhook name. Adding one, with Slack first, adds those values and a sender
+  behind the same notifier interface. No existing flag, field, or default changes
+  meaning, so it is not a breaking change for a script.
 - `config set notify.targets <all|discord|none>`, `config set notify.on
   <always|failure>`, and `config set history.limit <1–10000>`. A value that does not
   parse fails with exit 1 and names the key.
 
 ## 10. Dependencies this design needs
 
-Each is added with the owner's sign-off, as `managing-dependencies` sets out:
-
-- `dialoguer` for prompts.
-- A cron parser, or a small hand-written one in core.
-- Local time and time zones with DST (`jiff` is the candidate).
-- UUID generation for `--session-id`. `uuidgen` or `/dev/urandom` would avoid a crate.
-- `serde_json` in the binary.
-- `ureq` and `dotenvy`, made non-optional for webhooks and the env file.
-- The removal of `ratatui` and the OpenRouter feature.
+The crates, their versions, and where each goes are in [design.md](design.md) §8. Each is
+added with the owner's sign-off, as `managing-dependencies` sets out.
