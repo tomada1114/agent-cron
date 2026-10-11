@@ -29,23 +29,23 @@ The outcomes being worked on, one to three of them. Each has its issues filed.
 
 - **The codebase is agent-cron, not the template's sample** — every later change builds
   on it, and the sample's counter, TUI, and OpenRouter layer and the Linux paths would
-  otherwise be carried and tested for nothing. Issues: none filed yet. Done when:
-  `agent-cron --help` lists none of `counter`, `tui`, or `llm`, the workspace has no
-  `ratatui` or `dotenvy` dependency, and `just check` passes on macOS with no Linux job
-  in CI.
+  otherwise be carried and tested for nothing. Issues: tracked in #3 (#6, #7, #12).
+  Done when: `agent-cron --help` lists none of `counter`, `tui`, or `llm`, the
+  workspace has no `ratatui` or `dotenvy` dependency, `just check` passes on macOS, and
+  no CI job builds or tests the tool on Linux.
 - **A job made in a repository runs on time, and its Discord message resumes it** —
-  this is the core interaction in `AGENTS.md` › Product. Issues: none filed yet. Done
-  when, on the owner's Mac: `agent-cron add` asked inside a repository creates a job;
-  at its scheduled time the tick runs it; Discord receives the result with
-  `cd '<dir>' && claude -r <id>`, and pasting that resumes the session; a failing job
-  is notified as failed; and a time missed during sleep shows in
+  this is the core interaction in `AGENTS.md` › Product. Issues: tracked in #4 (#8–#11,
+  #13–#17, #21–#26). Done when, on the owner's Mac: `agent-cron add` asked inside a
+  repository creates a job; at its scheduled time the tick runs it; Discord receives the
+  result with `cd '<dir>' && claude -r <id>`, and pasting that resumes the session; a
+  failing job is notified as failed; and a time missed during sleep shows in
   `agent-cron history <job>` as `skipped (late)` and is not run.
 - **Claude Code can drive every operation with flags and `--json`** — the same command
-  line has to serve programs before a Raycast extension can exist. Issues: none filed
-  yet. Done when: `add`, `edit`, `enable`, `disable`, `rm --yes`, `run`, `stop`,
-  `list`, `show`, and `history` run with no terminal and no question, each `--json`
-  output matches `docs/product/cli.md` §6, and `crates/agent-cron/tests/cli.rs` asserts
-  those shapes.
+  line has to serve programs before a Raycast extension can exist. Issues: tracked in
+  #5 (#18, #19, #20). Done when: `add`, `edit`, `enable`, `disable`, `rm --yes`, `run`,
+  `stop`, `list`, `show`, and `history` run with no terminal and no question, each
+  `--json` output matches `docs/product/cli.md` §6, and
+  `crates/agent-cron/tests/cli.rs` asserts those shapes.
 
 ## Next
 

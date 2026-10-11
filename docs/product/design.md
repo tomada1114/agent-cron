@@ -79,18 +79,22 @@ adapter in `agent-cron-platform`, a fake and a `<port>_contract` function in
 | Port | What it promises | Adapter |
 |---|---|---|
 | `JobStore` | List, load, save atomically, and delete job files. Mutations hold `jobs.lock` | `JsonJobStore` |
-| `RunStore` | Allocate the next run number and write, update, list, prune, and delete records. Try to take a job's run lock, returning a guard that releases on drop or on process death | `JsonRunStore` |
-| `SettingsStore` | Load and save `config.json` and `tick.json` | `JsonSettingsStore` |
+| `RunStore` | Allocate the next run number and write, update, list, prune, and delete records. Try to take a job's run lock, returning a guard that releases on drop or on process death. Create, check, and clear a job's stop marker | `JsonRunStore` |
+| `SettingsStore` | Load and save `config.json` (core's `Settings`) and `tick.json` | `JsonSettingsStore` |
+| `Folders` | Report whether a path is an existing directory. Used when a job is created or changed (`dir_missing`) and before each run (`folder_missing`) | `StdFolders` |
 | `WebhookStore` | Get, set, remove, and list named webhook URLs. Report the file's mode | `JsonWebhookStore` |
-| `SchedulerAgent` | Install, uninstall, and report the LaunchAgent: loaded, disabled, and which binary it starts | `LaunchAgent` |
-| `ProcessHost` | Start claude through the login shell in its own process group, under idle-sleep prevention. Wait for it until a deadline, and signal its group | `ShellProcessHost` |
+| `SchedulerAgent` | Install, uninstall, and report the LaunchAgent: loaded, disabled, and which binary it starts. Under a scratch `HOME` it never calls `launchctl` (§5) | `LaunchAgent` |
+| `ProcessHost` | Start claude through the login shell in its own process group, under idle-sleep prevention. Wait for it until a deadline, and signal a process group. Locate claude through the login shell and report its path and version, for `doctor` | `ShellProcessHost` |
 | `Notifier` | Send one rendered message to one webhook. Return a failure kind, never the URL | `DiscordNotifier` |
 | `Clock` | The current instant. This port already exists | `SystemClock` |
 | `IdSource` | A new random UUID v4, used for `--session-id` and `JobId` | `RandomIds` |
 
 The local time zone is not a port. The binary asks platform for it once
 (`system_time_zone() -> jiff::tz::TimeZone`) and passes it to core as a value. A test
-builds one from a POSIX TZ string, which needs no time zone database.
+builds one from a POSIX TZ string, which needs no time zone database. Core also turns an
+instant into a `LocalStamp` (weekday, date, time, and whether the year differs from
+now's) in that zone, so every view carries local times as parts. The binary formats a
+`LocalStamp` as `Mon 10-12 09:00` with `wording.rs`, and never needs jiff itself.
 
 ### Wording stays out of core
 
@@ -303,11 +307,12 @@ core use case, `RunService::run`. The steps:
    the trigger, `scheduled_at`, `started_at`, and a new session ID from `IdSource`.
 3. **Check before launch.** If the folder is missing, the run is `failed` with reason
    `folder_missing` and has no session.
-4. **Launch.** `ProcessHost` finds the login shell from the user record, which is
-   `nix::unistd::User::from_uid(getuid()).shell`, because launchd sets no `SHELL`. On
-   macOS 27.0 (26A428), `launchctl print gui/<uid>/<label>` shows only `PATH` in a user
-   agent's default environment, checked 2026-10-11. It
-   finds the home directory the same way when `HOME` is unset. It then runs:
+4. **Launch.** `ProcessHost` takes the login shell from `SHELL`. When `SHELL` is unset,
+   as it is under launchd, it falls back to the user record,
+   `nix::unistd::User::from_uid(getuid()).shell`. On macOS 27.0 (26A428),
+   `launchctl print gui/<uid>/<label>` shows only `PATH` in a user agent's default
+   environment, checked 2026-10-11. The home directory falls back to the user record
+   the same way when `HOME` is unset. It then runs:
 
    ```sh
    <shell> -l -c 'exec claude "$@"' agent-cron -p --output-format json \
@@ -324,8 +329,11 @@ core use case, `RunService::run`. The steps:
    - `/usr/bin/caffeinate -i -w <runner pid>` holds off idle sleep until the runner
      exits (§3.2).
    - Exit status 127 from the shell means `failed` with reason `claude_not_found`.
-5. **Wait.** Wait until the job's timeout. Stdout is captured whole. Stderr keeps only
-   its last 64 KiB.
+5. **Wait.** Core waits in slices of at most one second. Each slice is a
+   `ProcessHost` wait that blocks until the child exits or the slice's deadline passes.
+   Between slices, core checks the timeout, the stop marker, and the interrupt flag the
+   binary passed in, so core itself never sleeps. Stdout is captured whole. Stderr keeps
+   only its last 64 KiB.
    - At the deadline, the runner sends `SIGTERM` to the group, waits 10 seconds, then
      sends `SIGKILL` (`nix::sys::signal::killpg`). The run is `timed_out`.
    - `agent-cron stop <job>` creates `locks/<job-id>.stop`, then sends `SIGTERM` to the
@@ -430,6 +438,26 @@ advisory, RUSTSEC-2021-0119, was fixed in nix 0.23.
 | No webhook URL in history, logs, errors, or `--json` | a CLI test that sets a known URL and searches every output and file for it |
 | Every file format reads its previous version | a test per format that reads a checked-in sample |
 | The LaunchAgent loads and fires every minute | a human-run `just test-local` test, plus `just logs` showing tick lines |
+
+### Test seams
+
+No test reaches the real claude, launchd, or Discord.
+
+- **claude.** A CLI test sets `SHELL` to a fake shell script in its temporary directory.
+  The script ignores `-l -c …` and runs a fake `claude`, which prints canned JSON, sleeps,
+  or exits with a chosen code. The platform tests construct `ShellProcessHost` with the
+  shell and program paths directly.
+- **launchd.** A scratch `HOME` never reaches `launchctl`. The `LaunchAgent` adapter
+  calls `launchctl` only when `HOME` is the user record's home directory. Otherwise it
+  writes the plist under the scratch `HOME`, loads nothing, and reports the agent as
+  "not loaded (scratch HOME)". This protects a person's own scratch-`HOME` runs as well
+  as the tests. The one test that loads a real agent is the human-run `#[ignore]`d one,
+  with a test-only label and a temporary plist.
+- **Discord.** A debug build reads `AGENT_CRON_TEST_DISCORD_ORIGIN`, a local
+  `http://127.0.0.1:<port>` that replaces the scheme and host of a stored Discord URL, so
+  a CLI test posts to a local fixture. A release build never reads it, because the code
+  is behind `cfg(debug_assertions)`. It is a test seam, not configuration: the installed
+  tool is built in release mode and has no such variable.
 
 ## 10. Open questions
 

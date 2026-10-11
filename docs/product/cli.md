@@ -317,7 +317,7 @@ The contract:
   "resume_command": "cd '/Users/me/src/shop' && claude -r 3f2a9c1e-…",
   "result": "…",
   "stderr": null,
-  "notification": { "status": "sent", "targets": ["discord"] }
+  "notification": { "status": "sent", "targets": ["discord"], "failure": null }
 }
 ```
 
@@ -330,7 +330,9 @@ The contract:
 - A late skip that covers several times sets `missed_count`, and `scheduled_at` holds
   the latest of them.
 - `notification.status` is one of `sent`, `failed`, `not_configured`, `suppressed`
-  (from `--no-notify` or the condition), or `not_sent` (a skip).
+  (from `--no-notify`, the condition, or targets set to `none`), or `not_sent` (a skip).
+  `notification.failure` is `null`, or for `failed` one of `rate_limited`,
+  `http_status`, `transport`, or `webhook_missing`. A URL never appears.
 - `history <job>` returns `{ "job": "…", "runs": [ … ] }`, and each run omits `result`
   and `stderr`.
 
@@ -359,6 +361,7 @@ plain clap text with exit 2. It is reported before the tool knows `--json` was g
 | `code` | When | Exit |
 |---|---|---|
 | `job_not_found` | No job has that name | 1 |
+| `run_not_found` | `history <job> <n>` names a run that does not exist or was pruned | 1 |
 | `name_taken` / `invalid_name` | `add` or a rename | 1 |
 | `invalid_schedule` | A bad `--at`, `--every`, or `--cron` value | 1 |
 | `dir_missing` | `--dir` does not exist | 1 |
