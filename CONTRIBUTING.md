@@ -63,14 +63,14 @@ only when you ask:
 ```bash
 just test-local         # the #[ignore]d tests that need a logged-in Mac, a TCC grant, or the Keychain
 just logs-follow        # follow the newest log (never ends)
-just install-cli        # install the myapp binary into ~/.cargo/bin
+just install-cli        # install the agent-cron binary into ~/.cargo/bin
 ```
 
-`myapp tui` (or `cargo run --locked -p myapp -- tui`) is yours to run too: it takes over
+`agent-cron tui` (or `cargo run --locked -p agent-cron -- tui`) is yours to run too: it takes over
 the terminal, so no check and no agent starts it. When you change its terminal loop,
 say in the pull request what you saw.
 
-Run `just test-local` whenever you change an adapter in `crates/myapp-platform` that
+Run `just test-local` whenever you change an adapter in `crates/agent-cron-platform` that
 has an `#[ignore]`d test, and paste its output into the pull request: CI cannot run it.
 
 ### Without Just
@@ -82,14 +82,14 @@ mise install && lefthook install
 cargo xtask verify-hooks                         # just verify-hooks
 cargo fmt --all --check                          # part of just lint
 cargo xtask clippy-guard cargo clippy --workspace --all-targets --all-features --locked -- -D warnings
-cargo llvm-cov nextest --locked -p myapp-core --fail-under-lines 80 --fail-under-functions 80
-cargo test --doc --locked -p myapp-core
-cargo nextest run --locked -p myapp-test-support -p myapp-platform -p myapp
-cargo nextest run --locked --all-features -p myapp-test-support -p myapp-platform -p myapp
+cargo llvm-cov nextest --locked -p agent-cron-core --fail-under-lines 80 --fail-under-functions 80
+cargo test --doc --locked -p agent-cron-core
+cargo nextest run --locked -p agent-cron-test-support -p agent-cron-platform -p agent-cron
+cargo nextest run --locked --all-features -p agent-cron-test-support -p agent-cron-platform -p agent-cron
 cargo llvm-cov nextest --locked --no-report -p xtask -p xtask-guard  # just test-xtask (its floors: the recipe's report lines)
 python3 -m unittest discover -s .agents/skills/<skill>/scripts/tests -t .agents/skills/<skill>/scripts/tests  # just test-scripts, per skill (plus shellcheck)
-cargo nextest run --locked -p myapp-platform -p myapp   # just test-platform
-cargo nextest run --locked --all-features -p myapp-platform -p myapp
+cargo nextest run --locked -p agent-cron-platform -p agent-cron   # just test-platform
+cargo nextest run --locked --all-features -p agent-cron-platform -p agent-cron
 cargo deny --locked check                        # just deny
 ```
 
@@ -97,10 +97,10 @@ cargo deny --locked check                        # just deny
 
 | You are adding… | It goes in… |
 |---|---|
-| A rule, a state change, a decision | `crates/myapp-core`, with tests |
-| Access to the OS or the filesystem | an adapter in `crates/myapp-platform` behind a port core declares, plus a fake and a contract function in `crates/myapp-test-support` |
-| A subcommand or a flag | `crates/myapp/src/main.rs`, its wording in `crates/myapp/src/wording.rs`, and a test of the built binary in `crates/myapp/tests/cli.rs` |
-| Something on the full-screen view | the screen's state and keys in core; drawing in `crates/myapp/src/tui/view.rs`, tested against ratatui's `TestBackend` |
+| A rule, a state change, a decision | `crates/agent-cron-core`, with tests |
+| Access to the OS or the filesystem | an adapter in `crates/agent-cron-platform` behind a port core declares, plus a fake and a contract function in `crates/agent-cron-test-support` |
+| A subcommand or a flag | `crates/agent-cron/src/main.rs`, its wording in `crates/agent-cron/src/wording.rs`, and a test of the built binary in `crates/agent-cron/tests/cli.rs` |
+| Something on the full-screen view | the screen's state and keys in core; drawing in `crates/agent-cron/src/tui/view.rs`, tested against ratatui's `TestBackend` |
 | Repository automation | a task in `xtask/src/` (run as `cargo xtask <task>`), with its tests beside it |
 
 [docs/architecture.md](docs/architecture.md) explains the layers and what is contract.
@@ -114,12 +114,11 @@ A new crate needs a reason and a maintainer's sign-off.
 4. Open a pull request using the template, with a Conventional Commits title.
 
 Required checks: `Rust Core`, `Repo Lint & Harness`, `macOS`,
-`Template Bootstrap Smoke`, `Workflow Security Lint`, `Dependency Review`, and
-`Validate PR title`.
+`Workflow Security Lint`, `Dependency Review`, and `Validate PR title`.
 
 ### Code standards
 
-- New logic lives in `myapp-core` with tests of the happy and the error path; keep the
+- New logic lives in `agent-cron-core` with tests of the happy and the error path; keep the
   core's 80% line and 80% function coverage floors.
 - clippy `-D warnings` and rustfmt pass with no suppression. Silencing a check
   (`#[allow]`, `#[expect]`), lowering a

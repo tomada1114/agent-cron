@@ -1,9 +1,9 @@
 {
   "packages": [
     {
-      "name": "myapp-core",
+      "name": "agent-cron-core",
       "version": "0.1.0",
-      "id": "path+file:///ws/crates/myapp-core#0.1.0",
+      "id": "path+file:///ws/crates/agent-cron-core#0.1.0",
       "source": null,
       "dependencies": [
         {
@@ -19,7 +19,7 @@
           "target": null
         },
         {
-          "name": "myapp-test-support",
+          "name": "agent-cron-test-support",
           "kind": "dev",
           "optional": false,
           "target": null
@@ -27,13 +27,13 @@
       ]
     },
     {
-      "name": "myapp-platform",
+      "name": "agent-cron-platform",
       "version": "0.1.0",
-      "id": "path+file:///ws/crates/myapp-platform#0.1.0",
+      "id": "path+file:///ws/crates/agent-cron-platform#0.1.0",
       "source": null,
       "dependencies": [
         {
-          "name": "myapp-core",
+          "name": "agent-cron-core",
           "kind": null,
           "optional": false,
           "target": null
@@ -51,7 +51,7 @@
           "target": "cfg(target_os = \"macos\")"
         },
         {
-          "name": "myapp-test-support",
+          "name": "agent-cron-test-support",
           "kind": "dev",
           "optional": false,
           "target": null
@@ -59,13 +59,13 @@
       ]
     },
     {
-      "name": "myapp-test-support",
+      "name": "agent-cron-test-support",
       "version": "0.1.0",
-      "id": "path+file:///ws/crates/myapp-test-support#0.1.0",
+      "id": "path+file:///ws/crates/agent-cron-test-support#0.1.0",
       "source": null,
       "dependencies": [
         {
-          "name": "myapp-core",
+          "name": "agent-cron-core",
           "kind": null,
           "optional": false,
           "target": null
@@ -73,19 +73,19 @@
       ]
     },
     {
-      "name": "myapp",
+      "name": "agent-cron",
       "version": "0.1.0",
-      "id": "path+file:///ws/crates/myapp#0.1.0",
+      "id": "path+file:///ws/crates/agent-cron#0.1.0",
       "source": null,
       "dependencies": [
         {
-          "name": "myapp-core",
+          "name": "agent-cron-core",
           "kind": null,
           "optional": false,
           "target": null
         },
         {
-          "name": "myapp-platform",
+          "name": "agent-cron-platform",
           "kind": null,
           "optional": false,
           "target": null
@@ -115,21 +115,21 @@
     }
   ],
   "workspace_members": [
-    "path+file:///ws/crates/myapp-core#0.1.0",
-    "path+file:///ws/crates/myapp-platform#0.1.0",
-    "path+file:///ws/crates/myapp-test-support#0.1.0",
-    "path+file:///ws/crates/myapp#0.1.0"
+    "path+file:///ws/crates/agent-cron-core#0.1.0",
+    "path+file:///ws/crates/agent-cron-platform#0.1.0",
+    "path+file:///ws/crates/agent-cron-test-support#0.1.0",
+    "path+file:///ws/crates/agent-cron#0.1.0"
   ],
   "workspace_default_members": [
-    "path+file:///ws/crates/myapp-core#0.1.0",
-    "path+file:///ws/crates/myapp-platform#0.1.0",
-    "path+file:///ws/crates/myapp-test-support#0.1.0",
-    "path+file:///ws/crates/myapp#0.1.0"
+    "path+file:///ws/crates/agent-cron-core#0.1.0",
+    "path+file:///ws/crates/agent-cron-platform#0.1.0",
+    "path+file:///ws/crates/agent-cron-test-support#0.1.0",
+    "path+file:///ws/crates/agent-cron#0.1.0"
   ],
   "resolve": {
     "nodes": [
       {
-        "id": "path+file:///ws/crates/myapp-core#0.1.0",
+        "id": "path+file:///ws/crates/agent-cron-core#0.1.0",
         "deps": [
           {
             "name": "serde",
@@ -152,8 +152,8 @@
             ]
           },
           {
-            "name": "myapp_test_support",
-            "pkg": "path+file:///ws/crates/myapp-test-support#0.1.0",
+            "name": "agent_cron_test_support",
+            "pkg": "path+file:///ws/crates/agent-cron-test-support#0.1.0",
             "dep_kinds": [
               {
                 "kind": "dev",
@@ -164,11 +164,11 @@
         ]
       },
       {
-        "id": "path+file:///ws/crates/myapp-platform#0.1.0",
+        "id": "path+file:///ws/crates/agent-cron-platform#0.1.0",
         "deps": [
           {
-            "name": "myapp_core",
-            "pkg": "path+file:///ws/crates/myapp-core#0.1.0",
+            "name": "agent_cron_core",
+            "pkg": "path+file:///ws/crates/agent-cron-core#0.1.0",
             "dep_kinds": [
               {
                 "kind": null,
@@ -197,8 +197,8 @@
             ]
           },
           {
-            "name": "myapp_test_support",
-            "pkg": "path+file:///ws/crates/myapp-test-support#0.1.0",
+            "name": "agent_cron_test_support",
+            "pkg": "path+file:///ws/crates/agent-cron-test-support#0.1.0",
             "dep_kinds": [
               {
                 "kind": "dev",
@@ -209,11 +209,11 @@
         ]
       },
       {
-        "id": "path+file:///ws/crates/myapp-test-support#0.1.0",
+        "id": "path+file:///ws/crates/agent-cron-test-support#0.1.0",
         "deps": [
           {
-            "name": "myapp_core",
-            "pkg": "path+file:///ws/crates/myapp-core#0.1.0",
+            "name": "agent_cron_core",
+            "pkg": "path+file:///ws/crates/agent-cron-core#0.1.0",
             "dep_kinds": [
               {
                 "kind": null,
@@ -224,11 +224,11 @@
         ]
       },
       {
-        "id": "path+file:///ws/crates/myapp#0.1.0",
+        "id": "path+file:///ws/crates/agent-cron#0.1.0",
         "deps": [
           {
-            "name": "myapp_core",
-            "pkg": "path+file:///ws/crates/myapp-core#0.1.0",
+            "name": "agent_cron_core",
+            "pkg": "path+file:///ws/crates/agent-cron-core#0.1.0",
             "dep_kinds": [
               {
                 "kind": null,
@@ -237,8 +237,8 @@
             ]
           },
           {
-            "name": "myapp_platform",
-            "pkg": "path+file:///ws/crates/myapp-platform#0.1.0",
+            "name": "agent_cron_platform",
+            "pkg": "path+file:///ws/crates/agent-cron-platform#0.1.0",
             "dep_kinds": [
               {
                 "kind": null,

@@ -10,11 +10,9 @@ use super::yaml::{self, Keys, Node};
 use super::{finding, has_extension, list_dir, read_file};
 use crate::fail::FailureDetails;
 
-/// Documents neither check reads. The template's own design record (`docs/template/`)
-/// cites the upstream template's issues and plans recipes before they exist, and the
-/// bootstrap deletes it. The roadmap is an app's own planning record: it links the
+/// Documents neither check reads. The roadmap is an app's own planning record: it links the
 /// issues behind each outcome and may name a recipe that is still to be written.
-pub(super) const UNCHECKED_DOCUMENTS: &[&str] = &["docs/template", "docs/architecture/roadmap.md"];
+pub(super) const UNCHECKED_DOCUMENTS: &[&str] = &["docs/architecture/roadmap.md"];
 
 /// Every `*.md` file under `dir` (absent: none), recursively, as root-relative
 /// `/`-separated paths in byte order, leaving out each path in [`UNCHECKED_DOCUMENTS`]

@@ -11,9 +11,9 @@ publish = false
 
 # The only place a dependency version is written (managing-dependencies skill).
 [workspace.dependencies]
-myapp-core = { path = "crates/myapp-core" }
-myapp-platform = { path = "crates/myapp-platform" }
-myapp-test-support = { path = "crates/myapp-test-support" }
+agent-cron-core = { path = "crates/agent-cron-core" }
+agent-cron-platform = { path = "crates/agent-cron-platform" }
+agent-cron-test-support = { path = "crates/agent-cron-test-support" }
 clap = { version = "4.6", default-features = false, features = ["std", "derive", "help", "usage", "error-context"] }
 # Optional OpenRouter adapter: parse a local credential file without changing process
 # environment, and use blocking HTTPS/JSON without an async runtime or compression.

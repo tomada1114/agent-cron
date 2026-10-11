@@ -5,7 +5,7 @@ comment block anywhere in the body:
 
 ```
 <!-- ship: tier=P1 area=core blocked-by=none blocks=#N
-     touches=crates/myapp-core/src/,crates/myapp-core/tests/ design=settled -->
+     touches=crates/agent-cron-core/src/,crates/agent-cron-core/tests/ design=settled -->
 ```
 
 A block quoted inside a fenced code block or inline code, as above, is an
