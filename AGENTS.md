@@ -41,18 +41,50 @@ harness: without it, an agent implementing an issue here has no in-repo answer t
 this in scope?". The owner writes each bullet (the `starting-an-app` skill says how);
 `just check-harness` fails while one still holds its `TODO` marker.
 
-- **What it is, and who it is for** — TODO: one paragraph. The problem it solves, and
-  whose problem that is.
-- **The core interaction** — TODO: the one thing a user does most. If the app does not
-  do this well, nothing else about it matters.
-- **Non-goals** — TODO: what this app deliberately does not do, even where it would be
-  easy. A first version's cut list is longer than its feature list, and this is the
-  line an eager implementer crosses first: moving anything from here to a goal is a
-  human's decision, not an implementer's.
-- **Why it is shaped this way** — TODO: the reasoning behind the three entries above,
-  in the present tense — why this audience, why this interaction comes first, and why
-  each non-goal stays out — so a reader finds why and not only what. It is rewritten
-  when the reasoning changes, not appended to ("Before changing the architecture").
+- **What it is, and who it is for** — `agent-cron` is a macOS command-line tool that
+  registers Claude Code headless runs (`claude -p`) as jobs. Each job runs in a chosen
+  folder at scheduled times. After every run it posts the result to Discord, together
+  with a command that resumes that session in a terminal. It is for developers
+  who hand recurring checks, research, and summaries to Claude Code on their own Mac.
+  It is open source and installed from source. People drive it through interactive
+  prompts. Claude Code, scripts, and a future Raycast extension do every operation with
+  flags and read state as JSON (`docs/product/requirements.md` §3.6).
+- **The core interaction** — reading a run's result in the notification, and for the
+  runs worth following up, pasting `cd '<dir>' && claude -r <id>` to continue the
+  conversation. Everything before that serves it: creating a job interactively inside
+  a repository, and listing and adjusting the jobs of the current folder.
+- **Non-goals** —
+  - running anything other than `claude -p`;
+  - other agent CLIs such as Codex CLI;
+  - working alongside the old AgentCron app or importing its jobs;
+  - running while the Mac is off or logged out, and catching up on wake for times
+    missed during sleep;
+  - resuming a session from another Mac;
+  - operating systems other than macOS;
+  - listing or editing scheduled runs the tool did not create, such as a hand-written
+    crontab or plist;
+  - storing the tool calls a run made;
+  - per-job limits other than the timeout, such as a budget, a turn limit, or a tool
+    allowlist;
+  - multiple users, syncing across Macs, or starting a run remotely.
+- **Why it is shaped this way** —
+  - **The resume command comes first.** Claude Code already does the work; what is
+    missing is noticing the result and picking the session back up. That makes the
+    notification and its resume command the product. `cd` is part of the command
+    because `claude -r` resumes in the caller's folder.
+  - **A CLI with flags and `--json`, not an app or a TUI.** The tool has to be operable
+    by Claude Code itself and, later, by a Raycast extension. A command line that every
+    operation can drive without questions serves people and programs alike.
+  - **Only `claude -p` and only macOS.** Scheduling behavior and sleep behavior differ
+    per OS and per agent CLI, and supporting another one would mean maintaining a
+    second scheduler and a second runner.
+  - **Missed times are skipped, not caught up.** A run firing unexpectedly on wake is
+    worse than a skipped one, so a time more than 5 minutes late is recorded and never
+    run.
+  - **Only jobs the tool created.** Tracking external crontabs or plists would make the
+    tool responsible for state it does not own.
+  - The full requirements are in `docs/product/requirements.md`, and the command line
+    in `docs/product/cli.md`.
 
 ## Quick Reference
 
