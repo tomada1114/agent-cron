@@ -41,7 +41,7 @@ jobs:
           persist-credentials: false
 
       # Rust itself comes from rust-toolchain.toml through the runner's rustup.
-      - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
+      - uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
         with:
           install_args: just github:taiki-e/cargo-llvm-cov aqua:nextest-rs/nextest/cargo-nextest github:EmbarkStudios/cargo-deny github:Boshen/cargo-shear
 
@@ -80,7 +80,7 @@ jobs:
 
       # Rust comes from rust-toolchain.toml through the runner's rustup: `cargo xtask` runs
       # the skills mirror and xtask's tests.
-      - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
+      - uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
         with:
           install_args: just typos actionlint shellcheck lefthook github:taiki-e/cargo-llvm-cov aqua:nextest-rs/nextest/cargo-nextest
 
@@ -120,7 +120,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
+      - uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
         with:
           install_args: just aqua:nextest-rs/nextest/cargo-nextest
 
@@ -144,7 +144,7 @@ jobs:
           persist-credentials: false
 
       # zizmor is pinned in mise.toml (Renovate bumps it), not taken from a third-party action.
-      - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
+      - uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
         with:
           install_args: zizmor
 
