@@ -6,7 +6,7 @@
 # source.
 [tools]
 just = "1.58.0"
-lefthook = "2.1.14"
+lefthook = "2.2.1"
 "github:taiki-e/cargo-llvm-cov" = "0.9.1"
 "aqua:nextest-rs/nextest/cargo-nextest" = "0.9.146"
 "github:EmbarkStudios/cargo-deny" = "0.20.2"
