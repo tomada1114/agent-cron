@@ -299,9 +299,9 @@ byte-for-byte into `.claude/skills/` (the only path Claude Code reads) by
 | `smart-commit` | Turning the working tree into Conventional Commits; a refused pre-commit hook |
 | `create-pr` | Opening or updating a pull request: title, body, Release impact, evidence |
 | `triaging-issues` | Filing or labelling an issue: type, priority, blocked, tracking |
-| `shipping-issues` | Claude Code on the developer's machine: taking ranked open issues to merged pull requests — rank, implement (worktrees), PR, the PR's Codex review and its findings, CI, merge |
-| `codex-shipping-issues` | Codex: shipping one issue through a regular PR, up to three Codex review rounds, current-head CI, and the merge the request authorizes, over GitHub MCP |
-| `cloud-claude-shipping-issues` | A Claude Code cloud session (`CLAUDE_CODE_REMOTE=true`): shipping issues serially over REST `gh api` calls — rank, implement, PR, review, CI, merge |
+| `shipping-issues` | Claude Code on the developer's machine: taking ranked open issues to merged pull requests — rank, implement (worktrees), `/code-review` of the branch and its findings, PR, CI, merge |
+| `codex-shipping-issues` | Codex: shipping one issue through a pre-PR read-only fresh-context review of the branch, a regular PR, current-head CI, and the merge the request authorizes, over GitHub MCP |
+| `cloud-claude-shipping-issues` | A Claude Code cloud session (`CLAUDE_CODE_REMOTE=true`): shipping issues serially over REST `gh api` calls — rank, implement, `/code-review` of the branch, PR, CI, merge |
 | `steering-the-roadmap` | Changing `docs/architecture/roadmap.md` (Now / Next / Later) |
 | `merging-dependency-prs` | Landing open Dependabot and Renovate pull requests; a pre-1.0 ratatui minor lands alone |
 | `managing-dependencies` | Adding or changing a crate: the review record, features, licences |
